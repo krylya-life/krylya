@@ -155,17 +155,93 @@
 
 ## Traceability
 
-Мапится в ROADMAP.md; обновляется роудмаппером.
+Заполнено роудмаппером 2026-04-23. Каждое v1-требование → ровно одна фаза.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (заполняется роудмаппером) | — | Pending |
+| INFRA-01 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Pending |
+| INFRA-03 | Phase 7 | Pending |
+| INFRA-04 | Phase 7 | Pending |
+| INFRA-05 | Phase 1 | Pending |
+| MIGR-01 | Phase 1 | Pending |
+| MIGR-02 | Phase 1 | Pending |
+| MIGR-03 | Phase 7 | Pending |
+| MIGR-04 | Phase 7 | Pending |
+| DS-01 | Phase 2 | Pending |
+| DS-02 | Phase 2 | Pending |
+| DS-03 | Phase 2 | Pending |
+| DS-04 | Phase 2 | Pending |
+| DS-05 | Phase 2 | Pending |
+| CONT-01 | Phase 2 | Pending |
+| CONT-02 | Phase 2 | Pending |
+| CONT-03 | Phase 2 | Pending |
+| CONT-04 | Phase 2 | Pending |
+| CONT-05 | Phase 2 | Pending |
+| SEO-01 | Phase 3 | Pending |
+| SEO-02 | Phase 3 | Pending |
+| SEO-03 | Phase 4 | Pending |
+| SEO-04 | Phase 3 | Pending |
+| SEO-05 | Phase 7 | Pending |
+| SEO-06 | Phase 7 | Pending |
+| PAGE-01 | Phase 3 | Pending |
+| PAGE-02 | Phase 4 | Pending |
+| PAGE-03 | Phase 4 | Pending |
+| PAGE-04 | Phase 4 | Pending |
+| PAGE-05 | Phase 4 | Pending |
+| PAGE-06 | Phase 4 | Pending |
+| PAGE-07 | Phase 4 | Pending |
+| PAGE-08 | Phase 4 | Pending |
+| PAGE-09 | Phase 4 | Pending |
+| PAGE-10 | Phase 6 | Pending |
+| PAGE-11 | Phase 6 | Pending |
+| PAGE-12 | Phase 6 | Pending |
+| PAGE-13 | Phase 5 | Pending |
+| PAGE-14 | Phase 5 | Pending |
+| PAGE-15 | Phase 6 | Pending |
+| PAGE-16 | Phase 6 | Pending |
+| FORM-01 | Phase 3 | Pending |
+| FORM-02 | Phase 3 | Pending |
+| FORM-03 | Phase 3 | Pending |
+| FORM-04 | Phase 3 | Pending |
+| FORM-05 | Phase 3 | Pending |
+| ANL-01 | Phase 3 | Pending |
+| ANL-02 | Phase 3 | Pending |
+| ANL-03 | Phase 3 | Pending |
+| SEMA-01 | Phase 4 | Pending |
+| SEMA-02 | Phase 4 | Pending |
+| SEMA-03 | Phase 5 | Pending |
+| LAUNCH-01 | Phase 7 | Pending |
+| LAUNCH-02 | Phase 7 | Pending |
+| LAUNCH-03 | Phase 7 | Pending |
+| LAUNCH-04 | Phase 7 | Pending |
+| LAUNCH-05 | Phase 7 | Pending |
+| PLANB-01 | Phase 8 | Pending |
+| PLANB-02 | Phase 8 | Pending |
+| PLANB-03 | Phase 8 | Pending |
+| PLANB-04 | Phase 8 | Pending |
+| SMM-01 | Phase 8 | Pending |
+| SMM-02 | Phase 8 | Pending |
+| SMM-03 | Phase 8 | Pending |
+| SMM-04 | Phase 8 | Pending |
 
 **Coverage:**
-- v1 requirements: 56 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 56 ⚠️ (будет 0 после ROADMAP.md)
+- v1 requirements: 65 (полный инвентарь REQ-ID; заголовок «56 total» в исходнике был неточным)
+- Mapped to phases: 65 ✓
+- Unmapped: 0
+
+**Phase distribution:**
+- Phase 0 (Подготовка): 0 REQ (планирование)
+- Phase 1 (Инфраструктура): 5
+- Phase 2 (Дизайн-система): 10
+- Phase 3 (Главная vertical slice): 12
+- Phase 4 (Услуги + семантика): 11
+- Phase 5 (Кейсы): 3
+- Phase 6 (О нас/команда/контакты): 5
+- Phase 7 (Релиз + SEO-запуск): 11
+- Phase 8 (План B + SMM, параллельно с 7): 8
 
 ---
+
 *Requirements defined: 2026-04-23*
-*Last updated: 2026-04-23 after initial definition*
+*Last updated: 2026-04-23 — traceability заполнен роудмаппером*
