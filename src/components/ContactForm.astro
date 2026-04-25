@@ -61,10 +61,12 @@ const formAttrs = {
         maxlength="20"
         pattern="\\+?[78](?:[\\s\\-()]*\\d){10}"
         title="Российский номер: +7, 7 или 8, затем 10 цифр. Пример: +7 911 862 79 57"
-        class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
+        class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow data-[state=invalid]:border-red-500 data-[state=valid]:border-green-600"
         placeholder="+7 911 862 79 57"
       />
-      <span class="block text-xs text-gray-light mt-1">Российский номер: +7, 7 или 8 + 10 цифр</span>
+      <span id="phone-hint" class="block text-xs text-gray-light mt-1">
+        Российский номер: +7, 7 или 8 + 10 цифр
+      </span>
     </label>
   </div>
 
@@ -124,18 +126,45 @@ const formAttrs = {
 </form>
 
 <script is:inline>
-  // Live-фильтр для поля телефона: пускает только цифры, +, -, скобки, пробелы.
-  // pattern в HTML проверяет только при сабмите — этот скрипт чистит ввод на лету,
-  // в том числе при вставке из буфера обмена.
+  // Валидация поля телефона: фильтр символов на лету + проверка формата.
+  // pattern в HTML работает только на submit — этот скрипт ещё и подсвечивает
+  // поле на лету: красным если формат не подходит, зелёным когда всё ок.
   (function () {
     const phone = document.getElementById("phone-input");
-    if (!phone) return;
-    const clean = (v) => v.replace(/[^\d+\-()\s]/g, "");
+    const hint = document.getElementById("phone-hint");
+    if (!phone || !hint) return;
+
+    const ALLOWED = /[^\d+\-()\s]/g;
+    const PHONE_RE = /^\+?[78](?:[\s\-()]*\d){10}$/;
+
+    const clean = (v) => v.replace(ALLOWED, "");
+
+    function update() {
+      const v = phone.value.trim();
+      if (v.length === 0) {
+        phone.style.borderColor = "";
+        hint.textContent = "Российский номер: +7, 7 или 8 + 10 цифр";
+        hint.style.color = "";
+        return;
+      }
+      if (PHONE_RE.test(v)) {
+        phone.style.borderColor = "#16a34a"; // green-600
+        hint.textContent = "✓ Формат верный";
+        hint.style.color = "#16a34a";
+      } else {
+        phone.style.borderColor = "#dc2626"; // red-600
+        hint.textContent = "Нужен формат: +7 911 862 79 57 (или 8 911...)";
+        hint.style.color = "#dc2626";
+      }
+    }
+
     phone.addEventListener("input", (e) => {
       const t = e.target;
       const cleaned = clean(t.value);
       if (cleaned !== t.value) t.value = cleaned;
+      update();
     });
+
     phone.addEventListener("paste", (e) => {
       e.preventDefault();
       const text = (e.clipboardData || window.clipboardData).getData("text");
@@ -144,6 +173,23 @@ const formAttrs = {
       const end = phone.selectionEnd || 0;
       phone.value = phone.value.slice(0, start) + cleaned + phone.value.slice(end);
       phone.selectionStart = phone.selectionEnd = start + cleaned.length;
+      update();
     });
+
+    phone.addEventListener("blur", update);
+
+    // Блокировка submit на JS-уровне как страховка к pattern.
+    const form = phone.closest("form");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        const v = phone.value.trim();
+        if (!PHONE_RE.test(v)) {
+          e.preventDefault();
+          update();
+          phone.focus();
+          phone.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+    }
   })();
 </script>
