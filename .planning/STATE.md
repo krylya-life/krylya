@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-04-25T17:47:57.521Z"
+last_updated: "2026-04-25T18:10:55.985Z"
 progress:
   total_phases: 9
   completed_phases: 0
@@ -18,7 +18,7 @@ progress:
 
 **Core Value:** Один реальный контракт, пришедший через органический поиск на сайт к 30 июня 2026.
 
-**Current Focus:** Phase 2 — дизайн-система и контент-модели. Phase 1 закрыта 2026-04-25 (preview-URL: https://krylya-life.netlify.app).
+**Current Focus:** Phase 3 — главная как vertical slice. Phase 2 закрыта 2026-04-25. Финальную полировку дизайна Мария попросила вернуть после сборки всех страниц.
 
 **Timeline:**
 
@@ -29,16 +29,16 @@ progress:
 ## Current Position
 
 - **Milestone:** Initial release (v1)
-- **Phase:** 2 — Дизайн-система и контент-модели
-- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 2`)
-- **Status:** Phase 1 done — переход к Phase 2
-- **Progress:** 2/9 фаз выполнено (Phase 0, Phase 1)
+- **Phase:** 3 — Главная как vertical slice
+- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 3`)
+- **Status:** Phase 2 done — переход к Phase 3
+- **Progress:** 3/9 фаз выполнено (Phase 0, 1, 2)
 
 ```
-[██░░░░░░░] 2/9 фаз выполнено
+[███░░░░░░] 3/9 фаз выполнено
 ```
 
-**Live preview:** https://krylya-life.netlify.app (Astro 6 placeholder)
+**Live preview:** https://krylya-life.netlify.app (главная + /test-design/, дизайн-система готова)
 **Repo:** https://github.com/krylya-life/krylya
 **Telegram bot:** @krylya_zayavki_bot (заявки приходят Марии в личку)
 
@@ -86,15 +86,32 @@ Phase 1 закрыта 2026-04-25 (см. `.planning/phases/01-seo-tilda/01-CONTE
 - [x] SEO-аудит Tilda проведён: сайт одностраничный, единственный URL — корень. Таблица 301 минимальна (MIGR-01, MIGR-02)
 - [x] PAT GitHub `ghp_y9qRUAF...` сохранён в macOS keychain Марии (для будущих push)
 
-Phase 2 (стартует следующим):
+Phase 2 закрыта 2026-04-25 (см. `.planning/phases/02-design-system/02-CONTEXT.md`):
 
-- [ ] Подключить Tailwind v4 через `@tailwindcss/vite`
-- [ ] Self-hosted Jost (3-4 начертания .woff2)
-- [ ] Brand tokens (монохром + жёлтый `#FFF200`) в Tailwind config
-- [ ] BaseLayout + Header + Footer + Container + Section + Button + Heading
-- [ ] SVG-компонент логотипа Крыльев (Demetriss внутри SVG)
-- [ ] 4 Content Collections с Zod-схемами: services, cases, testimonials, team
-- [ ] По одной тестовой записи в каждой коллекции для проверки references
+- [x] Tailwind v4 через `@tailwindcss/vite` (DS-02)
+- [x] Self-hosted Jost (4 веса × 2 субсета, ~58 КБ суммарно) (DS-01)
+- [x] Brand tokens в `@theme`: жёлтый, чёрный, два серых, белый (DS-02)
+- [x] UI-примитивы: Container, Section, Heading (с акцентом), Button (primary/secondary) (DS-03)
+- [x] BaseLayout + Header (с жёлтым подчёркиванием меню) + Footer (тёмно-серый, не чёрный) (DS-04)
+- [x] Logo как PNG-компонент (sm/md/lg). SVG-конверсия отложена — followup для финальной полировки (DS-05)
+- [x] 4 Content Collections с Zod + references (services, cases, testimonials, team) (CONT-01..05)
+- [x] Тестовые записи: 1 услуга, 1 кейс, 1 отзыв, 3 члена команды
+- [x] Тестовая страница `/test-design/` с превью всех примитивов
+- [⏸] Финальная полировка визуала — после сборки всех страниц (Phase 3-6), сделаем общим проходом
+- [⏸] SVG-логотип — с финальной полировкой
+
+Phase 3 (стартует следующим):
+
+- [ ] Hero с CTA, форма заявки выше сгиба
+- [ ] Блок «Почему иногородним»
+- [ ] 3 превью услуг + 3 превью кейсов
+- [ ] Блок доверия с реквизитами
+- [ ] Netlify Forms + Netlify Function → Telegram-бот @krylya_zayavki_bot
+- [ ] Яндекс.Метрика (через requestIdleCallback)
+- [ ] Цели Метрики на отправку формы
+- [ ] SEO-компонент с title/description/canonical
+- [ ] JSON-LD `@graph` (Organization+LocalBusiness+ContactPoint)
+- [ ] Lighthouse Performance ≥ 80, LCP ≤ 2.5s
 
 ### Known Blockers
 
@@ -114,11 +131,11 @@ Phase 2 (стартует следующим):
 
 ### Last Action
 
-2026-04-25: Phase 1 закрыта целиком за одну сессию. Заведены GitHub (`krylya-life`) + Netlify (`krylya-life.netlify.app`) + Telegram-бот (`@krylya_zayavki_bot`). Astro 6 minimal scaffold собран и деплоится автоматически по push в main. SEO-аудит Tilda показал, что текущий сайт одностраничный — таблица 301 минимальна. Все 5 v1 REQ-ID Phase 1 выполнены: INFRA-01, INFRA-02, INFRA-05, MIGR-01, MIGR-02.
+2026-04-25: Phase 2 закрыта. Tailwind v4 + Jost + полная палитра в @theme. Сделаны 7 UI-примитивов (Container, Section, Heading, Button, Logo, Header, Footer) и BaseLayout. 4 Content Collections со Zod-схемами и references. Тестовая страница `/test-design/` развёрнута для визуальной проверки. Главная переписана под BaseLayout. Маша утвердила визуал после раунда правок (больше жёлтых акцентов, лого крупнее, подвал тёмно-серый вместо чёрного). Финальная полировка отложена до сборки всех страниц.
 
 ### Next Action
 
-`/gsd-plan-phase 2` — план Phase 2 «Дизайн-система и контент-модели»: Tailwind v4 + Jost + брендовые токены + BaseLayout + 4 Content Collections со Zod-схемами.
+`/gsd-plan-phase 3` — план Phase 3 «Главная как vertical slice»: Hero + форма с уведомлением в Telegram + Метрика + JSON-LD + блок «Почему иногородним» + превью услуг/кейсов.
 
 ### Files Touched This Session (2026-04-24..25)
 
@@ -139,4 +156,4 @@ Phase 2 (стартует следующим):
 *State initialized: 2026-04-23*
 *Update cadence: после каждого `/gsd-transition` и `/gsd-complete-milestone`*
 
-**Planned Phase:** 2 (Дизайн-система и контент-модели) — 1 plans — 2026-04-25T17:47:57.510Z
+**Planned Phase:** 2 (Дизайн-система и контент-модели) — 1 plans — 2026-04-25T18:10:55.966Z
