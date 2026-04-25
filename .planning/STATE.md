@@ -18,7 +18,7 @@ progress:
 
 **Core Value:** Один реальный контракт, пришедший через органический поиск на сайт к 30 июня 2026.
 
-**Current Focus:** Phase 3 — главная как vertical slice. Phase 2 закрыта 2026-04-25. Финальную полировку дизайна Мария попросила вернуть после сборки всех страниц.
+**Current Focus:** Phase 4 — услуги и семантика. Phase 3 закрыта 2026-04-25 (главная end-to-end работает с формой и уведомлениями в Telegram). Финальную полировку дизайна Мария попросила вернуть после сборки всех страниц (Phase 6.5 — добавим в roadmap).
 
 **Timeline:**
 
@@ -100,18 +100,30 @@ Phase 2 закрыта 2026-04-25 (см. `.planning/phases/02-design-system/02-C
 - [⏸] Финальная полировка визуала — после сборки всех страниц (Phase 3-6), сделаем общим проходом
 - [⏸] SVG-логотип — с финальной полировкой
 
-Phase 3 (стартует следующим):
+Phase 3 закрыта 2026-04-25 (см. `.planning/phases/03-vertical-slice/03-CONTEXT.md`):
 
-- [ ] Hero с CTA, форма заявки выше сгиба
-- [ ] Блок «Почему иногородним»
-- [ ] 3 превью услуг + 3 превью кейсов
-- [ ] Блок доверия с реквизитами
-- [ ] Netlify Forms + Netlify Function → Telegram-бот @krylya_zayavki_bot
-- [ ] Яндекс.Метрика (через requestIdleCallback)
-- [ ] Цели Метрики на отправку формы
-- [ ] SEO-компонент с title/description/canonical
-- [ ] JSON-LD `@graph` (Organization+LocalBusiness+ContactPoint)
-- [ ] Lighthouse Performance ≥ 80, LCP ≤ 2.5s
+- [x] Главная со всеми блоками: Hero, Audience (3 колонки), WhyTurnkey, LocalExpertise (чёрный блок), ServicesPreview, CasesPreview, HowWeWork, ContactBlock (PAGE-01)
+- [x] Форма с 4 полями + чекбокс согласия + honeypot, живая валидация телефона (red/green подсветка + JS-блокировка submit) (FORM-01, FORM-02)
+- [x] Netlify Forms интеграция через `__forms.html` + видимая форма с data-netlify (FORM-03, FORM-05)
+- [x] Netlify Function `submission-created.ts` → дубль в Telegram-бот (FORM-04). Тест прошёл: Маша получила уведомление в чат
+- [x] Страница `/thanks/` на русском, страница-заглушка `/privacy/`
+- [x] `<Seo>` компонент: canonical, OG, Twitter-card (SEO-01)
+- [x] `<JsonLdGraph>` с Organization + LocalBusiness + ContactPoint (SEO-02)
+- [x] Микроразметка Organization + PostalAddress в футере (SEO-04)
+- [x] Метрика 99532899 через `requestIdleCallback` (ANL-01, ANL-03 webvisor включён)
+- [⏸] Цель `form_submitted` в Метрике — операционная задача в кабинете Метрики после Phase 7 (ANL-02)
+- [⏸] Замер Lighthouse Performance / LCP — будет в Phase 7 перед релизом
+
+Phase 4 (стартует следующим):
+
+- [ ] Research-phase в начале: семантическое ядро под сегмент C через wordstat
+- [ ] Кластеризация ключей под 6 услуг
+- [ ] 6 страниц услуг ≥800 слов каждая (corporate-parties, business-events, client-events, teambuilding, coordination, private)
+- [ ] Витрина `/services/` с 6 карточками
+- [ ] Страница `/pricing/` (или блок в /about/values/) — разбор 10%-модели
+- [ ] JSON-LD Service-schema на каждой подстранице
+- [ ] BreadcrumbList микроразметка
+- [ ] Каждая страница имеет ссылку на ≥1 кейс + форму
 
 ### Known Blockers
 
@@ -131,11 +143,11 @@ Phase 3 (стартует следующим):
 
 ### Last Action
 
-2026-04-25: Phase 2 закрыта. Tailwind v4 + Jost + полная палитра в @theme. Сделаны 7 UI-примитивов (Container, Section, Heading, Button, Logo, Header, Footer) и BaseLayout. 4 Content Collections со Zod-схемами и references. Тестовая страница `/test-design/` развёрнута для визуальной проверки. Главная переписана под BaseLayout. Маша утвердила визуал после раунда правок (больше жёлтых акцентов, лого крупнее, подвал тёмно-серый вместо чёрного). Финальная полировка отложена до сборки всех страниц.
+2026-04-25 (вечер): Phase 3 закрыта. Главная end-to-end: 8 блоков, форма с живой валидацией телефона (live-подсветка + JS-блокировка submit), Netlify Forms через `__forms.html`, Netlify Function для дубля в Telegram-бот. Тестовая заявка прошла полный цикл (форма → email → Telegram → редирект на /thanks/). Метрика 99532899 подключена. SEO-разметка (JSON-LD + микроразметка). По ходу решены 3 нетривиальные проблемы: (1) Astro стрипал data-netlify → spread-атрибуты + `__forms.html`, (2) дефолтная страница Netlify вместо нашей /thanks/ → action="/thanks/" в `__forms.html`, (3) HTML pattern не работал → двойное экранирование backslashes + JS-блокировка submit как страховка. Маша попросила фиксировать все будущие правки текстов и дизайна, проходить общим заходом в Phase 6.5.
 
 ### Next Action
 
-`/gsd-plan-phase 3` — план Phase 3 «Главная как vertical slice»: Hero + форма с уведомлением в Telegram + Метрика + JSON-LD + блок «Почему иногородним» + превью услуг/кейсов.
+`/gsd-plan-phase 4` — план Phase 4 «Услуги и семантика»: research-phase для семядра под сегмент C → 6 страниц услуг ≥800 слов с фактурой из `.business/` → витрина → блок 10%-модели → JSON-LD Service-schema.
 
 ### Files Touched This Session (2026-04-24..25)
 
