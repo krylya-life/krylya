@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-04-25T18:17:33.210Z"
+last_updated: "2026-04-25T20:00:41.629Z"
 progress:
   total_phases: 9
   completed_phases: 0
@@ -29,16 +29,16 @@ progress:
 ## Current Position
 
 - **Milestone:** Initial release (v1)
-- **Phase:** 3 — Главная как vertical slice
-- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 3`)
-- **Status:** Phase 2 done — переход к Phase 3
-- **Progress:** 3/9 фаз выполнено (Phase 0, 1, 2)
+- **Phase:** 4 — Услуги и семантика
+- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 4`)
+- **Status:** Phase 3 done — переход к Phase 4
+- **Progress:** 4/9 фаз выполнено (Phase 0, 1, 2, 3)
 
 ```
-[███░░░░░░] 3/9 фаз выполнено
+[████░░░░░] 4/9 фаз выполнено
 ```
 
-**Live preview:** https://krylya-life.netlify.app (главная + /test-design/, дизайн-система готова)
+**Live preview:** https://krylya-life.netlify.app (главная end-to-end работает: форма → Telegram, /thanks/, Метрика, JSON-LD)
 **Repo:** https://github.com/krylya-life/krylya
 **Telegram bot:** @krylya_zayavki_bot (заявки приходят Марии в личку)
 
@@ -156,4 +156,4 @@ Phase 3 (стартует следующим):
 *State initialized: 2026-04-23*
 *Update cadence: после каждого `/gsd-transition` и `/gsd-complete-milestone`*
 
-**Planned Phase:** 3 (Главная как vertical slice) — 1 plans — 2026-04-25T18:17:33.196Z
+**Planned Phase:** 3 (Главная как vertical slice) — 1 plans — 2026-04-25T20:00:41.616Z
