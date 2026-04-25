@@ -1,0 +1,20 @@
+{
+  "name": "krylya-life",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Сайт ивент-агентства Крылья (крылья.life)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
