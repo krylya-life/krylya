@@ -58,12 +58,12 @@ const formAttrs = {
         autocomplete="tel"
         inputmode="tel"
         maxlength="20"
-        pattern="[+\d\s()\-]{10,20}"
-        title="Только цифры, +, -, скобки и пробелы. От 10 до 20 символов."
+        pattern="\+?[78](?:[\s\-()]*\d){10}"
+        title="Российский номер: +7, 7 или 8, затем 10 цифр. Пример: +7 911 862 79 57"
         class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
         placeholder="+7 911 862 79 57"
       />
-      <span class="block text-xs text-gray-light mt-1">Например: +7 911 862 79 57</span>
+      <span class="block text-xs text-gray-light mt-1">Российский номер: +7, 7 или 8 + 10 цифр</span>
     </label>
   </div>
 
