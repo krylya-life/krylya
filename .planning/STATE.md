@@ -4,7 +4,7 @@
 
 **Core Value:** Один реальный контракт, пришедший через органический поиск на сайт к 30 июня 2026.
 
-**Current Focus:** Phase 0 — подготовка, закрытие Open Questions, сбор фактуры и согласий перед стартом разработки.
+**Current Focus:** Phase 1 — инфраструктура и SEO-аудит Tilda. Phase 0 закрыта 2026-04-25.
 
 **Timeline:**
 - Старт: 2026-04-23
@@ -14,13 +14,13 @@
 ## Current Position
 
 - **Milestone:** Initial release (v1)
-- **Phase:** 0 — Подготовка и уточнения
-- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 0`)
-- **Status:** Not started
-- **Progress:** Phase 0/8 (0%)
+- **Phase:** 1 — Инфраструктура и SEO-аудит Tilda
+- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 1`)
+- **Status:** Phase 0 done — переход к Phase 1
+- **Progress:** 1/9 фаз выполнено (Phase 0)
 
 ```
-[░░░░░░░░░] 0/8 фаз выполнено
+[█░░░░░░░░] 1/9 фаз выполнено
 ```
 
 ## Performance Metrics
@@ -49,11 +49,20 @@
 
 ### Active Todos
 
-Phase 0 (до старта Phase 1):
-- [ ] Мария подтверждает: TG chat_id (через @userinfobot) — значение для `TELEGRAM_CHAT_ID`
-- [ ] Проинспектировать фото-архив `~/Documents/Крылья. Общее./` на фото команды и кейсов
-- [ ] Сверить черновики `../content/pages/` с текущим Tilda-сайтом
-- [ ] Начать переписку с клиентами (Быстринское, ВКЛЮЧИ, ДОМ, Нити дочерей ночи) о согласиях на публикацию имени/логотипа/отзыва
+Phase 0 закрыта 2026-04-25 (см. `.planning/phases/00-podgotovka/00-CONTEXT.md`):
+- [x] TG chat_id Марии = `129375931`, пойдёт в Netlify env как `TELEGRAM_CHAT_ID` в Phase 1
+- [x] Сверка черновиков с живой Tilda проведена (см. `00-TEXTS-GAP.md`); 2 фактические ошибки исправлены (отчество, фамилии команды)
+- [x] Драфты `content/pages/{home,about,services,contacts}.md` обновлены: реквизиты ИП, био команды, формат работы, тон «частных мероприятий»
+- [x] Структура для фото создана: `assets/team/`, `assets/cases/<slug>/` под 8 известных кейсов + `_prochee/`. Сбор фото — постепенный
+- [⏸] Согласия клиентов — отложены, решим перед Phase 5
+- [⏸] Сам сбор фото-архива — параллельно с Phase 1+, не блокер
+
+Phase 1 (стартует следующим):
+- [ ] Завести GitHub-репозиторий и Netlify-аккаунт
+- [ ] Создать Telegram-бота через @BotFather, получить токен
+- [ ] Положить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID=129375931` в Netlify Environment Variables
+- [ ] Собрать полный список публичных URL текущей Tilda для таблицы 301 (MIGR-01)
+- [ ] Сверить с sitemap.md, проставить соответствие old → new (MIGR-02)
 
 ### Known Blockers
 
@@ -71,15 +80,23 @@ Phase 0 (до старта Phase 1):
 ## Session Continuity
 
 ### Last Action
-2026-04-23: Создан ROADMAP.md по результатам research. 9 фаз (Phase 0–8), Phase 7 и 8 параллельны. Все 65 v1 REQ-ID замаплены, покрытие 100%.
+2026-04-25: Phase 0 выполнена операционно (без отдельного PLAN.md, т.к. фаза подготовительная). Получен TG chat_id Марии, проведён гэп-анализ черновиков vs Tilda, исправлены 2 фактические ошибки в драфтах, написаны био команды в авторском тоне, создана структура `assets/` для фото. Согласия клиентов вынесены за рамки Phase 0. Зафиксировано в `.planning/phases/00-podgotovka/00-CONTEXT.md` + `00-TEXTS-GAP.md`.
 
 ### Next Action
-`/gsd-plan-phase 0` — декомпозиция Phase 0 на план с must-have критериями (закрытие Open Questions, инспекция фото, сверка текстов, старт переписки по согласиям).
+`/gsd-plan-phase 1` — план Phase 1 «Инфраструктура и SEO-аудит Tilda»: GitHub + Netlify + env-токены + выгрузка URL Tilda и таблица 301-редиректов.
 
-### Files Touched This Session
-- `.planning/ROADMAP.md` (создан)
-- `.planning/STATE.md` (создан)
-- `.planning/REQUIREMENTS.md` (обновлён traceability-раздел)
+### Files Touched This Session (2026-04-24..25)
+- `.planning/STATE.md` (обновлён: Phase 0 → Phase 1)
+- `.planning/phases/00-podgotovka/00-CONTEXT.md` (создан)
+- `.planning/phases/00-podgotovka/00-TEXTS-GAP.md` (создан)
+- `content/pages/home.md` (исправлено отчество, добавлены реквизиты)
+- `content/pages/about.md` (фамилии и био команды)
+- `content/pages/services.md` (смягчены «частные мероприятия»)
+- `content/pages/contacts.md` (исправлено отчество, добавлен формат работы)
+- `assets/README.md` (создан — инструкция по фото)
+- `assets/team/`, `assets/cases/<8 slug>/`, `assets/cases/_prochee/` (созданы пустые папки)
+- `~/claude/CLAUDE.md` (добавлено правило тона общения с Марией)
+- Память Claude: `user_profile.md` — Мария не программист, общаться по-человечески
 
 ---
 
