@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-04-25T17:08:55.425Z"
+last_updated: "2026-04-25T17:38:52.423Z"
 progress:
   total_phases: 9
   completed_phases: 0
@@ -18,7 +18,7 @@ progress:
 
 **Core Value:** Один реальный контракт, пришедший через органический поиск на сайт к 30 июня 2026.
 
-**Current Focus:** Phase 1 — инфраструктура и SEO-аудит Tilda. Phase 0 закрыта 2026-04-25.
+**Current Focus:** Phase 2 — дизайн-система и контент-модели. Phase 1 закрыта 2026-04-25 (preview-URL: https://krylya-life.netlify.app).
 
 **Timeline:**
 
@@ -29,14 +29,18 @@ progress:
 ## Current Position
 
 - **Milestone:** Initial release (v1)
-- **Phase:** 1 — Инфраструктура и SEO-аудит Tilda
-- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 1`)
-- **Status:** Phase 0 done — переход к Phase 1
-- **Progress:** 1/9 фаз выполнено (Phase 0)
+- **Phase:** 2 — Дизайн-система и контент-модели
+- **Plan:** ещё не создан (следующий шаг — `/gsd-plan-phase 2`)
+- **Status:** Phase 1 done — переход к Phase 2
+- **Progress:** 2/9 фаз выполнено (Phase 0, Phase 1)
 
 ```
-[█░░░░░░░░] 1/9 фаз выполнено
+[██░░░░░░░] 2/9 фаз выполнено
 ```
+
+**Live preview:** https://krylya-life.netlify.app (Astro 6 placeholder)
+**Repo:** https://github.com/krylya-life/krylya
+**Telegram bot:** @krylya_zayavki_bot (заявки приходят Марии в личку)
 
 ## Performance Metrics
 
@@ -73,13 +77,24 @@ Phase 0 закрыта 2026-04-25 (см. `.planning/phases/00-podgotovka/00-CONT
 - [⏸] Согласия клиентов — отложены, решим перед Phase 5
 - [⏸] Сам сбор фото-архива — параллельно с Phase 1+, не блокер
 
-Phase 1 (стартует следующим):
+Phase 1 закрыта 2026-04-25 (см. `.planning/phases/01-seo-tilda/01-CONTEXT.md`):
 
-- [ ] Завести GitHub-репозиторий и Netlify-аккаунт
-- [ ] Создать Telegram-бота через @BotFather, получить токен
-- [ ] Положить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID=129375931` в Netlify Environment Variables
-- [ ] Собрать полный список публичных URL текущей Tilda для таблицы 301 (MIGR-01)
-- [ ] Сверить с sitemap.md, проставить соответствие old → new (MIGR-02)
+- [x] GitHub-аккаунт `krylya-life`, репо `github.com/krylya-life/krylya` — public, Astro 6 scaffold (INFRA-01)
+- [x] Netlify-сайт `krylya-life.netlify.app`, автодеплой `main → Netlify` (INFRA-02)
+- [x] Telegram-бот `@krylya_zayavki_bot` создан через @BotFather, тест прошёл (Мария получила сообщение)
+- [x] `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID=129375931` лежат в Netlify Environment Variables (INFRA-05)
+- [x] SEO-аудит Tilda проведён: сайт одностраничный, единственный URL — корень. Таблица 301 минимальна (MIGR-01, MIGR-02)
+- [x] PAT GitHub `ghp_y9qRUAF...` сохранён в macOS keychain Марии (для будущих push)
+
+Phase 2 (стартует следующим):
+
+- [ ] Подключить Tailwind v4 через `@tailwindcss/vite`
+- [ ] Self-hosted Jost (3-4 начертания .woff2)
+- [ ] Brand tokens (монохром + жёлтый `#FFF200`) в Tailwind config
+- [ ] BaseLayout + Header + Footer + Container + Section + Button + Heading
+- [ ] SVG-компонент логотипа Крыльев (Demetriss внутри SVG)
+- [ ] 4 Content Collections с Zod-схемами: services, cases, testimonials, team
+- [ ] По одной тестовой записи в каждой коллекции для проверки references
 
 ### Known Blockers
 
@@ -99,11 +114,11 @@ Phase 1 (стартует следующим):
 
 ### Last Action
 
-2026-04-25: Phase 0 выполнена операционно (без отдельного PLAN.md, т.к. фаза подготовительная). Получен TG chat_id Марии, проведён гэп-анализ черновиков vs Tilda, исправлены 2 фактические ошибки в драфтах, написаны био команды в авторском тоне, создана структура `assets/` для фото. Согласия клиентов вынесены за рамки Phase 0. Зафиксировано в `.planning/phases/00-podgotovka/00-CONTEXT.md` + `00-TEXTS-GAP.md`.
+2026-04-25: Phase 1 закрыта целиком за одну сессию. Заведены GitHub (`krylya-life`) + Netlify (`krylya-life.netlify.app`) + Telegram-бот (`@krylya_zayavki_bot`). Astro 6 minimal scaffold собран и деплоится автоматически по push в main. SEO-аудит Tilda показал, что текущий сайт одностраничный — таблица 301 минимальна. Все 5 v1 REQ-ID Phase 1 выполнены: INFRA-01, INFRA-02, INFRA-05, MIGR-01, MIGR-02.
 
 ### Next Action
 
-`/gsd-plan-phase 1` — план Phase 1 «Инфраструктура и SEO-аудит Tilda»: GitHub + Netlify + env-токены + выгрузка URL Tilda и таблица 301-редиректов.
+`/gsd-plan-phase 2` — план Phase 2 «Дизайн-система и контент-модели»: Tailwind v4 + Jost + брендовые токены + BaseLayout + 4 Content Collections со Zod-схемами.
 
 ### Files Touched This Session (2026-04-24..25)
 
