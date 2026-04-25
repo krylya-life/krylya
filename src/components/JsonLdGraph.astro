@@ -1,0 +1,68 @@
+---
+import { business } from "../config/business.ts";
+
+const orgId = `${business.url}/#organization`;
+const localId = `${business.url}/#localbusiness`;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": orgId,
+      name: business.name,
+      legalName: business.legalName,
+      url: business.url,
+      logo: new URL("/brand/wings-logo-horizontal.png", business.url).toString(),
+      taxID: business.taxId,
+      vatID: business.ogrnip,
+      foundingDate: business.foundingDate,
+      founder: { "@type": "Person", name: business.founder },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: business.phone,
+          email: business.email,
+          contactType: "customer service",
+          areaServed: business.countryCode,
+          availableLanguage: business.languages,
+        },
+      ],
+      areaServed: {
+        "@type": "AdministrativeArea",
+        name: business.region,
+      },
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": localId,
+      name: business.name,
+      url: business.url,
+      telephone: business.phone,
+      email: business.email,
+      priceRange: business.priceRange,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: business.locality,
+        addressRegion: business.region,
+        addressCountry: business.countryCode,
+      },
+      areaServed: {
+        "@type": "AdministrativeArea",
+        name: business.region,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: business.hours.days,
+          opens: business.hours.opens,
+          closes: business.hours.closes,
+        },
+      ],
+      parentOrganization: { "@id": orgId },
+    },
+  ],
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(graph)} />

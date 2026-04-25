@@ -1,0 +1,47 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+import Button from "../Button.astro";
+import { business } from "../../config/business.ts";
+---
+
+<Section class="bg-white">
+  <Container>
+    <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-dark">
+      <span class="inline-block h-2 w-8 bg-yellow"></span>
+      Ивент-агентство · Калининград
+    </p>
+
+    <Heading level={1} accent>
+      Организуем мероприятия <span class="bg-yellow px-2">под ключ</span>
+    </Heading>
+
+    <p class="mt-8 max-w-3xl text-lg md:text-xl text-gray-dark leading-relaxed">
+      Берём на себя концепцию, площадку, подрядчиков, смету и координацию в день события.
+      Вы принимаете гостей — мы делаем всё остальное.
+    </p>
+
+    <div class="mt-10 flex flex-wrap gap-4">
+      <Button href="#contact" variant="primary">Обсудить мероприятие</Button>
+      <Button href={`tel:${business.phone}`} variant="secondary">
+        {business.phoneDisplay}
+      </Button>
+    </div>
+
+    <ul class="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm font-medium text-gray-dark">
+      <li class="flex items-center gap-2">
+        <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+        7+ лет опыта
+      </li>
+      <li class="flex items-center gap-2">
+        <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+        15+ проектов в год
+      </li>
+      <li class="flex items-center gap-2">
+        <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+        Калининград и область
+      </li>
+    </ul>
+  </Container>
+</Section>

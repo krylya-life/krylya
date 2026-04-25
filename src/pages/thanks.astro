@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Heading from "../components/Heading.astro";
+import Button from "../components/Button.astro";
+import Seo from "../components/Seo.astro";
+import { business } from "../config/business.ts";
+---
+
+<BaseLayout
+  title="Заявка отправлена — Крылья"
+  description="Спасибо за заявку. Мы свяжемся с вами в течение рабочего дня."
+  noindex
+>
+  <Seo
+    slot="seo"
+    title="Заявка отправлена — Крылья"
+    description="Спасибо за заявку. Мы свяжемся с вами в течение рабочего дня."
+  />
+
+  <Section>
+    <Container>
+      <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-dark">
+        <span class="inline-block h-2 w-8 bg-yellow"></span>
+        Заявка получена
+      </p>
+
+      <Heading level={1} accent>
+        Спасибо! Мы&nbsp;уже&nbsp;<span class="bg-yellow px-2">читаем</span>
+      </Heading>
+
+      <p class="mt-8 max-w-2xl text-lg text-gray-dark leading-relaxed">
+        Получили вашу заявку. Свяжемся в течение рабочего дня
+        (пн–пт, 10:00–19:00) — или раньше, если будет возможность.
+      </p>
+
+      <p class="mt-4 max-w-2xl text-base text-gray-dark leading-relaxed">
+        Если задача срочная — позвоните или напишите напрямую:
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-4">
+        <Button href={`tel:${business.phone}`} variant="primary">
+          {business.phoneDisplay}
+        </Button>
+        <Button href={`mailto:${business.email}`} variant="secondary">
+          {business.email}
+        </Button>
+      </div>
+
+      <p class="mt-12 text-sm text-gray-dark">
+        <a href="/" class="text-black hover:text-yellow underline">← Вернуться на главную</a>
+      </p>
+    </Container>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+
+const audiences = [
+  {
+    title: "Девелоперам и застройщикам",
+    description:
+      "Презентации объектов, открытия, вечера для дольщиков, партнёрские мероприятия.",
+  },
+  {
+    title: "Крупному бизнесу",
+    description:
+      "Корпоративы, юбилеи компании, отраслевые праздники, деловые конференции и форумы.",
+  },
+  {
+    title: "Иногородним клиентам",
+    description:
+      "Проведём мероприятие в Калининграде, пока вы работаете из другого города. Знаем регион — знаем, где будет круто.",
+  },
+];
+---
+
+<Section class="bg-gray-light/15">
+  <Container>
+    <Heading level={2} accent>Для кого мы работаем</Heading>
+
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
+      {audiences.map((audience) => (
+        <article class="bg-white p-8 border-l-4 border-yellow">
+          <h3 class="text-xl font-semibold text-black mb-3">{audience.title}</h3>
+          <p class="text-gray-dark leading-relaxed">{audience.description}</p>
+        </article>
+      ))}
+    </div>
+  </Container>
+</Section>

@@ -1,0 +1,40 @@
+---
+import { business } from "../config/business.ts";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path with leading slash, e.g. "/about/". Без домена. */
+  pathname?: string;
+  /** Опционально — URL OG-картинки. По умолчанию — лого. */
+  image?: string;
+  /** Тип Open Graph: website / article. По умолчанию website. */
+  ogType?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  pathname = Astro.url.pathname,
+  image = "/brand/wings-sign.png",
+  ogType = "website",
+} = Astro.props;
+
+// Canonical в кириллической форме (даже когда сайт ещё на Netlify preview-URL —
+// в Phase 7 переключим business.url на https://крылья.life).
+const canonical = new URL(pathname, business.url).toString();
+const imageUrl = new URL(image, business.url).toString();
+---
+
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:site_name" content={business.name} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />

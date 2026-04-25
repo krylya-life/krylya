@@ -1,0 +1,45 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+import ContactForm from "../ContactForm.astro";
+import { business } from "../../config/business.ts";
+---
+
+<Section id="contact" class="bg-gray-light/15 border-t-4 border-yellow">
+  <Container>
+    <div class="grid gap-12 lg:grid-cols-5">
+      <div class="lg:col-span-2">
+        <Heading level={2} accent>Расскажите о&nbsp;мероприятии</Heading>
+
+        <p class="mt-6 text-lg text-gray-dark leading-relaxed">
+          Заполните форму или свяжитесь напрямую — обычно отвечаем
+          в&nbsp;течение&nbsp;рабочего&nbsp;дня.
+        </p>
+
+        <ul class="mt-8 space-y-3">
+          <li class="flex items-center gap-3">
+            <span class="inline-block h-2 w-8 bg-yellow flex-shrink-0"></span>
+            <a href={`tel:${business.phone}`} class="text-lg text-black hover:text-yellow font-medium transition-colors">
+              {business.phoneDisplay}
+            </a>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="inline-block h-2 w-8 bg-yellow flex-shrink-0"></span>
+            <a href={`mailto:${business.email}`} class="text-lg text-black hover:text-yellow font-medium transition-colors">
+              {business.email}
+            </a>
+          </li>
+        </ul>
+
+        <p class="mt-8 text-sm text-gray-dark">
+          Калининград и область · работаем удалённо, в&nbsp;городе и&nbsp;на&nbsp;территории клиента
+        </p>
+      </div>
+
+      <div class="lg:col-span-3 bg-white p-8 md:p-10 border border-gray-light">
+        <ContactForm />
+      </div>
+    </div>
+  </Container>
+</Section>

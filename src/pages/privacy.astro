@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Heading from "../components/Heading.astro";
+import Seo from "../components/Seo.astro";
+---
+
+<BaseLayout
+  title="Политика обработки персональных данных — Крылья"
+  description="Политика обработки и защиты персональных данных ИП Вострикова Мария Валерьевна."
+  noindex
+>
+  <Seo
+    slot="seo"
+    title="Политика обработки персональных данных — Крылья"
+    description="Политика обработки и защиты персональных данных ИП Вострикова Мария Валерьевна."
+  />
+
+  <Section>
+    <Container>
+      <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-dark">
+        <span class="inline-block h-2 w-8 bg-yellow"></span>
+        152-ФЗ
+      </p>
+
+      <Heading level={1} accent>Политика обработки ПДн</Heading>
+
+      <div class="mt-10 prose-content max-w-3xl space-y-4 text-gray-dark leading-relaxed">
+        <p class="text-base">
+          <strong class="text-black">Документ в&nbsp;разработке.</strong>
+          Финальная версия Политики обработки персональных данных будет опубликована
+          до релиза сайта на крылья.life. До тех пор обработка ваших данных —
+          только в рамках обращения по форме на сайте, никакие рассылки и&nbsp;передача
+          третьим лицам не&nbsp;ведутся.
+        </p>
+
+        <p class="text-base">
+          Если есть вопросы по обработке ваших данных — напишите нам:
+          <a href="mailto:wings.agency@yandex.ru" class="text-black hover:text-yellow underline">
+            wings.agency@yandex.ru
+          </a>.
+        </p>
+
+        <p class="text-sm text-gray-light pt-6">
+          Оператор: ИП Вострикова Мария Валерьевна, ИНН 550209075500, ОГРНИП 324390000038348.
+        </p>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

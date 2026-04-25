@@ -1,0 +1,54 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+
+const steps = [
+  {
+    title: "Бриф",
+    text: "30 минут разговора. Разбираем цели, формат, бюджет, ограничения.",
+  },
+  {
+    title: "Концепция и смета",
+    text: "За 3–5 рабочих дней присылаем сценарий с детальной сметой по строкам.",
+  },
+  {
+    title: "Правки и утверждение",
+    text: "Корректируем под ваши пожелания. Подписываем договор.",
+  },
+  {
+    title: "Продакшн",
+    text: "Бронируем площадку, подрядчиков, согласовываем технические детали.",
+  },
+  {
+    title: "День мероприятия",
+    text: "Команда на месте. Тайминг, координация, форс-мажоры — наша задача.",
+  },
+  {
+    title: "Отчёт",
+    text: "Фото- и видеоматериалы, финансовый отчёт, ретроспектива.",
+  },
+];
+---
+
+<Section>
+  <Container>
+    <Heading level={2} accent>Как мы работаем</Heading>
+    <p class="mt-6 max-w-3xl text-lg text-gray-dark leading-relaxed">
+      Шесть прозрачных шагов от первого звонка до итогового отчёта. На каждом
+      шаге у вас есть точка контроля.
+    </p>
+
+    <ol class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {steps.map((step, i) => (
+        <li class="bg-white border border-gray-light p-6 relative">
+          <span class="absolute -top-4 left-6 inline-flex items-center justify-center h-8 w-8 bg-yellow text-black font-bold text-sm">
+            {i + 1}
+          </span>
+          <h3 class="mt-2 text-lg font-semibold text-black">{step.title}</h3>
+          <p class="mt-2 text-sm text-gray-dark leading-relaxed">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</Section>

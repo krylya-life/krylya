@@ -1,0 +1,65 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+import Button from "../Button.astro";
+import { getCollection } from "astro:content";
+
+const all = await getCollection("cases");
+const cases = all
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Section class="bg-gray-light/15">
+  <Container>
+    <div class="md:flex md:items-end md:justify-between gap-8">
+      <div>
+        <Heading level={2} accent>Кейсы</Heading>
+        <p class="mt-6 max-w-2xl text-lg text-gray-dark leading-relaxed">
+          Реальные мероприятия с реальными цифрами и фотографиями. Подробности — внутри.
+        </p>
+      </div>
+      <Button href="/cases/" variant="secondary" class="mt-6 md:mt-0 self-start md:self-auto whitespace-nowrap">
+        Все кейсы
+      </Button>
+    </div>
+
+    {cases.length > 0 ? (
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {cases.map((c) => (
+          <a
+            href={`/cases/${c.data.slug}/`}
+            class="group block bg-white border border-gray-light p-8 hover:border-yellow hover:shadow-lg transition-all"
+          >
+            <span class="text-xs font-semibold uppercase tracking-wider text-yellow">
+              {c.data.client}
+            </span>
+            <h3 class="mt-2 text-xl font-semibold text-black">
+              {c.data.title}
+            </h3>
+            <p class="mt-3 text-gray-dark leading-relaxed text-sm">
+              {c.data.challenge}
+            </p>
+            {c.data.results.length > 0 && (
+              <ul class="mt-4 space-y-1">
+                {c.data.results.slice(0, 2).map((r) => (
+                  <li class="text-sm text-gray-dark flex items-start gap-2">
+                    <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full mt-2 flex-shrink-0"></span>
+                    {r}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-black">
+              Читать кейс
+              <span class="inline-block h-0.5 w-6 bg-yellow group-hover:w-10 transition-all"></span>
+            </span>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="mt-12 text-gray-dark italic">Кейсы появятся в Phase 5.</p>
+    )}
+  </Container>
+</Section>

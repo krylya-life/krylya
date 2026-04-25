@@ -1,0 +1,52 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+---
+
+<Section class="bg-black text-white">
+  <Container>
+    <div class="grid gap-12 md:grid-cols-5 md:items-center">
+      <div class="md:col-span-3">
+        <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-yellow">
+          <span class="inline-block h-2 w-8 bg-yellow"></span>
+          Локальная экспертиза
+        </p>
+
+        <Heading level={2} class="!text-white">
+          Знаем регион — знаем, <span class="bg-yellow text-black px-2">где будет круто</span>
+        </Heading>
+
+        <p class="mt-8 text-lg text-gray-light leading-relaxed">
+          Работаем в Калининграде и области с 2017 года. Знакомы с площадками
+          от исторических особняков и замков до индустриальных лофтов и природных
+          локаций на побережье.
+        </p>
+
+        <p class="mt-4 text-lg text-gray-light leading-relaxed">
+          Подрядчики, которых мы зовём, проверены десятками проектов — а не взяты
+          с первой страницы поиска. Для иногороднего клиента это значит
+          <span class="text-white font-medium">меньше рисков и меньше сюрпризов</span>
+          в день события.
+        </p>
+      </div>
+
+      <div class="md:col-span-2">
+        <ul class="space-y-4">
+          <li class="border-l-4 border-yellow pl-4">
+            <strong class="block text-2xl font-bold text-yellow">7+</strong>
+            <span class="text-sm text-gray-light">лет в Калининграде</span>
+          </li>
+          <li class="border-l-4 border-yellow pl-4">
+            <strong class="block text-2xl font-bold text-yellow">100%</strong>
+            <span class="text-sm text-gray-light">проектов — в регионе</span>
+          </li>
+          <li class="border-l-4 border-yellow pl-4">
+            <strong class="block text-2xl font-bold text-yellow">15+</strong>
+            <span class="text-sm text-gray-light">мероприятий за 2025 год</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </Container>
+</Section>

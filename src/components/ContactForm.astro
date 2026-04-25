@@ -1,0 +1,112 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  /** ID формы для Netlify (по умолчанию 'contact'). Можно сделать разные на разных страницах. */
+  name?: string;
+}
+const { name = "contact" } = Astro.props;
+---
+
+<form
+  name={name}
+  method="POST"
+  action="/thanks/"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+  class="space-y-6"
+>
+  {/* Скрытое поле для Netlify — нужно знать имя формы при сабмите */}
+  <input type="hidden" name="form-name" value={name} />
+
+  {/* Honeypot — невидимое поле, заполняют только боты */}
+  <p class="hidden" aria-hidden="true">
+    <label>
+      Не заполняйте это поле:
+      <input name="bot-field" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  <div class="grid gap-6 sm:grid-cols-2">
+    <label class="block">
+      <span class="block text-sm font-medium text-black mb-2">
+        Имя <span class="text-yellow">*</span>
+      </span>
+      <input
+        type="text"
+        name="name"
+        required
+        autocomplete="name"
+        class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
+        placeholder="Как к вам обращаться"
+      />
+    </label>
+
+    <label class="block">
+      <span class="block text-sm font-medium text-black mb-2">
+        Телефон <span class="text-yellow">*</span>
+      </span>
+      <input
+        type="tel"
+        name="phone"
+        required
+        autocomplete="tel"
+        inputmode="tel"
+        class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
+        placeholder="+7 ___ ___-__-__"
+      />
+    </label>
+  </div>
+
+  <label class="block">
+    <span class="block text-sm font-medium text-black mb-2">
+      Email <span class="text-gray-light text-xs font-normal">(необязательно)</span>
+    </span>
+    <input
+      type="email"
+      name="email"
+      autocomplete="email"
+      class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
+      placeholder="email@example.com"
+    />
+  </label>
+
+  <label class="block">
+    <span class="block text-sm font-medium text-black mb-2">
+      Расскажите о мероприятии <span class="text-yellow">*</span>
+    </span>
+    <textarea
+      name="message"
+      required
+      rows="4"
+      maxlength="500"
+      class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow resize-y"
+      placeholder="Тип мероприятия, примерная дата, количество гостей, особые пожелания. Чем подробнее, тем точнее смета."
+    ></textarea>
+    <span class="block text-xs text-gray-light mt-1">До 500 символов</span>
+  </label>
+
+  <label class="flex items-start gap-3 cursor-pointer">
+    <input
+      type="checkbox"
+      name="consent"
+      required
+      value="yes"
+      class="mt-1 h-4 w-4 accent-yellow flex-shrink-0"
+    />
+    <span class="text-sm text-gray-dark">
+      Согласен с обработкой персональных данных в соответствии с
+      <a href="/privacy/" class="text-black hover:text-yellow underline">
+        Политикой конфиденциальности
+      </a>
+      (152-ФЗ).
+    </span>
+  </label>
+
+  <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+    <Button type="submit" variant="primary">Оставить заявку</Button>
+    <span class="text-sm text-gray-dark">
+      Ответим в течение рабочего дня. Без спама и рассылок.
+    </span>
+  </div>
+</form>

@@ -23,6 +23,7 @@ const {
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
+    <link rel="icon" type="image/png" href="/brand/wings-sign.png" />
     <link
       rel="preload"
       href="/fonts/jost-cyrillic-400.woff2"
@@ -37,10 +38,19 @@ const {
       type="font/woff2"
       crossorigin
     />
-    <link rel="icon" type="image/png" href="/brand/wings-sign.png" />
     <slot name="seo" />
   </head>
   <body class="bg-white text-gray-dark font-sans antialiased min-h-screen flex flex-col">
+    {/* Скрытая статическая разметка формы для Netlify build-time form detection.
+       Netlify должен увидеть форму на момент билда, чтобы зарегистрировать её. */}
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="checkbox" name="consent" />
+    </form>
+
     <Header />
     <main class="flex-1">
       <slot />

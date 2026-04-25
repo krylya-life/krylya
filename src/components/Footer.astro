@@ -1,10 +1,8 @@
 ---
 import Container from "./Container.astro";
 import Logo from "./Logo.astro";
+import { business } from "../config/business.ts";
 
-const phone = "+79118627957";
-const phoneDisplay = "+7 911 862 7957";
-const email = "wings.agency@yandex.ru";
 const year = new Date().getFullYear();
 ---
 
@@ -13,27 +11,30 @@ const year = new Date().getFullYear();
   itemtype="https://schema.org/Organization"
   class="bg-gray-dark text-white py-12 md:py-16 border-t-4 border-yellow"
 >
-  <meta itemprop="name" content="Крылья" />
-  <meta itemprop="legalName" content="ИП Вострикова Мария Валерьевна" />
-  <meta itemprop="taxID" content="550209075500" />
-  <meta itemprop="vatID" content="324390000038348" />
-  <meta itemprop="url" content="https://крылья.life/" />
+  <meta itemprop="name" content={business.name} />
+  <meta itemprop="legalName" content={business.legalName} />
+  <meta itemprop="taxID" content={business.taxId} />
+  <meta itemprop="vatID" content={business.ogrnip} />
+  <meta itemprop="url" content={business.urlCyrillic} />
 
   <Container>
     <div class="grid gap-12 md:grid-cols-3">
       <div itemscope itemtype="https://schema.org/PostalAddress" itemprop="address">
         <Logo variant="horizontal-white" size="lg" class="mb-6" asLink={false} />
-        <p class="text-sm text-gray-light mb-3" itemprop="addressLocality">
-          Калининград и область
+        <p class="text-sm text-gray-light mb-1" itemprop="addressLocality">
+          {business.locality}
+        </p>
+        <p class="text-xs text-gray-light mb-3" itemprop="addressRegion">
+          {business.region}
         </p>
         <p class="text-base mb-1">
-          <a href={`tel:${phone}`} class="text-white hover:text-yellow transition-colors font-medium">
-            <span itemprop="telephone">{phoneDisplay}</span>
+          <a href={`tel:${business.phone}`} class="text-white hover:text-yellow transition-colors font-medium">
+            <span itemprop="telephone">{business.phoneDisplay}</span>
           </a>
         </p>
         <p class="text-base">
-          <a href={`mailto:${email}`} class="text-white hover:text-yellow transition-colors font-medium">
-            <span itemprop="email">{email}</span>
+          <a href={`mailto:${business.email}`} class="text-white hover:text-yellow transition-colors font-medium">
+            <span itemprop="email">{business.email}</span>
           </a>
         </p>
       </div>
@@ -55,9 +56,9 @@ const year = new Date().getFullYear();
           Реквизиты
         </h4>
         <p class="text-sm text-gray-light leading-relaxed">
-          ИП Вострикова Мария Валерьевна<br />
-          ИНН 550209075500<br />
-          ОГРНИП 324390000038348
+          {business.legalName}<br />
+          ИНН {business.taxId}<br />
+          ОГРНИП {business.ogrnip}
         </p>
         <p class="mt-4 text-sm">
           <a href="/privacy/" class="text-gray-light hover:text-yellow transition-colors">
