@@ -1,0 +1,24 @@
+<!--
+  Этот файл нужен только для того, чтобы Netlify обнаружил форму при build-time.
+  Для пользователей он не показывается. Содержит схему формы — те же поля, что в ContactForm.astro.
+
+  Документация: https://docs.netlify.com/forms/setup/#html-forms
+-->
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Netlify Forms registration</title>
+  </head>
+  <body>
+    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" method="POST">
+      <input type="hidden" name="form-name" value="contact" />
+      <input type="text" name="name" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="checkbox" name="consent" />
+      <input name="bot-field" />
+    </form>
+  </body>
+</html>
