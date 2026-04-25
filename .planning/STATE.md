@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-04-25T18:10:55.985Z"
+last_updated: "2026-04-25T18:17:33.210Z"
 progress:
   total_phases: 9
   completed_phases: 0
@@ -156,4 +156,4 @@ Phase 3 (стартует следующим):
 *State initialized: 2026-04-23*
 *Update cadence: после каждого `/gsd-transition` и `/gsd-complete-milestone`*
 
-**Planned Phase:** 2 (Дизайн-система и контент-модели) — 1 plans — 2026-04-25T18:10:55.966Z
+**Planned Phase:** 3 (Главная как vertical slice) — 1 plans — 2026-04-25T18:17:33.196Z
