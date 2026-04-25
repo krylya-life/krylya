@@ -6,16 +6,20 @@ interface Props {
   name?: string;
 }
 const { name = "contact" } = Astro.props;
+
+// Используем спред-атрибуты, чтобы Astro точно сохранил data-netlify
+// (при инлайн-записи Astro иногда стрипает data-* со значением "true").
+const formAttrs = {
+  name,
+  method: "POST",
+  action: "/thanks/",
+  "data-netlify": "true",
+  "data-netlify-honeypot": "bot-field",
+  class: "space-y-6",
+};
 ---
 
-<form
-  name={name}
-  method="POST"
-  action="/thanks/"
-  data-netlify="true"
-  data-netlify-honeypot="bot-field"
-  class="space-y-6"
->
+<form {...formAttrs}>
   {/* Скрытое поле для Netlify — нужно знать имя формы при сабмите */}
   <input type="hidden" name="form-name" value={name} />
 
@@ -37,6 +41,7 @@ const { name = "contact" } = Astro.props;
         name="name"
         required
         autocomplete="name"
+        maxlength="80"
         class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
         placeholder="Как к вам обращаться"
       />
@@ -52,9 +57,13 @@ const { name = "contact" } = Astro.props;
         required
         autocomplete="tel"
         inputmode="tel"
+        maxlength="20"
+        pattern="[+\d\s()\-]{10,20}"
+        title="Только цифры, +, -, скобки и пробелы. От 10 до 20 символов."
         class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
-        placeholder="+7 ___ ___-__-__"
+        placeholder="+7 911 862 79 57"
       />
+      <span class="block text-xs text-gray-light mt-1">Например: +7 911 862 79 57</span>
     </label>
   </div>
 
@@ -66,6 +75,7 @@ const { name = "contact" } = Astro.props;
       type="email"
       name="email"
       autocomplete="email"
+      maxlength="120"
       class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
       placeholder="email@example.com"
     />
@@ -80,10 +90,11 @@ const { name = "contact" } = Astro.props;
       required
       rows="4"
       maxlength="500"
+      minlength="10"
       class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow resize-y"
       placeholder="Тип мероприятия, примерная дата, количество гостей, особые пожелания. Чем подробнее, тем точнее смета."
     ></textarea>
-    <span class="block text-xs text-gray-light mt-1">До 500 символов</span>
+    <span class="block text-xs text-gray-light mt-1">От 10 до 500 символов</span>
   </label>
 
   <label class="flex items-start gap-3 cursor-pointer">
