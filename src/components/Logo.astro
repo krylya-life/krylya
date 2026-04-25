@@ -3,27 +3,36 @@ interface Props {
   variant?: "horizontal" | "horizontal-white" | "sign";
   class?: string;
   asLink?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 const {
   variant = "horizontal",
   class: className = "",
   asLink = true,
+  size = "md",
 } = Astro.props;
 
 const sources: Record<string, { src: string; w: number; h: number }> = {
-  horizontal: { src: "/brand/wings-logo-horizontal.png", w: 200, h: 60 },
-  "horizontal-white": { src: "/brand/wings-logo-horizontal-white.png", w: 200, h: 60 },
-  sign: { src: "/brand/wings-sign.png", w: 60, h: 60 },
+  horizontal: { src: "/brand/wings-logo-horizontal.png", w: 240, h: 72 },
+  "horizontal-white": { src: "/brand/wings-logo-horizontal-white.png", w: 240, h: 72 },
+  sign: { src: "/brand/wings-sign.png", w: 72, h: 72 },
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: "h-10",
+  md: "h-16",
+  lg: "h-20",
 };
 
 const { src, w, h } = sources[variant];
+const sizeClass = sizeClasses[size];
 const alt = "Крылья — ивент-агентство в Калининграде";
 ---
 
 {asLink ? (
   <a href="/" class:list={["inline-block", className]} aria-label="На главную — Крылья">
-    <img src={src} alt={alt} width={w} height={h} class="h-12 w-auto" loading="eager" />
+    <img src={src} alt={alt} width={w} height={h} class:list={[sizeClass, "w-auto"]} loading="eager" />
   </a>
 ) : (
-  <img src={src} alt={alt} width={w} height={h} class:list={["h-12 w-auto", className]} loading="eager" />
+  <img src={src} alt={alt} width={w} height={h} class:list={[sizeClass, "w-auto", className]} loading="eager" />
 )}

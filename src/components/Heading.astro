@@ -2,8 +2,9 @@
 interface Props {
   level: 1 | 2 | 3 | 4;
   class?: string;
+  accent?: boolean;
 }
-const { level, class: className = "" } = Astro.props;
+const { level, class: className = "", accent = false } = Astro.props;
 const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4";
 
 const levelClasses: Record<number, string> = {
@@ -14,6 +15,13 @@ const levelClasses: Record<number, string> = {
 };
 ---
 
-<Tag class:list={[levelClasses[level], className]}>
-  <slot />
-</Tag>
+{accent ? (
+  <Tag class:list={[levelClasses[level], "relative inline-block pb-2", className]}>
+    <slot />
+    <span class="absolute -bottom-1 left-0 h-1 w-12 bg-yellow"></span>
+  </Tag>
+) : (
+  <Tag class:list={[levelClasses[level], className]}>
+    <slot />
+  </Tag>
+)}

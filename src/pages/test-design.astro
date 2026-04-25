@@ -16,8 +16,12 @@ const teamSorted = [...team].sort((a, b) => a.data.order - b.data.order);
 <BaseLayout title="Test Design — Крылья" noindex>
   <Section>
     <Container>
-      <Heading level={1}>Дизайн-система — превью</Heading>
-      <p class="mt-4 max-w-2xl text-gray-dark">
+      <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-dark">
+        <span class="inline-block h-2 w-8 bg-yellow"></span>
+        Phase 2
+      </p>
+      <Heading level={1} accent>Дизайн-система</Heading>
+      <p class="mt-6 max-w-2xl text-gray-dark leading-relaxed">
         Эта страница — техническая. Здесь мы проверяем, что цвета, шрифты, кнопки и контент-коллекции работают корректно. Не индексируется.
       </p>
     </Container>
@@ -25,8 +29,8 @@ const teamSorted = [...team].sort((a, b) => a.data.order - b.data.order);
 
   <Section class="bg-gray-light/20">
     <Container>
-      <Heading level={2}>Фирменная палитра</Heading>
-      <div class="mt-8 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+      <Heading level={2} accent>Фирменная палитра</Heading>
+      <div class="mt-10 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
         <div class="aspect-square bg-yellow flex items-end p-3 text-xs font-medium text-black">#FFF200<br />Жёлтый акцент</div>
         <div class="aspect-square bg-black flex items-end p-3 text-xs font-medium text-white">#000000<br />Чёрный</div>
         <div class="aspect-square bg-gray-dark flex items-end p-3 text-xs font-medium text-white">#414042<br />Тёмно-серый</div>
@@ -38,8 +42,8 @@ const teamSorted = [...team].sort((a, b) => a.data.order - b.data.order);
 
   <Section>
     <Container>
-      <Heading level={2}>Типографика — Jost</Heading>
-      <div class="mt-8 space-y-6">
+      <Heading level={2} accent>Типографика — Jost</Heading>
+      <div class="mt-10 space-y-6">
         <Heading level={1}>Заголовок H1 — Bold 700</Heading>
         <Heading level={2}>Заголовок H2 — SemiBold 600</Heading>
         <Heading level={3}>Заголовок H3 — SemiBold 600</Heading>
@@ -56,8 +60,8 @@ const teamSorted = [...team].sort((a, b) => a.data.order - b.data.order);
 
   <Section class="bg-gray-light/20">
     <Container>
-      <Heading level={2}>Кнопки</Heading>
-      <div class="mt-8 flex flex-wrap gap-4">
+      <Heading level={2} accent>Кнопки</Heading>
+      <div class="mt-10 flex flex-wrap gap-4">
         <Button variant="primary">Оставить заявку</Button>
         <Button variant="secondary">Позвонить</Button>
         <Button href="/" variant="primary">Кнопка-ссылка</Button>
@@ -69,8 +73,8 @@ const teamSorted = [...team].sort((a, b) => a.data.order - b.data.order);
 
   <Section>
     <Container>
-      <Heading level={2}>Контент-коллекции</Heading>
-      <p class="mt-2 text-gray-dark">Тестовые записи в каждой коллекции, схемы Zod-валидации работают.</p>
+      <Heading level={2} accent>Контент-коллекции</Heading>
+      <p class="mt-4 text-gray-dark">Тестовые записи в каждой коллекции, схемы Zod-валидации работают.</p>
 
       <div class="mt-10 grid gap-12 md:grid-cols-2">
         <div>

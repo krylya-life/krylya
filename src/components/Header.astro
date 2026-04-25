@@ -10,21 +10,22 @@ const navItems = [
 ];
 ---
 
-<header class="border-b border-gray-light bg-white">
-  <Container class="flex items-center justify-between py-5">
-    <Logo variant="horizontal" />
+<header class="border-b-2 border-yellow bg-white">
+  <Container class="flex items-center justify-between py-6">
+    <Logo variant="horizontal" size="md" />
     <nav class="hidden md:flex gap-8">
       {navItems.map((item) => (
         <a
           href={item.href}
-          class="text-base font-medium text-gray-dark hover:text-black transition-colors"
+          class="relative text-base font-medium text-gray-dark hover:text-black transition-colors group"
         >
           {item.label}
+          <span class="absolute -bottom-2 left-0 right-0 h-0.5 bg-yellow scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
         </a>
       ))}
     </nav>
     <button class="md:hidden p-2 -mr-2 text-gray-dark hover:text-black" aria-label="Открыть меню">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
         <line x1="3" y1="6" x2="21" y2="6" />
         <line x1="3" y1="12" x2="21" y2="12" />
         <line x1="3" y1="18" x2="21" y2="18" />
