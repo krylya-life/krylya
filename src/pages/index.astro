@@ -1,69 +1,28 @@
 ---
-// Phase 1 placeholder — настоящая главная появится в Phase 3.
-// Эта страница нужна, чтобы Netlify было что собирать и деплоить.
-const buildDate = new Date().toISOString().split("T")[0];
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Heading from "../components/Heading.astro";
+import Button from "../components/Button.astro";
 ---
 
-<!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex" />
-    <title>Крылья — сайт в разработке</title>
-    <style>
-      :root {
-        color-scheme: light;
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #fafafa;
-        color: #111;
-      }
-      main {
-        max-width: 540px;
-        padding: 2rem;
-        text-align: center;
-      }
-      h1 {
-        font-weight: 700;
-        font-size: 2rem;
-        letter-spacing: -0.02em;
-        margin: 0 0 1rem;
-      }
-      .accent {
-        background: #fff200;
-        padding: 0.1em 0.3em;
-      }
-      p {
-        line-height: 1.5;
-        color: #555;
-      }
-      small {
-        display: block;
-        margin-top: 2rem;
-        color: #999;
-        font-size: 0.8rem;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>
-        <span class="accent">Крылья</span> — сайт в разработке
-      </h1>
-      <p>
-        Идёт переезд с Tilda на новый стек.
-        Запуск ожидается к 15 мая 2026.
+<BaseLayout
+  title="Крылья — ивент-агентство в Калининграде"
+  description="Организация мероприятий под ключ в Калининграде. Корпоративные праздники, деловые события, кейсы. Работаем с 2024 года."
+  noindex
+>
+  <Section>
+    <Container>
+      <Heading level={1}>
+        Сайт <span class="bg-yellow px-2">в разработке</span>
+      </Heading>
+      <p class="mt-6 max-w-2xl text-lg text-gray-dark">
+        Идёт переезд агентства «Крылья» с Tilda на новый стек. Запуск ожидается к 15 мая 2026. Если хотите обсудить мероприятие уже сейчас — свяжитесь напрямую:
       </p>
-      <p>
-        Связаться: +7 911 862 7957 · wings.agency@yandex.ru
-      </p>
-      <small>build: {buildDate}</small>
-    </main>
-  </body>
-</html>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <Button href="tel:+79118627957" variant="primary">+7 911 862 7957</Button>
+        <Button href="mailto:wings.agency@yandex.ru" variant="secondary">wings.agency@yandex.ru</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
