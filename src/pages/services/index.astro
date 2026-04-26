@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Heading from "../../components/Heading.astro";
+import Seo from "../../components/Seo.astro";
+import JsonLdGraph from "../../components/JsonLdGraph.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import MetrikaCounter from "../../components/MetrikaCounter.astro";
+import PricingTeaser from "../../components/blocks/PricingTeaser.astro";
+import ContactBlock from "../../components/blocks/ContactBlock.astro";
+
+const all = await getCollection("services");
+const services = all.sort((a, b) => a.data.order - b.data.order);
+
+const seoTitle = "Услуги — организация мероприятий в Калининграде";
+const seoDescription =
+  "Полный цикл организации мероприятий в Калининграде: корпоративы, деловые события, клиентские мероприятия, тимбилдинги, координация дня, частные торжества. Прозрачная агентская модель — 10% от сметы.";
+
+const crumbs = [
+  { label: "Главная", href: "/" },
+  { label: "Услуги", href: "/services/" },
+];
+---
+
+<BaseLayout title={seoTitle} description={seoDescription} noindex>
+  <Seo
+    slot="seo"
+    title={seoTitle}
+    description={seoDescription}
+    pathname="/services/"
+  />
+  <JsonLdGraph slot="seo" />
+
+  <Section class="border-b border-gray-light bg-white pb-8 md:pb-12">
+    <Container>
+      <Breadcrumbs crumbs={crumbs} />
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <Heading level={1} accent>Чем мы занимаемся</Heading>
+      <p class="mt-6 max-w-3xl text-lg text-gray-dark leading-relaxed">
+        Организация мероприятий в Калининграде и области под ключ. Полный цикл —
+        от первого брифа до отчётов. Прозрачная агентская модель: подрядчики
+        идут отдельной строкой, наша работа — 10% сверху за управление проектом.
+      </p>
+
+      {services.length > 0 ? (
+        <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((service) => (
+            <a
+              href={`/services/${service.data.slug}/`}
+              class="group block bg-white border border-gray-light p-8 hover:border-yellow hover:shadow-lg transition-all"
+            >
+              <h2 class="text-xl font-semibold text-black group-hover:text-black">
+                {service.data.title}
+              </h2>
+              <p class="mt-3 text-gray-dark leading-relaxed">
+                {service.data.description}
+              </p>
+              <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-black">
+                Подробнее
+                <span class="inline-block h-0.5 w-6 bg-yellow group-hover:w-10 transition-all"></span>
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="mt-12 text-gray-dark italic">Услуги появятся в Phase 4.</p>
+      )}
+    </Container>
+  </Section>
+
+  <PricingTeaser />
+
+  <ContactBlock />
+
+  <MetrikaCounter slot="analytics" />
+</BaseLayout>

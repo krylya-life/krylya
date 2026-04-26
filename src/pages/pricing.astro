@@ -1,0 +1,134 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Heading from "../components/Heading.astro";
+import Seo from "../components/Seo.astro";
+import JsonLdGraph from "../components/JsonLdGraph.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import MetrikaCounter from "../components/MetrikaCounter.astro";
+import ContactBlock from "../components/blocks/ContactBlock.astro";
+
+const seoTitle = "Сколько стоит организовать мероприятие в Калининграде — цены агентства Крылья";
+const seoDescription =
+  "Прозрачная агентская модель — 10% от сметы. Без скрытых наценок и пакетов «базовый/премиум». Типичные диапазоны бюджетов и из чего складывается смета мероприятия в Калининграде.";
+
+const crumbs = [
+  { label: "Главная", href: "/" },
+  { label: "Сколько стоит", href: "/pricing/" },
+];
+---
+
+<BaseLayout title={seoTitle} description={seoDescription} noindex>
+  <Seo
+    slot="seo"
+    title={seoTitle}
+    description={seoDescription}
+    pathname="/pricing/"
+  />
+  <JsonLdGraph slot="seo" />
+
+  <Section class="border-b border-gray-light bg-white pb-8 md:pb-12">
+    <Container>
+      <Breadcrumbs crumbs={crumbs} />
+    </Container>
+  </Section>
+
+  <Section>
+    <Container class="max-w-3xl">
+      <Heading level={1} accent>Сколько стоит организовать мероприятие в&nbsp;Калининграде</Heading>
+
+      <p class="mt-6 text-lg text-gray-dark leading-relaxed">
+        Прозрачная модель: подрядчики идут отдельной строкой по&nbsp;их&nbsp;реальной стоимости, наша работа — 10% сверху за&nbsp;управление проектом.
+        Без&nbsp;скрытых комиссий, без&nbsp;пакетов «базовый/стандарт/премиум», без&nbsp;«цены от&nbsp;X&nbsp;рублей» в&nbsp;hero-блоках.
+      </p>
+
+      <article class="prose-content mt-12 space-y-12">
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black">Из&nbsp;чего складывается смета мероприятия</h2>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Сметы мероприятий складываются из&nbsp;нескольких типовых статей расходов. У&nbsp;разных событий пропорции отличаются, но&nbsp;состав в&nbsp;большинстве случаев один и&nbsp;тот&nbsp;же:
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
+            <li><strong>Площадка</strong> — аренда зала, площадки, исторического объекта, ресторана, выездной локации. Часто включает в&nbsp;себя базовый кейтеринг или&nbsp;ограничение по&nbsp;поставщику</li>
+            <li><strong>Кейтеринг</strong> — еда и&nbsp;напитки. Может быть от&nbsp;площадки или&nbsp;от&nbsp;отдельного подрядчика</li>
+            <li><strong>Декор и&nbsp;флористика</strong> — оформление пространства, навигация, подарочные элементы</li>
+            <li><strong>Техника</strong> — звук, свет, экраны, проекция, стрим, перевод</li>
+            <li><strong>Ведущий, артисты, программа</strong> — смотрит на&nbsp;формат события</li>
+            <li><strong>Фото и&nbsp;видео</strong> — съёмка, монтаж итогового материала</li>
+            <li><strong>Логистика</strong> — трансферы, доставки, монтаж и&nbsp;демонтаж, проживание (для&nbsp;выездных форматов)</li>
+            <li><strong>Координация в&nbsp;день</strong> — наша команда на&nbsp;площадке: контроль программы, подрядчиков, нештатных ситуаций</li>
+          </ul>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Все эти строки видны вам в&nbsp;смете до&nbsp;старта работы. Подрядчики получают свои деньги напрямую через нас — без&nbsp;посреднических наценок.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black">Что такое 10% агентских</h2>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            10% от&nbsp;общей сметы — это наше вознаграждение за&nbsp;управление проектом: концепция, поиск и&nbsp;контракты с&nbsp;подрядчиками, бюджетирование, координация, ваша «единая точка контакта» в&nbsp;течение всего проекта и&nbsp;команда на&nbsp;площадке в&nbsp;день мероприятия. Эти 10% — единственное, что мы&nbsp;получаем с&nbsp;проекта.
+          </p>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Так выглядит модель «агентских комиссионных», принятая на&nbsp;рынке. Альтернатива — наценка агентства на&nbsp;каждом подрядчике. Мы&nbsp;её&nbsp;не&nbsp;используем: считаем, что прозрачность важнее, и&nbsp;она&nbsp;же удобнее обеим сторонам — клиент видит, куда уходит каждый рубль, а&nbsp;мы&nbsp;не&nbsp;тратим время на&nbsp;объяснения, почему «у&nbsp;вас цены выше, чем напрямую».
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black">Типичные диапазоны бюджетов</h2>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Бюджеты наших клиентов сильно различаются от&nbsp;формата к&nbsp;формату. Чтобы дать ориентир — несколько типичных диапазонов:
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
+            <li><strong>Камерное событие на&nbsp;15–40 человек</strong> (партнёрский ужин, частный юбилей, презентация в&nbsp;узком кругу) — 200–500 тыс рублей</li>
+            <li><strong>Корпоратив или&nbsp;деловое событие на&nbsp;60–150 человек</strong> — 500 тыс – 1.5 млн рублей. Это самый частый диапазон</li>
+            <li><strong>Крупное мероприятие на&nbsp;200–300+ человек</strong> (юбилей компании, отраслевой форум, большой партнёрский вечер) — от&nbsp;1.5 до&nbsp;3 млн рублей</li>
+            <li><strong>Сложные комплексные проекты</strong> (многодневные форматы, открытия объектов с&nbsp;PR-составляющей, большие отраслевые форумы) — могут доходить до&nbsp;5–7 млн рублей</li>
+          </ul>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Эти цифры — общая статистика наших проектов, а&nbsp;не&nbsp;«пакетные предложения». Конкретная смета вашего мероприятия зависит от&nbsp;площадки, программы, состава подрядчиков и&nbsp;уровня технического оснащения.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black">Почему у&nbsp;нас нет пакетов «базовый/стандарт/премиум»</h2>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Готовые пакеты удобно продавать, но&nbsp;неудобно с&nbsp;ними жить. Реальные мероприятия редко укладываются в&nbsp;шаблон: бюджет может быть «средним», а&nbsp;требования — «премиум»; формат может быть камерным, а&nbsp;аудитория — статусной; событие может быть «бюджетным», но&nbsp;при&nbsp;этом критичным для&nbsp;имиджа компании.
+          </p>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Поэтому каждое мероприятие мы&nbsp;собираем индивидуально под&nbsp;цели, аудиторию и&nbsp;бюджет. Это занимает чуть больше времени на&nbsp;этапе обсуждения, но&nbsp;даёт результат, в&nbsp;котором ничего лишнего и&nbsp;ничего не&nbsp;упущено.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black">Какие случаи нам подходят</h2>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Чтобы вам было проще понять, ваша&nbsp;ли это история:
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
+            <li>Мероприятие проходит в&nbsp;Калининграде или&nbsp;Калининградской области</li>
+            <li>Бюджет от&nbsp;200 тысяч рублей или&nbsp;вы&nbsp;готовы обсуждать формат под&nbsp;имеющийся бюджет</li>
+            <li>Вам нужен полный цикл организации (концепция, площадка, подрядчики, координация) или&nbsp;координация в&nbsp;день при&nbsp;уже готовом сценарии</li>
+            <li>Событие имеет смысл и&nbsp;аудиторию: корпоративное, деловое, клиентское, частное торжество</li>
+          </ul>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Если у&nbsp;вас задача требует свадебной экспертизы, детского анимационного формата или&nbsp;продакшна крупного телешоу — мы&nbsp;скажем об&nbsp;этом честно и&nbsp;при&nbsp;возможности подскажем коллег, которые специализируются на&nbsp;этих жанрах.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black">Чего на&nbsp;этой странице нет (намеренно)</h2>
+          <p class="mt-4 text-gray-dark leading-relaxed">
+            Мы&nbsp;не&nbsp;ставим на&nbsp;сайте онлайн-калькулятор стоимости мероприятия. Любая смета зависит от&nbsp;десятков параметров — площадка, технический райдер, состав программы, сезон, количество гостей, диетические особенности, требования к&nbsp;размещению. Калькулятор, который выдаёт «итоговую цифру за&nbsp;30 секунд», на&nbsp;этом рынке просто врёт. Поэтому формат прежний: получасовой бриф — и&nbsp;через 3–5 рабочих дней у&nbsp;вас на&nbsp;руках конкретная смета по&nbsp;вашему мероприятию.
+          </p>
+        </div>
+
+      </article>
+    </Container>
+  </Section>
+
+  <ContactBlock />
+
+  <MetrikaCounter slot="analytics" />
+</BaseLayout>
