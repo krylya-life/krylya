@@ -1,0 +1,48 @@
+---
+import { business } from "../config/business.ts";
+
+interface Props {
+  /** Slug услуги — будет частью @id */
+  slug: string;
+  /** Название услуги — пойдёт в name JSON-LD */
+  name: string;
+  /** Краткое описание — пойдёт в description */
+  description: string;
+  /** Тип услуги по schema.org — обычно 'Service' с указанием серии (e.g. "Корпоративные мероприятия") */
+  serviceType: string;
+}
+
+const { slug, name, description, serviceType } = Astro.props;
+const orgId = `${business.url}/#organization`;
+const serviceId = `${business.url}/services/${slug}/#service`;
+
+const json = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": serviceId,
+  name,
+  description,
+  serviceType,
+  provider: { "@id": orgId },
+  areaServed: {
+    "@type": "AdministrativeArea",
+    name: business.region,
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType: "B2B",
+  },
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "RUB",
+    description: "Агентское вознаграждение — 10% от сметы мероприятия",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      priceCurrency: "RUB",
+      description: "От 10% сметы. Типичные итоговые бюджеты — 500 тыс — 1.5 млн ₽, в крупных проектах до 7 млн ₽.",
+    },
+  },
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(json)} />

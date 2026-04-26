@@ -1,0 +1,29 @@
+---
+import Container from "../Container.astro";
+import Section from "../Section.astro";
+import Heading from "../Heading.astro";
+---
+
+<Section class="bg-gray-light/15 border-y border-gray-light">
+  <Container>
+    <div class="grid gap-8 md:grid-cols-2 md:items-center">
+      <div>
+        <Heading level={3}>Как мы считаем стоимость</Heading>
+        <p class="mt-4 text-gray-dark leading-relaxed">
+          Прозрачная агентская модель: <strong class="text-black">10% от сметы мероприятия</strong>.
+          Вы видите каждую строчку расходов на подрядчиков и точно знаете, за что платите именно нам.
+          Никаких накруток, никаких скрытых комиссий.
+        </p>
+      </div>
+      <div class="md:text-right">
+        <a
+          href="/pricing/"
+          class="inline-flex items-center gap-3 text-base font-medium text-black hover:text-yellow transition-colors"
+        >
+          Подробнее о ценообразовании
+          <span class="inline-block h-0.5 w-8 bg-yellow"></span>
+        </a>
+      </div>
+    </div>
+  </Container>
+</Section>

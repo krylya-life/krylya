@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Heading from "../../components/Heading.astro";
+import Button from "../../components/Button.astro";
+import Seo from "../../components/Seo.astro";
+import JsonLdGraph from "../../components/JsonLdGraph.astro";
+import JsonLdService from "../../components/JsonLdService.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import MetrikaCounter from "../../components/MetrikaCounter.astro";
+import PricingTeaser from "../../components/blocks/PricingTeaser.astro";
+import ContactBlock from "../../components/blocks/ContactBlock.astro";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+const { title, description, slug } = service.data;
+
+// SEO title — добавляем «в Калининграде» и стоимостный/SEO якорь
+const seoTitle = `${title} в Калининграде — под ключ от агентства Крылья`;
+const seoDescription = description;
+
+const crumbs = [
+  { label: "Главная", href: "/" },
+  { label: "Услуги", href: "/services/" },
+  { label: title, href: `/services/${slug}/` },
+];
+---
+
+<BaseLayout title={seoTitle} description={seoDescription} noindex>
+  <Seo
+    slot="seo"
+    title={seoTitle}
+    description={seoDescription}
+    pathname={`/services/${slug}/`}
+  />
+  <JsonLdGraph slot="seo" />
+  <JsonLdService
+    slot="seo"
+    slug={slug}
+    name={title}
+    description={description}
+    serviceType={title}
+  />
+
+  <Section class="border-b border-gray-light bg-white pb-8 md:pb-12">
+    <Container>
+      <Breadcrumbs crumbs={crumbs} />
+    </Container>
+  </Section>
+
+  <article class="prose-content">
+    <Content />
+  </article>
+
+  <PricingTeaser />
+
+  <ContactBlock />
+
+  <MetrikaCounter slot="analytics" />
+</BaseLayout>
+

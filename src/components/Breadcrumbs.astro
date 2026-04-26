@@ -1,0 +1,65 @@
+---
+import { business } from "../config/business.ts";
+
+interface Crumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  /** Список крошек, начиная с главной. Последний — текущая страница, без ссылки. */
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+
+// JSON-LD BreadcrumbList — для Google
+const itemListElement = crumbs.map((c, i) => ({
+  "@type": "ListItem",
+  position: i + 1,
+  name: c.label,
+  item: new URL(c.href, business.url).toString(),
+}));
+
+const json = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement,
+};
+---
+
+<nav
+  aria-label="Хлебные крошки"
+  itemscope
+  itemtype="https://schema.org/BreadcrumbList"
+  class="text-sm text-gray-dark"
+>
+  <ol class="flex flex-wrap items-center gap-2">
+    {crumbs.map((c, i) => (
+      <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/ListItem"
+        class="flex items-center gap-2"
+      >
+        <meta itemprop="position" content={String(i + 1)} />
+        {i < crumbs.length - 1 ? (
+          <>
+            <a
+              href={c.href}
+              itemprop="item"
+              class="text-gray-dark hover:text-black transition-colors"
+            >
+              <span itemprop="name">{c.label}</span>
+            </a>
+            <span class="text-gray-light">·</span>
+          </>
+        ) : (
+          <span class="text-black font-medium" itemprop="name">{c.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(json)} />
