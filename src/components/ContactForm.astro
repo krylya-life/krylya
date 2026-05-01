@@ -1,221 +1,43 @@
 ---
+// Временный фолбэк на период миграции хостинга (Netlify → Cloudflare Pages).
+// Полная форма с отправкой в Telegram вернётся, как только настроим автодеплой.
 import Button from "./Button.astro";
 
 interface Props {
-  /** ID формы (по умолчанию 'contact'). Передаётся в Telegram-уведомление. */
   name?: string;
 }
 const { name = "contact" } = Astro.props;
 ---
 
-<form name={name} method="POST" action="/api/contact" class="space-y-6" data-contact-form>
-  <input type="hidden" name="form-name" value={name} />
-
-  {/* Honeypot — невидимое поле, заполняют только боты */}
-  <p class="hidden" aria-hidden="true">
-    <label>
-      Не заполняйте это поле:
-      <input name="bot-field" tabindex="-1" autocomplete="off" />
-    </label>
+<div class="space-y-4">
+  <p class="text-base text-gray-dark leading-relaxed">
+    Сейчас форма онлайн-заявок временно отключена. Свяжитесь напрямую — ответим в&nbsp;течение рабочего дня.
   </p>
 
-  <div class="grid gap-6 sm:grid-cols-2">
-    <label class="block">
-      <span class="block text-sm font-medium text-black mb-2">
-        Имя <span class="text-yellow">*</span>
-      </span>
-      <input
-        type="text"
-        name="name"
-        required
-        autocomplete="name"
-        maxlength="80"
-        class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
-        placeholder="Как к вам обращаться"
-      />
-    </label>
+  <div class="grid gap-3 sm:grid-cols-2">
+    <a
+      href="tel:+79118627957"
+      class="flex items-center gap-3 px-5 py-4 bg-yellow text-black font-semibold no-underline hover:opacity-90 transition-opacity"
+    >
+      <span class="text-xl">📞</span>
+      <span>+7 911 862 79 57</span>
+    </a>
 
-    <label class="block">
-      <span class="block text-sm font-medium text-black mb-2">
-        Телефон <span class="text-yellow">*</span>
-      </span>
-      <input
-        type="tel"
-        name="phone"
-        id="phone-input"
-        required
-        autocomplete="tel"
-        inputmode="tel"
-        maxlength="20"
-        pattern="\\+?[78](?:[\\s\\-()]*\\d){10}"
-        title="Российский номер: +7, 7 или 8, затем 10 цифр. Пример: +7 911 862 79 57"
-        class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow data-[state=invalid]:border-red-500 data-[state=valid]:border-green-600"
-        placeholder="+7 911 862 79 57"
-      />
-      <span id="phone-hint" class="block text-xs text-gray-light mt-1">
-        Российский номер: +7, 7 или 8 + 10 цифр
-      </span>
-    </label>
+    <a
+      href="https://t.me/mashavostrik"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-3 px-5 py-4 bg-white border border-gray-light text-black font-semibold no-underline hover:border-yellow transition-colors"
+    >
+      <span class="text-xl">✈️</span>
+      <span>Telegram @mashavostrik</span>
+    </a>
   </div>
 
-  <label class="block">
-    <span class="block text-sm font-medium text-black mb-2">
-      Email <span class="text-gray-light text-xs font-normal">(необязательно)</span>
-    </span>
-    <input
-      type="email"
-      name="email"
-      autocomplete="email"
-      maxlength="120"
-      class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow"
-      placeholder="email@example.com"
-    />
-  </label>
-
-  <label class="block">
-    <span class="block text-sm font-medium text-black mb-2">
-      Расскажите о мероприятии <span class="text-yellow">*</span>
-    </span>
-    <textarea
-      name="message"
-      required
-      rows="4"
-      maxlength="500"
-      minlength="10"
-      class="w-full px-4 py-3 bg-white border border-gray-light rounded-md text-black placeholder:text-gray-light focus:outline-none focus:border-black focus:ring-2 focus:ring-yellow resize-y"
-      placeholder="Тип мероприятия, примерная дата, количество гостей, особые пожелания. Чем подробнее, тем точнее смета."
-    ></textarea>
-    <span class="block text-xs text-gray-light mt-1">От 10 до 500 символов</span>
-  </label>
-
-  <label class="flex items-start gap-3 cursor-pointer">
-    <input
-      type="checkbox"
-      name="consent"
-      required
-      value="yes"
-      class="mt-1 h-4 w-4 accent-yellow flex-shrink-0"
-    />
-    <span class="text-sm text-gray-dark">
-      Согласен с обработкой персональных данных в соответствии с
-      <a href="/privacy/" class="text-black hover:text-yellow underline">
-        Политикой конфиденциальности
-      </a>
-      (152-ФЗ).
-    </span>
-  </label>
-
-  <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-    <Button type="submit" variant="primary" data-submit-btn>Оставить заявку</Button>
-    <span class="text-sm text-gray-dark">
-      Ответим в течение рабочего дня. Без спама и рассылок.
-    </span>
-  </div>
-
-  <p class="hidden text-sm text-red-600" role="alert" data-form-error>
-    Не удалось отправить заявку. Позвоните нам: +7 911 862 79 57.
-  </p>
-</form>
-
-<script is:inline>
-  // 1) Live-валидация телефона: фильтр символов + подсветка статуса.
-  // 2) Перехват submit — отправка через fetch на /api/contact (Cloudflare Pages Function),
-  //    при успехе — переход на /thanks/.
-  (function () {
-    const form = document.querySelector("form[data-contact-form]");
-    const phone = document.getElementById("phone-input");
-    const hint = document.getElementById("phone-hint");
-    const submitBtn = form && form.querySelector("[data-submit-btn]");
-    const errorEl = form && form.querySelector("[data-form-error]");
-    if (!form || !phone || !hint) return;
-
-    const ALLOWED = /[^\d+\-()\s]/g;
-    const PHONE_RE = /^\+?[78](?:[\s\-()]*\d){10}$/;
-
-    const clean = (v) => v.replace(ALLOWED, "");
-
-    function update() {
-      const v = phone.value.trim();
-      if (v.length === 0) {
-        phone.style.borderColor = "";
-        hint.textContent = "Российский номер: +7, 7 или 8 + 10 цифр";
-        hint.style.color = "";
-        return;
-      }
-      if (PHONE_RE.test(v)) {
-        phone.style.borderColor = "#16a34a";
-        hint.textContent = "✓ Формат верный";
-        hint.style.color = "#16a34a";
-      } else {
-        phone.style.borderColor = "#dc2626";
-        hint.textContent = "Нужен формат: +7 911 862 79 57 (или 8 911...)";
-        hint.style.color = "#dc2626";
-      }
-    }
-
-    phone.addEventListener("input", (e) => {
-      const t = e.target;
-      const cleaned = clean(t.value);
-      if (cleaned !== t.value) t.value = cleaned;
-      update();
-    });
-
-    phone.addEventListener("paste", (e) => {
-      e.preventDefault();
-      const text = (e.clipboardData || window.clipboardData).getData("text");
-      const cleaned = clean(text);
-      const start = phone.selectionStart || 0;
-      const end = phone.selectionEnd || 0;
-      phone.value = phone.value.slice(0, start) + cleaned + phone.value.slice(end);
-      phone.selectionStart = phone.selectionEnd = start + cleaned.length;
-      update();
-    });
-
-    phone.addEventListener("blur", update);
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      // Валидация телефона как страховка к pattern
-      const v = phone.value.trim();
-      if (!PHONE_RE.test(v)) {
-        update();
-        phone.focus();
-        phone.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-      }
-
-      if (errorEl) errorEl.classList.add("hidden");
-      if (submitBtn) {
-        submitBtn.setAttribute("disabled", "true");
-        submitBtn.textContent = "Отправляем…";
-      }
-
-      try {
-        const formData = new FormData(form);
-        const res = await fetch("/api/contact", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (res.ok) {
-          window.location.href = "/thanks/";
-          return;
-        }
-
-        // Не удалось — показываем сообщение, разблокируем кнопку
-        if (errorEl) errorEl.classList.remove("hidden");
-        if (submitBtn) {
-          submitBtn.removeAttribute("disabled");
-          submitBtn.textContent = "Оставить заявку";
-        }
-      } catch (err) {
-        if (errorEl) errorEl.classList.remove("hidden");
-        if (submitBtn) {
-          submitBtn.removeAttribute("disabled");
-          submitBtn.textContent = "Оставить заявку";
-        }
-      }
-    });
-  })();
-</script>
+  <a
+    href="mailto:wings.agency@yandex.ru"
+    class="inline-flex items-center gap-2 text-sm text-gray-dark hover:text-black underline underline-offset-2"
+  >
+    или&nbsp;на&nbsp;почту: wings.agency@yandex.ru
+  </a>
+</div>

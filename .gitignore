@@ -9,8 +9,10 @@ node_modules/
 pnpm-lock.yaml
 yarn.lock
 
-# Netlify
-.netlify/
+# Cloudflare / упакованные деплой-артефакты
+.wrangler/
+krylya-site.zip
+*.zip
 
 # environment
 .env

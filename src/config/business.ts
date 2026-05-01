@@ -15,8 +15,8 @@ export const business = {
   email: "wings.agency@yandex.ru",
   telegramPersonal: "@mashavostrik",
 
-  /** В Phase 7 → 'https://крылья.life'. До этого — Netlify preview. */
-  url: "https://krylya-life.netlify.app",
+  /** В Phase 7 → 'https://крылья.life'. До этого — Cloudflare Workers preview. */
+  url: "https://kryliya.kupasyatinka.workers.dev",
   urlPunycode: "https://xn--j1aco8bgs.life",
   urlCyrillic: "https://крылья.life",
 

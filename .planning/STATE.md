@@ -20,6 +20,8 @@ progress:
 
 **Current Focus:** Phase 4 — услуги и семантика. Все 8 страниц фазы написаны и задеплоены (6 услуг + витрина `/services/` + `/pricing/`). Идёт вычитка Машей: Корпоративы утверждены как эталон тона, остальные 5 + витрина + /pricing/ — на ревью. Phase 3 закрыта 2026-04-25 (главная end-to-end работает с формой и уведомлениями в Telegram). Финальную полировку дизайна Мария попросила вернуть после сборки всех страниц (Phase 6.5 — добавим в roadmap).
 
+**Хостинг (2026-05-01):** Netlify приостановил сайт за превышение бесплатного лимита кредитов (биллинговый цикл сбрасывается ~23 мая, что не подходит при дедлайне релиза 15 мая). Сайт переехал на Cloudflare Workers (Static Assets) через Direct Upload. Текущий URL preview: `https://kryliya.kupasyatinka.workers.dev`. Форма заявок временно отключена — показывает контактные кнопки (телефон + Telegram). Автодеплой через Git временно не настроен — деплой через ручной upload ZIP в Cloudflare Workers UI. Возврат формы и автодеплой — следующая итерация (после Phase 4 ревью).
+
 **Timeline:**
 
 - Старт: 2026-04-23
@@ -38,7 +40,7 @@ progress:
 [████░░░░░] 4/9 фаз выполнено
 ```
 
-**Live preview:** https://krylya-life.netlify.app (главная end-to-end работает: форма → Telegram, /thanks/, Метрика, JSON-LD)
+**Live preview:** https://kryliya.kupasyatinka.workers.dev (Cloudflare Workers Static Assets; форма временно показывает контакты вместо отправки)
 **Repo:** https://github.com/krylya-life/krylya
 **Telegram bot:** @krylya_zayavki_bot (заявки приходят Марии в личку)
 
