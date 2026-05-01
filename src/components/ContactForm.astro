@@ -2,25 +2,13 @@
 import Button from "./Button.astro";
 
 interface Props {
-  /** ID формы для Netlify (по умолчанию 'contact'). Можно сделать разные на разных страницах. */
+  /** ID формы (по умолчанию 'contact'). Передаётся в Telegram-уведомление. */
   name?: string;
 }
 const { name = "contact" } = Astro.props;
-
-// Используем спред-атрибуты, чтобы Astro точно сохранил data-netlify
-// (при инлайн-записи Astro иногда стрипает data-* со значением "true").
-const formAttrs = {
-  name,
-  method: "POST",
-  action: "/thanks/",
-  "data-netlify": "true",
-  "data-netlify-honeypot": "bot-field",
-  class: "space-y-6",
-};
 ---
 
-<form {...formAttrs}>
-  {/* Скрытое поле для Netlify — нужно знать имя формы при сабмите */}
+<form name={name} method="POST" action="/api/contact" class="space-y-6" data-contact-form>
   <input type="hidden" name="form-name" value={name} />
 
   {/* Honeypot — невидимое поле, заполняют только боты */}
@@ -118,21 +106,28 @@ const formAttrs = {
   </label>
 
   <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-    <Button type="submit" variant="primary">Оставить заявку</Button>
+    <Button type="submit" variant="primary" data-submit-btn>Оставить заявку</Button>
     <span class="text-sm text-gray-dark">
       Ответим в течение рабочего дня. Без спама и рассылок.
     </span>
   </div>
+
+  <p class="hidden text-sm text-red-600" role="alert" data-form-error>
+    Не удалось отправить заявку. Позвоните нам: +7 911 862 79 57.
+  </p>
 </form>
 
 <script is:inline>
-  // Валидация поля телефона: фильтр символов на лету + проверка формата.
-  // pattern в HTML работает только на submit — этот скрипт ещё и подсвечивает
-  // поле на лету: красным если формат не подходит, зелёным когда всё ок.
+  // 1) Live-валидация телефона: фильтр символов + подсветка статуса.
+  // 2) Перехват submit — отправка через fetch на /api/contact (Cloudflare Pages Function),
+  //    при успехе — переход на /thanks/.
   (function () {
+    const form = document.querySelector("form[data-contact-form]");
     const phone = document.getElementById("phone-input");
     const hint = document.getElementById("phone-hint");
-    if (!phone || !hint) return;
+    const submitBtn = form && form.querySelector("[data-submit-btn]");
+    const errorEl = form && form.querySelector("[data-form-error]");
+    if (!form || !phone || !hint) return;
 
     const ALLOWED = /[^\d+\-()\s]/g;
     const PHONE_RE = /^\+?[78](?:[\s\-()]*\d){10}$/;
@@ -148,11 +143,11 @@ const formAttrs = {
         return;
       }
       if (PHONE_RE.test(v)) {
-        phone.style.borderColor = "#16a34a"; // green-600
+        phone.style.borderColor = "#16a34a";
         hint.textContent = "✓ Формат верный";
         hint.style.color = "#16a34a";
       } else {
-        phone.style.borderColor = "#dc2626"; // red-600
+        phone.style.borderColor = "#dc2626";
         hint.textContent = "Нужен формат: +7 911 862 79 57 (или 8 911...)";
         hint.style.color = "#dc2626";
       }
@@ -178,18 +173,49 @@ const formAttrs = {
 
     phone.addEventListener("blur", update);
 
-    // Блокировка submit на JS-уровне как страховка к pattern.
-    const form = phone.closest("form");
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        const v = phone.value.trim();
-        if (!PHONE_RE.test(v)) {
-          e.preventDefault();
-          update();
-          phone.focus();
-          phone.scrollIntoView({ behavior: "smooth", block: "center" });
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Валидация телефона как страховка к pattern
+      const v = phone.value.trim();
+      if (!PHONE_RE.test(v)) {
+        update();
+        phone.focus();
+        phone.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
+      if (errorEl) errorEl.classList.add("hidden");
+      if (submitBtn) {
+        submitBtn.setAttribute("disabled", "true");
+        submitBtn.textContent = "Отправляем…";
+      }
+
+      try {
+        const formData = new FormData(form);
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (res.ok) {
+          window.location.href = "/thanks/";
+          return;
         }
-      });
-    }
+
+        // Не удалось — показываем сообщение, разблокируем кнопку
+        if (errorEl) errorEl.classList.remove("hidden");
+        if (submitBtn) {
+          submitBtn.removeAttribute("disabled");
+          submitBtn.textContent = "Оставить заявку";
+        }
+      } catch (err) {
+        if (errorEl) errorEl.classList.remove("hidden");
+        if (submitBtn) {
+          submitBtn.removeAttribute("disabled");
+          submitBtn.textContent = "Оставить заявку";
+        }
+      }
+    });
   })();
 </script>
