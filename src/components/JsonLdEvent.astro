@@ -1,0 +1,50 @@
+---
+import { business } from "../config/business.ts";
+
+interface Props {
+  /** Slug кейса — часть @id */
+  slug: string;
+  /** Название мероприятия */
+  name: string;
+  /** Краткое описание (challenge кейса) */
+  description: string;
+  /** Дата мероприятия */
+  startDate: Date;
+  /** Имя клиента / организатора (display) */
+  client: string;
+  /** Площадка */
+  venue: string;
+  /** Абсолютный URL обложки */
+  imageUrl: string;
+}
+
+const { slug, name, description, startDate, client, venue, imageUrl } = Astro.props;
+const orgId = `${business.url}/#organization`;
+const eventId = `${business.url}/cases/${slug}/#event`;
+
+const json = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "@id": eventId,
+  name,
+  description,
+  startDate: startDate.toISOString().split("T")[0],
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  location: {
+    "@type": "Place",
+    name: venue,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: business.locality,
+      addressRegion: business.region,
+      addressCountry: business.countryCode,
+    },
+  },
+  image: imageUrl,
+  organizer: { "@id": orgId },
+  about: client,
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(json)} />

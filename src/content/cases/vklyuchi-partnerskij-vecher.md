@@ -5,13 +5,16 @@ client: ГК ССК, ЖК «ВКЛЮЧИ»
 date: 2024-05-20
 service: business-events
 segment: dev
-challenge: Провести закрытое партнёрское мероприятие для дольщиков и партнёров жилого комплекса.
-solution: Концепция, площадка, кейтеринг, программа, координация.
-results:
-  - 4 фотосерии с мероприятия
-  - Положительный отзыв заказчика
+challenge: TODO Wave 2
+solution: TODO Wave 2
+results: []
+cover: 20250314-180010.jpg
+format: TODO
+guests: TODO
+venue: TODO
+heroFact: TODO
 photos: []
 featured: true
 ---
 
-Подробное описание кейса — наполним в Phase 5.
+Подробное описание кейса — наполним в Wave 2 (план 05-03).

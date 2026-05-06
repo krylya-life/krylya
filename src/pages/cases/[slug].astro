@@ -1,0 +1,123 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Heading from "../../components/Heading.astro";
+import Button from "../../components/Button.astro";
+import Seo from "../../components/Seo.astro";
+import JsonLdGraph from "../../components/JsonLdGraph.astro";
+import JsonLdEvent from "../../components/JsonLdEvent.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import MetrikaCounter from "../../components/MetrikaCounter.astro";
+import CaseHero from "../../components/blocks/CaseHero.astro";
+import CaseGallery from "../../components/blocks/CaseGallery.astro";
+import NextCaseCard from "../../components/blocks/NextCaseCard.astro";
+import { business } from "../../config/business.ts";
+
+export async function getStaticPaths() {
+  const all = await getCollection("cases");
+  const sorted = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  return sorted.map((c, i) => {
+    const next = sorted[(i + 1) % sorted.length];
+    return {
+      params: { slug: c.id },
+      props: { current: c, next },
+    };
+  });
+}
+
+const { current, next } = Astro.props;
+const { Content } = await render(current);
+const d = current.data;
+
+const coverPath = `/assets/cases/${d.slug}/${d.cover}`;
+const coverAbsolute = `${business.url}${coverPath}`;
+const nextCoverPath = `/assets/cases/${next.data.slug}/${next.data.cover}`;
+
+const dateFormatted = new Intl.DateTimeFormat("ru-RU", {
+  day: "numeric", month: "long", year: "numeric",
+}).format(d.date);
+
+const facts = [
+  d.format,
+  d.guests,
+  d.duration,
+  d.venue,
+  dateFormatted,
+].filter(Boolean) as string[];
+
+const seoTitle = `${d.title} — кейс агентства Крылья (${d.client}, Калининград)`;
+const seoDescription = d.challenge.length > 160
+  ? d.challenge.slice(0, 157) + "..."
+  : d.challenge;
+
+const crumbs = [
+  { label: "Главная", href: "/" },
+  { label: "Кейсы", href: "/cases/" },
+  { label: d.title, href: `/cases/${d.slug}/` },
+];
+---
+
+<BaseLayout title={seoTitle} description={seoDescription} noindex>
+  <Seo
+    slot="seo"
+    title={seoTitle}
+    description={seoDescription}
+    pathname={`/cases/${d.slug}/`}
+    image={coverAbsolute}
+  />
+  <JsonLdGraph slot="seo" />
+  <JsonLdEvent
+    slot="seo"
+    slug={d.slug}
+    name={d.title}
+    description={d.challenge}
+    startDate={d.date}
+    client={d.client}
+    venue={d.venue}
+    imageUrl={coverAbsolute}
+  />
+
+  <CaseHero
+    title={d.title}
+    client={d.client}
+    coverPath={coverPath}
+    facts={facts}
+  />
+
+  <Section class="border-b border-gray-light bg-white pb-6 md:pb-8 pt-6 md:pt-8">
+    <Container>
+      <Breadcrumbs crumbs={crumbs} />
+    </Container>
+  </Section>
+
+  <article class="prose-content">
+    <Content />
+  </article>
+
+  <CaseGallery photos={d.photos} slug={d.slug} title={d.title} />
+
+  <Section class="bg-white">
+    <Container>
+      <div class="text-center max-w-2xl mx-auto">
+        <Heading level={2} accent>Обсудим ваше мероприятие?</Heading>
+        <p class="mt-6 text-lg text-gray-dark leading-relaxed">
+          Расскажите задачу — на&nbsp;встрече разберём формат, площадку и&nbsp;ориентировочную смету.
+        </p>
+        <div class="mt-8">
+          <Button href="/#contact" variant="primary">Обсудить мероприятие</Button>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <NextCaseCard next={{
+    title: next.data.title,
+    slug: next.data.slug,
+    client: next.data.client,
+    cover: nextCoverPath,
+  }} />
+
+  <MetrikaCounter slot="analytics" />
+</BaseLayout>

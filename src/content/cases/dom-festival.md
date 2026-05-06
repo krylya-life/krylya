@@ -5,13 +5,16 @@ client: «ДОМ»
 date: 2024-09-15
 service: client-events
 segment: biz
-challenge: Провести фестиваль современного искусства с программой, гостями и пресс-присутствием в Калининграде.
-solution: Концепция, площадка, кураторская программа, пресс-сопровождение, координация в день.
-results:
-  - 8 фотосерий с мероприятия
-  - Расширенная пресс-аудитория
+challenge: TODO Wave 2
+solution: TODO Wave 2
+results: []
+cover: IMG_1204.jpg
+format: TODO
+guests: TODO
+venue: TODO
+heroFact: TODO
 photos: []
 featured: true
 ---
 
-Подробное описание кейса — наполним в Phase 5.
+Подробное описание кейса — наполним в Wave 2 (план 05-03).

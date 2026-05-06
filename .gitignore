@@ -31,3 +31,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.log
+
+# фотоархив (3+ ГБ оригиналов с мероприятий) — слишком много для git
+# фото подключаются в build через симлинк public/assets/cases → ../../assets/cases
+assets/cases/
+
+# временный скриншот главной (для контекста)
+krylya-home-2026-05-01.png
+
+# playwright-mcp служебные файлы
+.playwright-mcp/

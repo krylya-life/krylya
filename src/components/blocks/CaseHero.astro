@@ -1,0 +1,45 @@
+---
+import Container from "../Container.astro";
+
+interface Props {
+  title: string;
+  client: string;
+  coverPath: string;
+  facts: string[];
+}
+
+const { title, client, coverPath, facts } = Astro.props;
+---
+
+<section class="relative w-full h-[60vh] md:h-[75vh] min-h-[500px] flex items-end overflow-hidden">
+  <img
+    src={coverPath}
+    alt={`Обложка кейса: ${title}`}
+    class="absolute inset-0 w-full h-full object-cover"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
+
+  <Container class="relative z-10 pb-12 md:pb-16">
+    <p class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-yellow">
+      <span class="inline-block h-2 w-8 bg-yellow"></span>
+      {client}
+    </p>
+
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight max-w-4xl">
+      {title}
+    </h1>
+
+    {facts.length > 0 && (
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm md:text-base font-medium text-white/90">
+        {facts.map((fact) => (
+          <li class="flex items-center gap-2">
+            <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+            {fact}
+          </li>
+        ))}
+      </ul>
+    )}
+  </Container>
+</section>
