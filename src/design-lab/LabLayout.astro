@@ -30,5 +30,18 @@ const {
   </head>
   <body class="lab-root min-h-screen">
     <slot />
+    <script>
+      // Жёлтое свечение за курсором на .lab-magic-card.
+      // Вариант без React — работает во всех браузерах, в т.ч. Safari.
+      document.addEventListener("pointermove", (e) => {
+        const card = e.target instanceof Element
+          ? e.target.closest(".lab-magic-card")
+          : null;
+        if (!(card instanceof HTMLElement)) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+        card.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      });
+    </script>
   </body>
 </html>
