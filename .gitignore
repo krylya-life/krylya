@@ -39,5 +39,8 @@ assets/cases/
 # временный скриншот главной (для контекста)
 krylya-home-2026-05-01.png
 
+# скриншоты итераций дизайн-песочницы — рабочий материал, не в git
+design-lab-*.png
+
 # playwright-mcp служебные файлы
 .playwright-mcp/
