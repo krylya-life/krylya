@@ -103,23 +103,34 @@
   4. Каждый кейс оптимизирован под имя клиента + тип события + «Калининград»; работает Event-schema (JSON-LD) и BreadcrumbList; service references к страницам услуг
   5. На страницах услуг (/services/<slug>/) виден блок «Похожие кейсы» с 1-2 связанными кейсами — закрывает отложенный пункт Phase 4
   6. Фотоальбом (PAGE-14b) — отложен (per CONTEXT D-13), не входит в Phase 5
-**Plans**: 4 plans
-- [ ] 05-01-PLAN.md — Фундамент: расширение Zod-схемы cases, JsonLdEvent, шаблон [slug].astro, витрина /cases/, блоки CaseHero/CaseGallery/NextCaseCard
-- [ ] 05-02-PLAN.md — Эталонный кейс АЭРО: открытие ЖК как образец тона, утверждение Машей
-- [ ] 05-03-PLAN.md — Остальные 4 кейса: ВКЛЮЧИ, ДОМ, Расцвет, 60 жемчужин (анонимно), вычитка Машей одним заходом
-- [ ] 05-04-PLAN.md — Интеграция: блок «Похожие кейсы» на услугах, обновление CasesPreview с обложками, оптимизация фото (webp)
+**Plans**: 4 plans (Wave 1 завершена; визуальная доводка перенесена в Phase 5.1)
+- [x] 05-01-PLAN.md — Фундамент: расширение Zod-схемы cases, JsonLdEvent, шаблон [slug].astro, витрина /cases/, блоки CaseHero/CaseGallery/NextCaseCard
+- [x] 05-02-PLAN.md — Эталонный кейс АЭРО: открытие ЖК как образец тона, утверждение Машей
+- [ ] 05-03-PLAN.md — Остальные 4 кейса (тексты): ВКЛЮЧИ, ДОМ, Расцвет, 60 жемчужин (анонимно) — впитано в Phase 5.1 (визуал + доводка)
+- [ ] 05-04-PLAN.md — Интеграция: блок «Похожие кейсы» на услугах, обновление CasesPreview с обложками, оптимизация фото (webp) — впитано в Phase 5.1
 **Duration**: 7–10 дней
-**UI hint**: yes
 
 ### Phase 05.1: Dark Redesign — перенос дизайна из песочницы на основной сайт (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
-**Depends on:** Phase 5
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (run /gsd-plan-phase 05.1 to break down)
+**Goal:** Перенести тёмную визуальную систему из песочницы `/design-lab/` на все публичные страницы основного сайта `крылья.life`. После фазы все 9 страниц (главная, услуги, кейсы, цены, о нас, контакты, спасибо, политика) — в единой тёмной палитре с #FFF200 акцентом, Jost-шрифтом, vanilla-Astro компонентами (без React в production). Phase 5 (визуальная доводка кейсов) и Phase 6 (О нас/Контакты/Политика) впитаны в 5.1.
+**Requirements**: — (визуальная фаза, REQ-ID не привязаны — visual unification + впитанные требования из Phase 5 и 6)
+**Depends on:** Phase 5 (Wave 1: фундамент кейсов)
+**Success Criteria** (what must be TRUE):
+  1. Все 9 публичных страниц используют DarkLayout, тёмный фон, Jost, #FFF200 акцент
+  2. Vanilla-Astro компоненты в `src/components/dark/` заменили React-эффекты песочницы (Spotlight, Meteors, BorderBeam, MagicCard) — Safari работает без багов
+  3. Песочница `src/design-lab/` и `src/pages/design-lab/` удалены
+  4. Старые BaseLayout/Header/Footer удалены — единый тёмный набор
+  5. JSON-LD (Service, Event, BreadcrumbList, Organization) сохранён на всех страницах
+  6. Маша подтвердила финальный обход всех страниц на десктопе + айфоне
+**Plans:** 7 plans
+- [ ] 05.1-01-PLAN.md — Подготовка песочницы: Jost вместо Inter, бренд #FFF200, мобильная адаптация (≤390px), чекпоинт Маши
+- [ ] 05.1-02-PLAN.md — Экстракция: dark.css + src/components/dark/ (Spotlight, Meteors, BorderBeam, MagicCard, KaliningradSilhouette), DarkLayout/DarkHeader/DarkFooter, /test-dark/
+- [ ] 05.1-03-PLAN.md — Главная как vertical slice: 8 блоков переписаны на тёмный, утверждение Машей
+- [ ] 05.1-04-PLAN.md — Услуги: /services/, /services/[slug] (×6), /pricing/, PricingTeaser, Breadcrumbs в тёмной палитре (Wave 4, параллельно с 05/06)
+- [ ] 05.1-05-PLAN.md — Кейсы: /cases/, /cases/[slug] (×5), CaseHero/CaseGallery/NextCaseCard в тёмной палитре (Wave 4)
+- [ ] 05.1-06-PLAN.md — Создание /about/ и /contacts/ + перевод /thanks/ и /privacy/ на тёмную палитру (Wave 4, впитывает Phase 6)
+- [ ] 05.1-07-PLAN.md — Финал: удаление BaseLayout/Header/Footer/design-lab/test-*, финальный обход 9 страниц с Машей
+**Duration**: 3–5 сессий по 2–3 часа
 
 ### Phase 6: О нас, команда, контакты, политика
 **Goal**: Закрыть оставшиеся информационные страницы — history, команда с реальными фото, контакты с Я.Картой, юридическая политика ПДн
@@ -131,7 +142,7 @@ Plans:
   3. `/about/values/` включает блок «Наш тайминг дня мероприятия» и ценности
   4. `/contacts/` содержит короткую форму, Яндекс.Карту (не Google), реквизиты ИП (ИНН 550209075500, ОГРНИП 324390000038348), телефон, email, ссылку на TG @mashavostrik; микроразметка PostalAddress размечена
   5. `/privacy/` содержит текст политики, согласованный с 152-ФЗ для ИП; ссылка на эту страницу встроена во все формы рядом с чекбоксом согласия
-**Plans**: TBD
+**Plans**: впитано в Phase 5.1 (план 06): /about/ и /contacts/ создаются с нуля, /privacy/ переводится в тёмную палитру. Отдельные подпапки /about/team/ и /about/values/ + Я.Карта — followup после 5.1
 **Duration**: 3–4 дня
 **UI hint**: yes
 
@@ -160,7 +171,6 @@ Plans:
   5. SMM-стратегия и контент-календарь на 8 недель (Telegram+Instagram, одинаковый контент) готовы; шаблоны 4 форматов (reel-кейс, сторис-возражение, пост-экспертиза, сторис-закулисье) с чек-листом «прошло ли фильтр 38-ФЗ»; ≥ 5 готовых постов/сценариев под ключ
 **Plans**: TBD
 **Duration**: запуск параллельно с Phase 7 (≤ 15 мая), сопровождение до 30 июня
-**UI hint**: no (операционная фаза: карточки, посты, стратегия)
 
 ## Progress
 
@@ -171,8 +181,9 @@ Plans:
 | 2. Дизайн-система | 0/? | Not started | - |
 | 3. Главная (vertical slice) | 0/? | Not started | - |
 | 4. Услуги и семантика | 0/? | Not started | - |
-| 5. Кейсы | 0/4 | Planned | - |
-| 6. О нас/команда/контакты | 0/? | Not started | - |
+| 5. Кейсы | 2/4 | In progress (часть впитана в 5.1) | - |
+| 5.1. Dark Redesign | 0/7 | Planned | - |
+| 6. О нас/команда/контакты | 0/? | Впитано в 5.1 | - |
 | 7. Релиз и SEO-запуск | 0/? | Not started | - |
 | 8. План B и SMM (параллельно) | 0/? | Not started | - |
 
@@ -188,7 +199,8 @@ Plans:
 | Phase 3 | SEO-01, SEO-02, SEO-04, PAGE-01, FORM-01, FORM-02, FORM-03, FORM-04, FORM-05, ANL-01, ANL-02, ANL-03 | 12 |
 | Phase 4 | SEMA-01, SEMA-02, SEO-03, PAGE-02, PAGE-03, PAGE-04, PAGE-05, PAGE-06, PAGE-07, PAGE-08, PAGE-09 | 11 |
 | Phase 5 | SEMA-03, PAGE-13, PAGE-14 | 3 |
-| Phase 6 | PAGE-10, PAGE-11, PAGE-12, PAGE-15, PAGE-16 | 5 |
+| Phase 5.1 | (визуальная фаза + впитанные PAGE-10..16 из Phase 6) | 0 формально, де-факто впитывает PAGE-10..PAGE-16 |
+| Phase 6 | PAGE-10, PAGE-11, PAGE-12, PAGE-15, PAGE-16 | 5 (впитано в 5.1) |
 | Phase 7 | INFRA-03, INFRA-04, MIGR-03, MIGR-04, SEO-05, SEO-06, LAUNCH-01, LAUNCH-02, LAUNCH-03, LAUNCH-04, LAUNCH-05 | 11 |
 | Phase 8 | PLANB-01, PLANB-02, PLANB-03, PLANB-04, SMM-01, SMM-02, SMM-03, SMM-04 | 8 |
 | **Total** | | **65** |
@@ -206,14 +218,15 @@ Phase 2
    ↓
 Phase 3 (vertical slice — первая end-to-end интеграция)
    ↓
-Phase 4 ──→ Phase 5 ──→ Phase 6
-                          ↓
-                       Phase 7 ════ Phase 8 (параллельно, стартует после Phase 1)
-                          ↓              ↓
-                    Релиз 15 мая    до 30 июня
+Phase 4 ──→ Phase 5 ──→ Phase 5.1 (впитывает Phase 5 wave 2-4 + Phase 6)
+                            ↓
+                         Phase 7 ════ Phase 8 (параллельно, стартует после Phase 1)
+                            ↓              ↓
+                      Релиз 15 мая    до 30 июня
 ```
 
 ---
 
 *Roadmap created: 2026-04-23*
+*Roadmap updated: 2026-05-16 (Phase 5.1 inserted, planned, 7 plans)*
 *Core Value deadline: 2026-06-30 (первая органическая заявка)*
