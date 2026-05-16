@@ -5,8 +5,11 @@ import Heading from "../Heading.astro";
 import Button from "../Button.astro";
 import { getCollection } from "astro:content";
 
+// На главную выносим только согласованные кейсы — `.business/products/overview.md`:
+// АЭРО, ВКЛЮЧИ и фестиваль «ДОМ». Помечены featured: true.
 const all = await getCollection("cases");
 const cases = all
+  .filter((c) => c.data.featured)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 ---
