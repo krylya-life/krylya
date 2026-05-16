@@ -111,6 +111,16 @@
 **Duration**: 7–10 дней
 **UI hint**: yes
 
+### Phase 05.1: Dark Redesign — перенос дизайна из песочницы на основной сайт (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 05.1 to break down)
+
 ### Phase 6: О нас, команда, контакты, политика
 **Goal**: Закрыть оставшиеся информационные страницы — history, команда с реальными фото, контакты с Я.Картой, юридическая политика ПДн
 **Depends on**: Phase 5 (или параллельно с 5 в конце)
