@@ -47,33 +47,26 @@ const crumbs = [
       </p>
 
       {cases.length > 0 ? (
-        <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-12 grid gap-1 md:grid-cols-2 lg:grid-cols-3">
           {cases.map((c) => (
             <a
               href={`/cases/${c.data.slug}/`}
-              class="group block overflow-hidden bg-white border border-gray-light hover:border-yellow hover:shadow-lg transition-all"
+              class="group relative block overflow-hidden bg-black aspect-[4/3]"
             >
-              <div class="aspect-[4/3] overflow-hidden bg-gray-light/30">
-                <img
-                  src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
-                  alt={`Обложка: ${c.data.title}`}
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-              <div class="p-6 md:p-8">
+              <img
+                src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
+                alt={`Обложка: ${c.data.title}`}
+                class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
                 <span class="text-xs font-semibold uppercase tracking-wider text-yellow">
                   {c.data.client}
                 </span>
-                <h2 class="mt-2 text-xl font-semibold text-black">{c.data.title}</h2>
-                <p class="mt-3 text-sm text-gray-dark flex items-center gap-2">
-                  <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
-                  {c.data.heroFact}
-                </p>
-                <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-black">
-                  Читать кейс
-                  <span class="inline-block h-0.5 w-6 bg-yellow group-hover:w-10 transition-all"></span>
-                </span>
+                <h2 class="mt-2 text-xl md:text-2xl font-semibold text-white leading-tight">
+                  {c.data.title}
+                </h2>
               </div>
             </a>
           ))}
