@@ -157,7 +157,12 @@
   3. `https://крылья.life/sitemap.xml` отдаёт кириллические URL; `robots.txt` содержит `Host: xn--j1aco8bgs.life` и `Sitemap: https://xn--j1aco8bgs.life/sitemap.xml`
   4. В Яндекс.Вебмастере сайт добавлен в обеих формах, кириллическая — primary; регион «Калининград» установлен; sitemap сабмичен; ≥ 5 ключевых страниц поданы через «Переобход»
   5. Google Search Console: оба property добавлены, sitemap сабмичен; оригинальные тексты услуг защищены через «Оригинальные тексты» Вебмастера до публикации
-**Plans**: TBD
+**Plans**: 5 plans
+- [ ] 07-01-PLAN.md — SEO-готовность: production URL, @astrojs/sitemap, robots.txt, восстановление формы заявок
+- [ ] 07-02-PLAN.md — Cloudflare Pages: подключение GitHub-репо, env vars, preview-URL, тест формы (с Машей)
+- [ ] 07-03-PLAN.md — DNS-переезд nic.ru → Cloudflare, SSL обе формы, снятие noindex (с Машей)
+- [ ] 07-04-PLAN.md — Я.Вебмастер: добавление 2 форм, регион, sitemap, переобход 5 URL, оригинальные тексты 6 услуг (с Машей)
+- [ ] 07-05-PLAN.md — Google Search Console + цель form_submitted в Метрике (с Машей)
 **Duration**: 3–4 дня
 
 ### Phase 8: План B и SMM (параллельно с Phase 7, продолжается до 30 июня)
