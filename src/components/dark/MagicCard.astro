@@ -1,0 +1,27 @@
+---
+/*
+ * MagicCard — карточка с курсорной подсветкой.
+ * Глоу под курсором рисуется через CSS-переменные --mx/--my; единый pointermove-листенер
+ * живёт в DarkLayout (не дублируется в каждой карточке).
+ *
+ * Использование:
+ *   <MagicCard class="p-6"><h3>...</h3><p>...</p></MagicCard>
+ *   <MagicCard href="/cases/abc/" class="p-6">...</MagicCard>
+ */
+interface Props {
+  class?: string;
+  href?: string;
+}
+const { class: className = "", href } = Astro.props;
+const Tag = href ? "a" : "div";
+---
+<Tag
+  href={href}
+  class:list={[
+    "lab-magic-card lab-cursor-wings group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-colors hover:border-[#FFF200]/30",
+    className,
+  ]}
+>
+  <span class="lab-magic-card__glow"></span>
+  <slot />
+</Tag>
