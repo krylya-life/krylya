@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import DarkLayout from "../layouts/DarkLayout.astro";
 import Seo from "../components/Seo.astro";
 import JsonLdGraph from "../components/JsonLdGraph.astro";
 import MetrikaCounter from "../components/MetrikaCounter.astro";
@@ -7,8 +7,8 @@ import MetrikaCounter from "../components/MetrikaCounter.astro";
 import Hero from "../components/blocks/Hero.astro";
 import Audience from "../components/blocks/Audience.astro";
 import WhyTurnkey from "../components/blocks/WhyTurnkey.astro";
-import LocalExpertise from "../components/blocks/LocalExpertise.astro";
 import ServicesPreview from "../components/blocks/ServicesPreview.astro";
+import LocalExpertise from "../components/blocks/LocalExpertise.astro";
 import CasesPreview from "../components/blocks/CasesPreview.astro";
 import HowWeWork from "../components/blocks/HowWeWork.astro";
 import ContactBlock from "../components/blocks/ContactBlock.astro";
@@ -18,18 +18,32 @@ const description =
   "Организация мероприятий под ключ в Калининграде. Корпоративы, деловые события, кейсы. Прозрачная 10%-модель, локальная экспертиза, команда на площадке в день события.";
 ---
 
-<BaseLayout title={title} description={description} noindex>
+<DarkLayout title={title} description={description} noindex>
   <Seo slot="seo" title={title} description={description} pathname="/" />
   <JsonLdGraph slot="seo" />
 
   <Hero />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
   <Audience />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
   <WhyTurnkey />
-  <LocalExpertise />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
   <ServicesPreview />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
+  <LocalExpertise />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
   <CasesPreview />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
   <HowWeWork />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
   <ContactBlock />
 
   <MetrikaCounter slot="analytics" />
-</BaseLayout>
+</DarkLayout>
