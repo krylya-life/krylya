@@ -1,47 +1,84 @@
 ---
-import Container from "../Container.astro";
-import Section from "../Section.astro";
-import Heading from "../Heading.astro";
-import Button from "../Button.astro";
+/*
+ * Hero — главный экран сайта в тёмной палитре.
+ * Перенесён из песочницы /design-lab/ (Wave 3, плана 05.1-03).
+ * Шапка не входит в этот блок — она в DarkHeader, который рендерит DarkLayout.
+ *
+ * Используемые компоненты:
+ *   - dark/Spotlight   — большое жёлтое световое пятно
+ *   - dark/Meteors     — падающие звёзды
+ * Используемые классы из dark.css: lab-aurora, lab-grid, lab-gradient-text, lab-glow.
+ */
+import Spotlight from "../dark/Spotlight.astro";
+import Meteors from "../dark/Meteors.astro";
 import { business } from "../../config/business.ts";
 ---
 
-<Section class="bg-white">
-  <Container>
-    <p class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-dark">
-      <span class="inline-block h-2 w-8 bg-yellow"></span>
-      Ивент-агентство · Калининград
-    </p>
+<section class="relative flex min-h-[70vh] w-full items-start overflow-hidden md:min-h-[80vh] md:items-center">
+  <Spotlight class="-top-40 left-0 md:-top-20 md:left-60" fill="#FFF200" />
+  <div class="lab-aurora pointer-events-none"></div>
+  <div class="lab-grid absolute inset-0"></div>
 
-    <Heading level={1} accent>
-      Организуем мероприятия <span class="bg-yellow px-2">под ключ</span>
-    </Heading>
-
-    <p class="mt-8 max-w-3xl text-lg md:text-xl text-gray-dark leading-relaxed">
-      Мы отвечаем за концепцию, площадку, подрядчиков, смету и команду на площадке.
-      Вам остаётся быть на собственном празднике, а не за его кулисами.
-    </p>
-
-    <div class="mt-10 flex flex-wrap gap-4">
-      <Button href="#contact" variant="primary">Обсудить мероприятие</Button>
-      <Button href={`tel:${business.phone}`} variant="secondary">
-        {business.phoneDisplay}
-      </Button>
+  <div class="relative z-10 mx-auto w-full max-w-6xl px-6 pt-10 pb-10 md:px-12 md:pt-16 md:pb-16">
+    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-white/70 backdrop-blur">
+      <!-- glow accent: пингующая точка, оттенок не критичен -->
+      <span class="relative inline-flex h-1.5 w-1.5">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-300 opacity-70"></span>
+        <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#FFF200]"></span>
+      </span>
+      Команда организаторов <span class="text-[#FFF200]">·</span> Калининград
     </div>
 
-    <ul class="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm font-medium text-gray-dark">
+    <h1 class="max-w-5xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+      Организуем мероприятия
+      <span class="relative inline-block">
+        <span class="lab-gradient-text">под&nbsp;ключ</span>
+        <!-- glow accent: размытое свечение под заголовком -->
+        <span class="absolute -bottom-1 left-0 right-0 h-2 rounded-full bg-yellow-300/30 blur-md"></span>
+      </span>
+    </h1>
+
+    <p class="mt-8 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+      Мы отвечаем за концепцию, площадку, подрядчиков, смету и команду на&nbsp;площадке.
+      Вам остаётся быть на&nbsp;собственном празднике, а&nbsp;не&nbsp;за&nbsp;его кулисами.
+    </p>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a
+        href={`tel:${business.phone}`}
+        class="lab-glow inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        {business.phoneDisplay}
+      </a>
+      <a
+        href={`https://t.me/${business.telegramPersonal.replace("@", "")}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group relative inline-flex min-h-[44px] items-center justify-center gap-2 overflow-hidden rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+        Telegram
+      </a>
+    </div>
+
+    <ul class="mt-14 grid grid-cols-2 gap-y-3 text-sm text-white/55 md:flex md:flex-wrap md:gap-x-10">
       <li class="flex items-center gap-2">
-        <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+        <span class="inline-block h-1 w-1 rounded-full bg-[#FFF200]"></span>
         Полный цикл организации
       </li>
       <li class="flex items-center gap-2">
-        <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+        <span class="inline-block h-1 w-1 rounded-full bg-[#FFF200]"></span>
         Прозрачная смета
       </li>
       <li class="flex items-center gap-2">
-        <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
+        <span class="inline-block h-1 w-1 rounded-full bg-[#FFF200]"></span>
         Команда в день события
       </li>
     </ul>
-  </Container>
-</Section>
+  </div>
+
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <Meteors number={14} />
+  </div>
+</section>
