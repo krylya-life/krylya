@@ -1,0 +1,73 @@
+---
+/*
+ * DarkLayout — базовый layout для тёмных production-страниц.
+ * Тёмный аналог BaseLayout: тёмный фон, шрифт Jost, preload-шрифты,
+ * слот для SEO, слот для analytics, без React-импортов.
+ *
+ * Курсорная подсветка магических карточек (.lab-magic-card) живёт
+ * через ОДИН pointermove listener в этом layout (vanilla JS, Safari-friendly).
+ */
+import "../styles/global.css";
+import "../styles/dark.css";
+import DarkHeader from "../components/dark/DarkHeader.astro";
+import DarkFooter from "../components/dark/DarkFooter.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+const {
+  title,
+  description = "Ивент-агентство Крылья — организация мероприятий в Калининграде",
+  noindex = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/brand/wings-sign.png" />
+    <link
+      rel="preload"
+      href="/fonts/jost-cyrillic-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/jost-cyrillic-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <slot name="seo" />
+  </head>
+  <body class="bg-[#050507] text-[#ECECF1] font-sans antialiased min-h-screen flex flex-col">
+    <DarkHeader />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <DarkFooter />
+    <slot name="analytics" />
+    <script>
+      // Жёлтое свечение за курсором на .lab-magic-card.
+      // Vanilla-вариант — работает во всех браузерах, в т.ч. Safari.
+      document.addEventListener("pointermove", (e) => {
+        const card = e.target instanceof Element
+          ? e.target.closest(".lab-magic-card")
+          : null;
+        if (!(card instanceof HTMLElement)) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+        card.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+---
+/*
+ * DarkHeader — шапка для тёмных production-страниц.
+ * Адаптировано из песочницы /design-lab/.
+ * Логотип horizontal-white, навигация белая с opacity-70, CTA «Обсудить мероприятие».
+ * Мобильное меню (гамбургер) пока без скрипта — followup задача.
+ */
+const navItems = [
+  { href: "/services/", label: "Услуги" },
+  { href: "/cases/", label: "Кейсы" },
+  { href: "/about/", label: "О нас" },
+  { href: "/contacts/", label: "Контакты" },
+];
+---
+
+<header class="relative z-20 py-3">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 md:px-12">
+    <a href="/" class="group flex items-center gap-3">
+      <img
+        src="/brand/wings-logo-horizontal-white.png"
+        alt="Крылья"
+        width="280"
+        height="175"
+        class="h-14 w-auto drop-shadow-[0_0_28px_rgba(255,242,0,0.32)] md:h-20 lg:h-28"
+      />
+      <span class="relative inline-flex h-2 w-2" aria-hidden="true">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FFF200] opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-[#FFF200]"></span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-8 text-sm text-white/70 md:flex">
+      {navItems.map((item) => (
+        <a
+          class="transition hover:text-white"
+          href={item.href}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a
+      href="/contacts/"
+      class="hidden items-center rounded-full border border-white/20 px-5 py-2.5 text-sm font-medium text-white/85 transition hover:border-[#FFF200] hover:text-white md:inline-flex"
+    >
+      Обсудить мероприятие
+    </a>
+
+    <!-- Мобильная кнопка-гамбургер: визуальная заглушка, реальное меню — followup -->
+    <button
+      class="p-2 -mr-2 text-white/80 hover:text-white md:hidden"
+      aria-label="Открыть меню"
+      type="button"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+  </div>
+</header>

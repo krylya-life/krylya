@@ -1,0 +1,87 @@
+---
+/*
+ * DarkFooter — подвал для тёмных production-страниц.
+ * Структура взята из песочницы /design-lab/, реквизиты — через config/business.ts.
+ * Сохранена микроразметка Organization + PostalAddress (как в src/components/Footer.astro).
+ */
+import { business } from "../../config/business.ts";
+
+const year = new Date().getFullYear();
+---
+
+<footer
+  itemscope
+  itemtype="https://schema.org/Organization"
+  class="relative px-6 py-12 md:px-12"
+>
+  <meta itemprop="name" content={business.name} />
+  <meta itemprop="legalName" content={business.legalName} />
+  <meta itemprop="taxID" content={business.taxId} />
+  <meta itemprop="vatID" content={business.ogrnip} />
+  <meta itemprop="url" content={business.urlCyrillic} />
+
+  <div class="lab-divider mb-10 mx-auto max-w-6xl"></div>
+
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-10 md:grid-cols-3">
+      <div itemscope itemtype="https://schema.org/PostalAddress" itemprop="address">
+        <img
+          src="/brand/wings-logo-horizontal-white.png"
+          alt="Крылья"
+          width="200"
+          height="125"
+          class="h-12 w-auto opacity-85"
+        />
+        <p class="mt-5 text-sm text-white/55" itemprop="addressLocality">
+          {business.locality}
+        </p>
+        <p class="text-xs text-white/40" itemprop="addressRegion">
+          {business.region}
+        </p>
+        <p class="mt-4 text-sm">
+          <a href={`tel:${business.phone}`} class="text-white/85 hover:text-[#FFF200] transition-colors font-medium">
+            <span itemprop="telephone">{business.phoneDisplay}</span>
+          </a>
+        </p>
+        <p class="mt-1 text-sm">
+          <a href={`mailto:${business.email}`} class="text-white/85 hover:text-[#FFF200] transition-colors">
+            <span itemprop="email">{business.email}</span>
+          </a>
+        </p>
+      </div>
+
+      <nav>
+        <h4 class="text-xs font-semibold uppercase tracking-wider text-[#FFF200] mb-4">
+          Навигация
+        </h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/services/" class="text-white/75 hover:text-white transition-colors">Услуги</a></li>
+          <li><a href="/cases/" class="text-white/75 hover:text-white transition-colors">Кейсы</a></li>
+          <li><a href="/about/" class="text-white/75 hover:text-white transition-colors">О нас</a></li>
+          <li><a href="/contacts/" class="text-white/75 hover:text-white transition-colors">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-wider text-[#FFF200] mb-4">
+          Реквизиты
+        </h4>
+        <p class="text-sm text-white/60 leading-relaxed">
+          {business.legalName}<br />
+          ИНН {business.taxId}<br />
+          ОГРНИП {business.ogrnip}
+        </p>
+        <p class="mt-4 text-sm">
+          <a href="/privacy/" class="text-white/55 hover:text-[#FFF200] transition-colors">
+            Политика обработки ПДн
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-xs text-white/40">
+      <span>© {year} Крылья. Все права защищены.</span>
+      <span>{business.locality} <span class="text-[#FFF200]">·</span> {business.foundingDate}</span>
+    </div>
+  </div>
+</footer>
