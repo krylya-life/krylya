@@ -1,51 +1,76 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Container from "../components/Container.astro";
-import Section from "../components/Section.astro";
-import Heading from "../components/Heading.astro";
+import DarkLayout from "../layouts/DarkLayout.astro";
 import Seo from "../components/Seo.astro";
+import JsonLdGraph from "../components/JsonLdGraph.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import MetrikaCounter from "../components/MetrikaCounter.astro";
+
+const seoTitle = "Политика обработки персональных данных — Крылья";
+const seoDescription =
+  "Политика обработки и защиты персональных данных ИП Вострикова Мария Валерьевна согласно 152-ФЗ.";
+
+const crumbs = [
+  { label: "Главная", href: "/" },
+  { label: "Политика обработки ПДн", href: "/privacy/" },
+];
 ---
 
-<BaseLayout
-  title="Политика обработки персональных данных — Крылья"
-  description="Политика обработки и защиты персональных данных ИП Вострикова Мария Валерьевна."
-  noindex
->
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
-    title="Политика обработки персональных данных — Крылья"
-    description="Политика обработки и защиты персональных данных ИП Вострикова Мария Валерьевна."
+    title={seoTitle}
+    description={seoDescription}
+    pathname="/privacy/"
   />
+  <JsonLdGraph slot="seo" />
 
-  <Section>
-    <Container>
-      <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gray-dark">
-        <span class="inline-block h-2 w-8 bg-yellow"></span>
+  <!-- Hero -->
+  <section class="relative overflow-hidden px-6 pt-32 pb-14 md:px-12 md:pt-40 md:pb-20">
+    <div class="lab-aurora pointer-events-none"></div>
+    <div class="relative mx-auto max-w-3xl">
+      <Breadcrumbs crumbs={crumbs} />
+      <p class="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#FFF200]">
+        <span class="inline-block h-1 w-8 bg-[#FFF200]"></span>
         152-ФЗ
       </p>
+      <h1 class="mt-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
+        Политика обработки персональных данных
+      </h1>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+    </div>
+  </section>
 
-      <Heading level={1} accent>Политика обработки ПДн</Heading>
+  <!-- Текст политики -->
+  <section class="relative px-6 pb-20 md:px-12">
+    <article class="mx-auto max-w-3xl text-white/80
+      [&_h2]:mt-12 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-white md:[&_h2]:text-2xl
+      [&_h3]:mt-8 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white
+      [&_p]:mt-5 [&_p]:leading-relaxed
+      [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6
+      [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6
+      [&_strong]:text-white
+      [&_a]:text-[#FFF200] [&_a]:underline [&_a]:decoration-[#FFF200]/40 [&_a]:underline-offset-4 [&_a]:hover:decoration-[#FFF200]">
 
-      <div class="mt-10 prose-content max-w-3xl space-y-4 text-gray-dark leading-relaxed">
-        <p class="text-base">
-          <strong class="text-black">Документ в&nbsp;разработке.</strong>
-          Финальная версия Политики обработки персональных данных будет опубликована
-          до релиза сайта на крылья.life. До тех пор обработка ваших данных —
-          только в рамках обращения по форме на сайте, никакие рассылки и&nbsp;передача
-          третьим лицам не&nbsp;ведутся.
-        </p>
+      <p>
+        <strong>Документ в&nbsp;разработке.</strong>
+        Финальная версия Политики обработки персональных данных будет опубликована
+        до&nbsp;релиза сайта на&nbsp;крылья.life. До&nbsp;тех пор обработка ваших
+        данных&nbsp;— только в&nbsp;рамках обращения по&nbsp;форме на&nbsp;сайте,
+        никакие рассылки и&nbsp;передача третьим лицам не&nbsp;ведутся.
+      </p>
 
-        <p class="text-base">
-          Если есть вопросы по обработке ваших данных — напишите нам:
-          <a href="mailto:wings.agency@yandex.ru" class="text-black hover:text-yellow underline">
-            wings.agency@yandex.ru
-          </a>.
-        </p>
+      <p>
+        Если есть вопросы по&nbsp;обработке ваших данных&nbsp;— напишите нам:
+        <a href="mailto:wings.agency@yandex.ru">wings.agency@yandex.ru</a>.
+      </p>
 
-        <p class="text-sm text-gray-light pt-6">
-          Оператор: ИП Вострикова Мария Валерьевна, ИНН 550209075500, ОГРНИП 324390000038348.
-        </p>
-      </div>
-    </Container>
-  </Section>
-</BaseLayout>
+      <p class="text-sm pt-6 text-white/55">
+        Оператор: ИП&nbsp;Вострикова Мария Валерьевна,
+        ИНН&nbsp;550209075500, ОГРНИП&nbsp;324390000038348.
+      </p>
+
+    </article>
+  </section>
+
+  <MetrikaCounter slot="analytics" />
+</DarkLayout>
