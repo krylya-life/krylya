@@ -32,7 +32,7 @@ const json = {
   aria-label="Хлебные крошки"
   itemscope
   itemtype="https://schema.org/BreadcrumbList"
-  class="text-sm text-gray-dark"
+  class="text-sm text-white/55"
 >
   <ol class="flex flex-wrap items-center gap-2">
     {crumbs.map((c, i) => (
@@ -48,14 +48,14 @@ const json = {
             <a
               href={c.href}
               itemprop="item"
-              class="text-gray-dark hover:text-black transition-colors"
+              class="hover:text-white transition-colors"
             >
               <span itemprop="name">{c.label}</span>
             </a>
-            <span class="text-gray-light">·</span>
+            <span class="text-white/30">·</span>
           </>
         ) : (
-          <span class="text-black font-medium" itemprop="name">{c.label}</span>
+          <span class="text-[#FFF200] font-medium" itemprop="name">{c.label}</span>
         )}
       </li>
     ))}

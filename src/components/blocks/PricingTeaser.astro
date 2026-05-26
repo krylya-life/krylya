@@ -1,28 +1,32 @@
 ---
-import Container from "../Container.astro";
-import Section from "../Section.astro";
-import Heading from "../Heading.astro";
+/*
+ * PricingTeaser — тёмный блок-врезка про 10%-модель.
+ * Используется внутри подстраниц услуг и витрины /services/.
+ * Версия для тёмной палитры (Wave 4 dark redesign).
+ */
 ---
 
-<Section class="bg-gray-light/15 border-y border-gray-light">
-  <Container>
-    <div class="grid gap-8 md:grid-cols-2 md:items-center">
-      <div>
-        <Heading level={3}>Как мы считаем стоимость</Heading>
-        <p class="mt-4 text-gray-dark leading-relaxed">
-          Мы&nbsp;берём <strong class="text-black">10% от&nbsp;стоимости всех услуг</strong>,
-          за&nbsp;которые отвечаем. Подрядчики идут в&nbsp;смете отдельной строкой по&nbsp;их&nbsp;реальной цене.
-        </p>
-      </div>
-      <div class="md:text-right">
-        <a
-          href="/pricing/"
-          class="inline-flex items-center gap-3 text-base font-medium text-black hover:text-yellow transition-colors"
-        >
-          Подробнее о ценообразовании
-          <span class="inline-block h-0.5 w-8 bg-yellow"></span>
-        </a>
-      </div>
-    </div>
-  </Container>
-</Section>
+<section class="lab-bg-alt relative px-6 py-14 md:px-12 md:py-20">
+  <div class="mx-auto max-w-4xl text-center">
+    <p class="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#FFF200]">
+      <span class="inline-block h-px w-8 bg-[#FFF200]"></span>
+      Прозрачная модель
+    </p>
+    <h2 class="text-3xl font-semibold text-white md:text-5xl">
+      Наши&nbsp;10%&nbsp;— только за&nbsp;организационную работу
+    </h2>
+    <p class="mt-6 text-white/65 md:text-lg leading-relaxed">
+      Подрядчики идут в&nbsp;смете отдельной строкой по&nbsp;их&nbsp;реальной цене.
+      Вы&nbsp;видите, куда уходит каждый рубль.
+    </p>
+    <a
+      href="/pricing/"
+      class="mt-8 inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-white/85 transition hover:border-[#FFF200] hover:text-white"
+    >
+      Подробнее о&nbsp;модели
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M5 12h14M13 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+</section>
