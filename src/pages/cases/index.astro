@@ -1,12 +1,14 @@
 ---
+/*
+ * /cases/ — витрина кейсов в тёмной палитре (Phase 5.1 wave 4).
+ *
+ * Сетка карточек по дате (desc), аспект 4:5, фото с затемнением + клиент
+ * + название + первый chip факта поверх. Курсор «крылья» (lab-cursor-wings).
+ */
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Container from "../../components/Container.astro";
-import Section from "../../components/Section.astro";
-import Heading from "../../components/Heading.astro";
+import DarkLayout from "../../layouts/DarkLayout.astro";
 import Seo from "../../components/Seo.astro";
 import JsonLdGraph from "../../components/JsonLdGraph.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import MetrikaCounter from "../../components/MetrikaCounter.astro";
 import ContactBlock from "../../components/blocks/ContactBlock.astro";
 
@@ -16,14 +18,9 @@ const cases = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const seoTitle = "Кейсы — мероприятия в Калининграде, организованные Крыльями";
 const seoDescription =
   "Подборка проектов агентства Крылья: партнёрский вечер ЖК, открытие, новогодний корпоратив девелопера, фестиваль современного искусства, частный юбилей. Калининград и область.";
-
-const crumbs = [
-  { label: "Главная", href: "/" },
-  { label: "Кейсы", href: "/cases/" },
-];
 ---
 
-<BaseLayout title={seoTitle} description={seoDescription} noindex>
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
     title={seoTitle}
@@ -32,52 +29,75 @@ const crumbs = [
   />
   <JsonLdGraph slot="seo" />
 
-  <Section class="border-b border-gray-light bg-white !py-4 md:!py-6">
-    <Container>
-      <Breadcrumbs crumbs={crumbs} />
-    </Container>
-  </Section>
+  <!-- Hero страницы витрины -->
+  <section class="relative px-6 pt-16 pb-10 md:px-12 md:pt-24 md:pb-16">
+    <div class="mx-auto max-w-6xl">
+      <nav aria-label="Хлебные крошки" class="mb-8 text-sm text-white/55">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li>
+            <a href="/" class="text-white/55 no-underline transition-colors hover:text-white">Главная</a>
+          </li>
+          <li class="text-white/30">·</li>
+          <li class="text-white">Кейсы</li>
+        </ol>
+      </nav>
 
-  <Section class="!pt-8 md:!pt-12">
-    <Container>
-      <Heading level={1} accent>Наши кейсы</Heading>
-      <p class="mt-6 max-w-3xl text-lg text-gray-dark leading-relaxed">
-        Каждое мероприятие — своя задача и&nbsp;свой характер. Проекты, которые
-        реализовала наша команда, с&nbsp;разбором решений и&nbsp;кадрами с&nbsp;площадок.
+      <h1 class="text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
+        Кейсы
+      </h1>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+        Каждое мероприятие&nbsp;— своя задача и&nbsp;свой характер. Проекты,
+        которые реализовала наша команда, с&nbsp;разбором решений и&nbsp;кадрами
+        с&nbsp;площадок.
       </p>
+    </div>
+  </section>
 
+  <!-- Сетка кейсов -->
+  <section class="relative px-6 pb-20 md:px-12 md:pb-28">
+    <div class="mx-auto max-w-6xl">
       {cases.length > 0 ? (
-        <div class="mt-12 grid gap-1 md:grid-cols-2 lg:grid-cols-3">
-          {cases.map((c) => (
-            <a
-              href={`/cases/${c.data.slug}/`}
-              class="group relative block overflow-hidden bg-black aspect-[4/3]"
-            >
-              <img
-                src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
-                alt={`Обложка: ${c.data.title}`}
-                class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-              <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                <span class="text-xs font-semibold uppercase tracking-wider text-yellow">
-                  {c.data.client}
-                </span>
-                <h2 class="mt-2 text-xl md:text-2xl font-semibold text-white leading-tight">
-                  {c.data.title}
-                </h2>
-              </div>
-            </a>
-          ))}
+        <div class="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+          {cases.map((c) => {
+            const firstFact = c.data.heroFact || c.data.format || c.data.guests;
+            return (
+              <a
+                href={`/cases/${c.data.slug}/`}
+                class="lab-cursor-wings group relative block aspect-[4/5] overflow-hidden rounded-2xl no-underline"
+              >
+                <img
+                  src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
+                  alt={`Обложка: ${c.data.title}`}
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+                <div class="absolute inset-x-0 bottom-0 p-6">
+                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FFF200]">
+                    {c.data.client}
+                  </p>
+                  <h2 class="text-lg font-semibold leading-tight tracking-tight text-white md:text-xl">
+                    {c.data.title}
+                  </h2>
+                  {firstFact && firstFact !== "TODO" && (
+                    <p class="mt-3 text-xs text-white/70 md:text-sm">{firstFact}</p>
+                  )}
+                </div>
+              </a>
+            );
+          })}
         </div>
       ) : (
-        <p class="mt-12 text-gray-dark italic">Кейсы появятся в Phase 5.</p>
+        <p class="text-white/60 italic">Кейсы появятся скоро.</p>
       )}
-    </Container>
-  </Section>
+    </div>
+  </section>
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 
   <ContactBlock />
 
   <MetrikaCounter slot="analytics" />
-</BaseLayout>
+</DarkLayout>

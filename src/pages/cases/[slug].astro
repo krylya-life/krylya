@@ -1,14 +1,22 @@
 ---
+/*
+ * /cases/[slug]/ — страница кейса в тёмной палитре (Phase 5.1 wave 4).
+ *
+ * Структура:
+ *  1. CaseHero — большая обложка с заголовком, клиент-лейблом, чипами фактов
+ *  2. Breadcrumbs над контентом
+ *  3. Текст «Задача → Решение → Итог» из markdown
+ *  4. CaseGallery — сетка фото (если photos.length > 0)
+ *  5. CTA «Обсудить мероприятие»
+ *  6. NextCaseCard — следующий кейс (циклически)
+ *
+ * SEO: JsonLdGraph + JsonLdEvent (Event-schema), BreadcrumbList в Breadcrumbs.
+ */
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Container from "../../components/Container.astro";
-import Section from "../../components/Section.astro";
-import Heading from "../../components/Heading.astro";
-import Button from "../../components/Button.astro";
+import DarkLayout from "../../layouts/DarkLayout.astro";
 import Seo from "../../components/Seo.astro";
 import JsonLdGraph from "../../components/JsonLdGraph.astro";
 import JsonLdEvent from "../../components/JsonLdEvent.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import MetrikaCounter from "../../components/MetrikaCounter.astro";
 import CaseHero from "../../components/blocks/CaseHero.astro";
 import CaseGallery from "../../components/blocks/CaseGallery.astro";
@@ -17,7 +25,9 @@ import { business } from "../../config/business.ts";
 
 export async function getStaticPaths() {
   const all = await getCollection("cases");
-  const sorted = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const sorted = all.sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  );
   return sorted.map((c, i) => {
     const next = sorted[(i + 1) % sorted.length];
     return {
@@ -33,33 +43,25 @@ const d = current.data;
 
 const coverPath = `/assets/cases/${d.slug}/${d.cover}`;
 const coverAbsolute = `${business.url}${coverPath}`;
-const nextCoverPath = `/assets/cases/${next.data.slug}/${next.data.cover}`;
 
 const dateFormatted = new Intl.DateTimeFormat("ru-RU", {
-  day: "numeric", month: "long", year: "numeric",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
 }).format(d.date);
 
-const facts = [
-  d.format,
-  d.guests,
-  d.duration,
-  d.venue,
-  dateFormatted,
-].filter(Boolean) as string[];
+// Чипы фактов — собираем из полей frontmatter, фильтруем TODO/пустоту
+const rawChips = [d.format, d.guests, d.duration, d.venue, dateFormatted];
+const chips = rawChips
+  .filter((v): v is string => Boolean(v))
+  .filter((v) => v !== "TODO" && !v.startsWith("TODO"));
 
 const seoTitle = `${d.title} — кейс агентства Крылья (${d.client}, Калининград)`;
-const seoDescription = d.challenge.length > 160
-  ? d.challenge.slice(0, 157) + "..."
-  : d.challenge;
-
-const crumbs = [
-  { label: "Главная", href: "/" },
-  { label: "Кейсы", href: "/cases/" },
-  { label: d.title, href: `/cases/${d.slug}/` },
-];
+const seoDescription =
+  d.challenge.length > 160 ? d.challenge.slice(0, 157) + "..." : d.challenge;
 ---
 
-<BaseLayout title={seoTitle} description={seoDescription} noindex>
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
     title={seoTitle}
@@ -82,42 +84,81 @@ const crumbs = [
   <CaseHero
     title={d.title}
     client={d.client}
-    coverPath={coverPath}
-    facts={facts}
+    slug={d.slug}
+    cover={d.cover}
+    chips={chips}
   />
 
-  <Section class="border-b border-gray-light bg-white !py-4 md:!py-6">
-    <Container>
-      <Breadcrumbs crumbs={crumbs} />
-    </Container>
-  </Section>
+  <!-- Breadcrumbs над контентом (под hero) -->
+  <section class="relative px-6 pt-8 md:px-12 md:pt-12">
+    <div class="mx-auto max-w-6xl">
+      <nav aria-label="Хлебные крошки" class="text-sm text-white/55">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li>
+            <a href="/" class="text-white/55 no-underline transition-colors hover:text-white">Главная</a>
+          </li>
+          <li class="text-white/30">·</li>
+          <li>
+            <a href="/cases/" class="text-white/55 no-underline transition-colors hover:text-white">Кейсы</a>
+          </li>
+          <li class="text-white/30">·</li>
+          <li class="text-white">{d.title}</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
 
-  <article class="prose-content">
-    <Content />
-  </article>
+  <!-- Текст: задача → решение → итог -->
+  <section class="relative px-6 py-12 md:px-12 md:py-20">
+    <article
+      class="mx-auto max-w-3xl text-white/80
+        [&_h2]:mt-12 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-white md:[&_h2]:text-3xl
+        [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white
+        [&_p]:mt-5 [&_p]:leading-relaxed md:[&_p]:text-lg
+        [&_strong]:text-white
+        [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2
+        [&_li]:leading-relaxed
+        [&_a]:text-[#FFF200] [&_a]:underline [&_a]:underline-offset-4"
+    >
+      <Content />
+    </article>
+  </section>
 
-  <CaseGallery photos={d.photos} slug={d.slug} title={d.title} />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 
-  <Section class="bg-white">
-    <Container>
-      <div class="text-center max-w-2xl mx-auto">
-        <Heading level={2} accent>Обсудим ваше мероприятие?</Heading>
-        <p class="mt-6 text-lg text-gray-dark leading-relaxed">
-          Расскажите задачу — на&nbsp;встрече разберём формат, площадку и&nbsp;ориентировочную смету.
-        </p>
-        <div class="mt-8">
-          <Button href="/#contact" variant="primary">Обсудить мероприятие</Button>
-        </div>
-      </div>
-    </Container>
-  </Section>
+  {d.photos && d.photos.length > 0 && (
+    <CaseGallery photos={d.photos} slug={d.slug} title={d.title} />
+  )}
 
-  <NextCaseCard next={{
-    title: next.data.title,
-    slug: next.data.slug,
-    client: next.data.client,
-    cover: nextCoverPath,
-  }} />
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
+  <!-- CTA «Обсудить мероприятие» -->
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="text-2xl font-semibold tracking-tight text-white md:text-4xl">
+        Хотите такое&nbsp;же&nbsp;— или совсем другое?
+      </h2>
+      <p class="mt-6 text-base leading-relaxed text-white/65 md:text-lg">
+        Расскажите о&nbsp;вашем мероприятии&nbsp;— обсудим формат, площадку
+        и&nbsp;ориентировочную смету.
+      </p>
+      <a
+        href="/contacts/"
+        class="mt-8 inline-flex items-center justify-center rounded-full bg-[#FFF200] px-7 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+      >
+        Обсудить мероприятие
+      </a>
+    </div>
+  </section>
+
+  <NextCaseCard
+    next={{
+      title: next.data.title,
+      slug: next.data.slug,
+      client: next.data.client,
+      cover: next.data.cover,
+    }}
+  />
 
   <MetrikaCounter slot="analytics" />
-</BaseLayout>
+</DarkLayout>
