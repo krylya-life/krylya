@@ -74,7 +74,8 @@ const steps = [
 
 <LabLayout title="design-lab — Крылья">
   <!-- ─── HERO ─── -->
-  <section class="relative flex min-h-[92vh] w-full items-center overflow-hidden">
+  <!-- mobile: items-start + меньшая min-h, чтобы H1 шёл сразу под шапкой, не было «дыры» от вертикального центрирования -->
+  <section class="relative flex min-h-[70vh] w-full items-start overflow-hidden md:min-h-[92vh] md:items-center">
     <Spotlight client:load className="-top-40 left-0 md:-top-20 md:left-60" fill="#FFF200" />
     <div class="lab-aurora pointer-events-none"></div>
     <div class="lab-grid absolute inset-0"></div>
@@ -111,8 +112,8 @@ const steps = [
       </div>
     </header>
 
-    <!-- mobile: уменьшаем верхний отступ (pt-20 ≈ 80px), чтобы H1 был виден сразу при открытии -->
-    <div class="relative z-10 mx-auto w-full max-w-6xl px-6 pt-20 md:px-12 md:pt-24">
+    <!-- mobile: pt-[5.5rem] = 88px — на 10% больше базового pt-20 по просьбе Маши -->
+    <div class="relative z-10 mx-auto w-full max-w-6xl px-6 pt-[5.5rem] md:px-12 md:pt-24">
       <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-white/70 backdrop-blur">
         <!-- glow accent: пингующая точка, оттенок не критичен -->
         <span class="relative inline-flex h-1.5 w-1.5">
