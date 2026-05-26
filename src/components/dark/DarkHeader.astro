@@ -1,9 +1,12 @@
 ---
 /*
  * DarkHeader — шапка для тёмных production-страниц.
- * Адаптировано из песочницы /design-lab/.
- * Логотип horizontal-white, навигация белая с opacity-70, CTA «Обсудить мероприятие».
- * Мобильное меню (гамбургер) пока без скрипта — followup задача.
+ *
+ * Шапка позиционируется absolute, чтобы фон героя (Spotlight, aurora,
+ * grid) рисовался под ней до самого верха страницы.
+ *
+ * Мобильное меню — vanilla JS, без React. Drawer выезжает сверху,
+ * закрывается по тапу на пункте или по крестику.
  */
 const navItems = [
   { href: "/services/", label: "Услуги" },
@@ -13,7 +16,7 @@ const navItems = [
 ];
 ---
 
-<header class="relative z-20 py-3">
+<header class="absolute left-0 right-0 top-0 z-30 py-3" data-dark-header>
   <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 md:px-12">
     <a href="/" class="group flex items-center gap-3">
       <img
@@ -21,7 +24,7 @@ const navItems = [
         alt="Крылья"
         width="280"
         height="175"
-        class="h-14 w-auto drop-shadow-[0_0_28px_rgba(255,242,0,0.32)] md:h-20 lg:h-28"
+        class="h-[5.75rem] w-auto drop-shadow-[0_0_28px_rgba(255,242,0,0.32)] md:h-20 lg:h-28"
       />
       <span class="relative inline-flex h-2 w-2" aria-hidden="true">
         <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FFF200] opacity-75"></span>
@@ -47,17 +50,77 @@ const navItems = [
       Обсудить мероприятие
     </a>
 
-    <!-- Мобильная кнопка-гамбургер: визуальная заглушка, реальное меню — followup -->
+    <!-- Мобильная кнопка-гамбургер: открывает drawer ниже -->
     <button
       class="p-2 -mr-2 text-white/80 hover:text-white md:hidden"
       aria-label="Открыть меню"
+      aria-expanded="false"
+      aria-controls="mobile-nav-drawer"
       type="button"
+      data-mobile-menu-toggle
     >
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <svg data-icon="menu" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
         <line x1="3" y1="6" x2="21" y2="6" />
         <line x1="3" y1="12" x2="21" y2="12" />
         <line x1="3" y1="18" x2="21" y2="18" />
       </svg>
+      <svg data-icon="close" class="hidden" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="6" y1="6" x2="18" y2="18" />
+        <line x1="18" y1="6" x2="6" y2="18" />
+      </svg>
     </button>
   </div>
+
+  <!-- Мобильное меню-drawer: скрыто по умолчанию, открывается по клику на гамбургер -->
+  <div
+    id="mobile-nav-drawer"
+    class="hidden md:hidden border-t border-white/10 bg-[#0B0B10]/95 backdrop-blur"
+    data-mobile-menu-drawer
+  >
+    <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="rounded-lg px-4 py-3 text-base font-medium text-white/85 transition hover:bg-white/5 hover:text-white"
+          data-mobile-nav-link
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href="/contacts/"
+        class="mt-2 inline-flex items-center justify-center rounded-full bg-[#FFF200] px-5 py-3 text-sm font-semibold text-black no-underline"
+        data-mobile-nav-link
+      >
+        Обсудить мероприятие
+      </a>
+    </nav>
+  </div>
 </header>
+
+<script>
+  // Мобильное меню: toggle при тапе на гамбургер, автозакрытие при тапе на ссылку.
+  // Vanilla JS, без React — Safari-friendly.
+  const toggle = document.querySelector<HTMLButtonElement>("[data-mobile-menu-toggle]");
+  const drawer = document.querySelector<HTMLDivElement>("[data-mobile-menu-drawer]");
+  const iconMenu = toggle?.querySelector<SVGElement>('[data-icon="menu"]');
+  const iconClose = toggle?.querySelector<SVGElement>('[data-icon="close"]');
+
+  if (toggle && drawer && iconMenu && iconClose) {
+    const setOpen = (open: boolean) => {
+      drawer.classList.toggle("hidden", !open);
+      iconMenu.classList.toggle("hidden", open);
+      iconClose.classList.toggle("hidden", !open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+    };
+    toggle.addEventListener("click", () => {
+      const isOpen = !drawer.classList.contains("hidden");
+      setOpen(!isOpen);
+    });
+    // Закрывать при клике на ссылку (чтобы при переходе drawer не оставался открытым)
+    drawer.querySelectorAll<HTMLAnchorElement>("[data-mobile-nav-link]").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+  }
+</script>
