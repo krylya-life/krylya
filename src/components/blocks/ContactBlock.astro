@@ -1,45 +1,71 @@
 ---
-import Container from "../Container.astro";
-import Section from "../Section.astro";
-import Heading from "../Heading.astro";
-import ContactForm from "../ContactForm.astro";
+/*
+ * ContactBlock — финальная секция «Свяжитесь с нами».
+ * Тёмная версия (Wave 3): две колонки. Слева — заголовок, описание, регион.
+ * Справа — карточка с BorderBeam, две жёлтые CTA (тел. + Telegram), email,
+ * подпись «Обычно отвечаем в течение часа» с пингующей точкой.
+ *
+ * По CONTEXT.md форма временно отключена (фаза переезда хостинга) → используем
+ * вариант из песочницы: только прямые CTA. ContactForm.astro здесь не импортируется.
+ */
+import BorderBeam from "../dark/BorderBeam.astro";
 import { business } from "../../config/business.ts";
 ---
 
-<Section id="contact" class="bg-gray-light/15 border-t-4 border-yellow">
-  <Container>
-    <div class="grid gap-12 lg:grid-cols-5">
-      <div class="lg:col-span-2">
-        <Heading level={2} accent>Расскажите о&nbsp;мероприятии</Heading>
-
-        <p class="mt-6 text-lg text-gray-dark leading-relaxed">
-          Заполните форму или свяжитесь напрямую — обычно отвечаем
-          в&nbsp;течение&nbsp;рабочего&nbsp;дня.
+<section id="contact" class="lab-glow-top relative px-6 py-14 md:px-12 md:py-20">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <h2 class="text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
+          Расскажите о&nbsp;мероприятии
+        </h2>
+        <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+        <p class="mt-6 max-w-md text-white/65 md:text-lg leading-relaxed">
+          Свяжитесь напрямую — обычно отвечаем в&nbsp;течение&nbsp;рабочего&nbsp;дня.
         </p>
 
-        <ul class="mt-8 space-y-3">
-          <li class="flex items-center gap-3">
-            <span class="inline-block h-2 w-8 bg-yellow flex-shrink-0"></span>
-            <a href={`tel:${business.phone}`} class="text-lg text-black hover:text-yellow font-medium transition-colors">
-              {business.phoneDisplay}
-            </a>
-          </li>
-          <li class="flex items-center gap-3">
-            <span class="inline-block h-2 w-8 bg-yellow flex-shrink-0"></span>
-            <a href={`mailto:${business.email}`} class="text-lg text-black hover:text-yellow font-medium transition-colors">
-              {business.email}
-            </a>
-          </li>
-        </ul>
-
-        <p class="mt-8 text-sm text-gray-dark">
-          Калининград и&nbsp;область
-        </p>
+        <p class="mt-10 text-sm text-white/50">Калининград и&nbsp;область</p>
       </div>
 
-      <div class="lg:col-span-3 bg-white p-8 md:p-10 border border-gray-light">
-        <ContactForm />
+      <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-10 lg:col-span-7">
+        <BorderBeam duration={20} colorFrom="#FFF200" colorTo="#FFD040" />
+
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={`tel:${business.phone}`}
+            class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            {business.phoneDisplay}
+          </a>
+
+          <a
+            href={`https://t.me/${business.telegramPersonal.replace("@", "")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            Telegram
+          </a>
+        </div>
+
+        <a
+          href={`mailto:${business.email}`}
+          class="mt-6 inline-flex w-fit items-center gap-2 text-sm text-white/60 underline decoration-[#FFF200]/50 underline-offset-4 transition hover:text-white"
+        >
+          или&nbsp;на&nbsp;почту: {business.email}
+        </a>
+
+        <p class="mt-4 flex items-center gap-2 text-sm text-white/55">
+          <!-- glow accent: пингующая точка -->
+          <span class="relative inline-flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-300 opacity-70"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#FFF200]"></span>
+          </span>
+          Обычно отвечаем в&nbsp;течение часа
+        </p>
       </div>
     </div>
-  </Container>
-</Section>
+  </div>
+</section>

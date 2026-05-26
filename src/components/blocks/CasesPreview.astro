@@ -1,8 +1,10 @@
 ---
-import Container from "../Container.astro";
-import Section from "../Section.astro";
-import Heading from "../Heading.astro";
-import Button from "../Button.astro";
+/*
+ * CasesPreview — три featured-кейса на главной (АЭРО, ВКЛЮЧИ, ДОМ).
+ * Тёмная версия (Wave 3): квадратные карточки 1:1 с обложкой,
+ * затемнение снизу, текст поверх, lab-cursor-wings — курсор «крылья» при наведении.
+ * Фон секции — lab-bg-alt.
+ */
 import { getCollection } from "astro:content";
 
 // На главную выносим только согласованные кейсы — `.business/products/overview.md`:
@@ -14,39 +16,48 @@ const cases = all
   .slice(0, 3);
 ---
 
-<Section class="bg-gray-light/15">
-  <Container>
-    <div class="md:flex md:items-end md:justify-between gap-8">
-      <div>
-        <Heading level={2} accent>Кейсы</Heading>
-        <p class="mt-6 max-w-2xl text-lg text-gray-dark leading-relaxed">
-          Несколько недавних проектов — задача, решение и материалы с площадки.
+<section id="cases" class="lab-bg-alt relative px-6 py-14 md:px-12 md:py-20">
+  <div class="mx-auto max-w-6xl">
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
+          Кейсы
+        </h2>
+        <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+        <p class="mt-6 max-w-2xl text-white/65 md:text-lg leading-relaxed">
+          Несколько недавних проектов — задача, решение и&nbsp;материалы с&nbsp;площадки.
         </p>
       </div>
-      <Button href="/cases/" variant="secondary" class="mt-6 md:mt-0 self-start md:self-auto whitespace-nowrap">
+      <a
+        href="/cases/"
+        class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/85 no-underline transition hover:border-white/30 hover:text-white"
+      >
         Все кейсы
-      </Button>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
     </div>
 
     {cases.length > 0 ? (
-      <div class="mt-12 grid gap-1 md:grid-cols-3">
+      <div class="mx-auto grid max-w-4xl gap-4 md:grid-cols-3">
         {cases.map((c) => (
           <a
             href={`/cases/${c.data.slug}/`}
-            class="group relative block overflow-hidden bg-black aspect-[4/3]"
+            class="group lab-cursor-wings relative block aspect-square overflow-hidden rounded-2xl no-underline"
           >
             <img
               src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
-              alt={`Обложка: ${c.data.title}`}
-              class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+              alt={c.data.title}
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               loading="lazy"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8">
-              <span class="text-xs font-semibold uppercase tracking-wider text-yellow">
+            <!-- Затемнение снизу, чтобы текст читался -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+
+            <div class="absolute inset-x-0 bottom-0 p-5">
+              <p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#FFF200]">
                 {c.data.client}
-              </span>
-              <h3 class="mt-2 text-xl md:text-2xl font-semibold text-white leading-tight">
+              </p>
+              <h3 class="text-base font-semibold leading-tight tracking-tight text-white md:text-lg">
                 {c.data.title}
               </h3>
             </div>
@@ -54,7 +65,7 @@ const cases = all
         ))}
       </div>
     ) : (
-      <p class="mt-12 text-gray-dark italic">Кейсы появятся в Phase 5.</p>
+      <p class="mt-12 text-white/60 italic">Кейсы появятся в Phase 5.</p>
     )}
-  </Container>
-</Section>
+  </div>
+</section>

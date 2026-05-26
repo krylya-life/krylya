@@ -1,52 +1,57 @@
 ---
-import Container from "../Container.astro";
-import Section from "../Section.astro";
-import Heading from "../Heading.astro";
+/*
+ * LocalExpertise — feature-секция «Знаем регион».
+ * Тёмная версия (Wave 3): фон lab-bg-feature с сильным градиентом,
+ * SVG-силуэт Калининграда внизу секции, две колонки (текст + метрики).
+ */
+import KaliningradSilhouette from "../dark/KaliningradSilhouette.astro";
+
+const localMetrics = [
+  { k: "Локально", v: "только Калининград и область" },
+  { k: "Площадки", v: "от замков и особняков до индустриальных лофтов" },
+  { k: "Команда", v: "подрядчики, проверенные десятками проектов" },
+];
 ---
 
-<Section class="bg-black text-white">
-  <Container>
+<section class="lab-bg-feature relative overflow-hidden px-6 py-14 md:px-12 md:py-20">
+  <KaliningradSilhouette />
+  <div class="relative mx-auto max-w-6xl">
     <div class="grid gap-12 md:grid-cols-5 md:items-center">
       <div class="md:col-span-3">
-        <p class="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-yellow">
-          <span class="inline-block h-2 w-8 bg-yellow"></span>
+        <p class="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#FFF200]">
+          <span class="inline-block h-px w-8 bg-[#FFF200]"></span>
           Локальная экспертиза
         </p>
 
-        <Heading level={2} class="!text-white">
-          Знаем регион — знаем, <span class="bg-yellow text-black px-2">что здесь работает</span>
-        </Heading>
+        <h2 class="text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
+          Знаем регион — знаем,
+          <span class="relative inline-block">
+            <span class="lab-gradient-text">что&nbsp;здесь работает</span>
+          </span>
+        </h2>
+        <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
 
-        <p class="mt-8 text-lg text-gray-light leading-relaxed">
+        <p class="mt-8 text-white/65 md:text-lg leading-relaxed">
           Калининград и область — наш единственный регион работы. Знакомы
           с площадками от исторических особняков и замков до индустриальных
           лофтов и природных локаций на побережье.
         </p>
 
-        <p class="mt-4 text-lg text-gray-light leading-relaxed">
-          Подрядчики, которых мы зовём, проверены десятками проектов — а не взяты
-          с первой страницы поиска. Для иногороднего клиента это значит
-          <span class="text-white font-medium">меньше рисков и меньше сюрпризов</span>
-          в день события.
+        <p class="mt-5 text-white/65 md:text-lg leading-relaxed">
+          Подрядчики, которых мы зовём, проверены десятками проектов — а&nbsp;не&nbsp;взяты
+          с&nbsp;первой страницы поиска. Для иногороднего клиента это значит
+          <span class="text-white">меньше рисков и&nbsp;меньше сюрпризов</span> в&nbsp;день события.
         </p>
       </div>
 
-      <div class="md:col-span-2">
-        <ul class="space-y-4">
-          <li class="border-l-4 border-yellow pl-4">
-            <strong class="block text-2xl font-bold text-yellow">Локально</strong>
-            <span class="text-sm text-gray-light">только Калининград и область</span>
+      <ul class="md:col-span-2 space-y-3">
+        {localMetrics.map((m) => (
+          <li class="relative overflow-hidden rounded-2xl border-l-2 border-[#FFF200] bg-white/[0.03] py-4 pl-5 pr-4">
+            <strong class="block text-2xl font-bold text-[#FFF200] tracking-tight">{m.k}</strong>
+            <span class="mt-1 block text-sm text-white/60">{m.v}</span>
           </li>
-          <li class="border-l-4 border-yellow pl-4">
-            <strong class="block text-2xl font-bold text-yellow">Площадки</strong>
-            <span class="text-sm text-gray-light">от замков и особняков до индустриальных лофтов</span>
-          </li>
-          <li class="border-l-4 border-yellow pl-4">
-            <strong class="block text-2xl font-bold text-yellow">Команда</strong>
-            <span class="text-sm text-gray-light">подрядчики, проверенные десятками проектов</span>
-          </li>
-        </ul>
-      </div>
+        ))}
+      </ul>
     </div>
-  </Container>
-</Section>
+  </div>
+</section>
