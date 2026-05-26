@@ -4,6 +4,8 @@ import Seo from "../components/Seo.astro";
 import JsonLdGraph from "../components/JsonLdGraph.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import MetrikaCounter from "../components/MetrikaCounter.astro";
+import ContactForm from "../components/ContactForm.astro";
+import BorderBeam from "../components/dark/BorderBeam.astro";
 import { business } from "../config/business.ts";
 
 const seoTitle = "Контакты — ивент-агентство Крылья, Калининград";
@@ -110,6 +112,35 @@ const telegramHandle = business.telegramPersonal.replace("@", "");
         </span>
         <span class="text-lg text-white" itemprop="email">{business.email}</span>
       </a>
+    </div>
+  </section>
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
+  <!-- Форма заявок -->
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <h2 class="text-3xl font-semibold tracking-tight text-white md:text-5xl">
+            Оставить заявку
+          </h2>
+          <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+          <p class="mt-6 max-w-md text-white/65 leading-relaxed md:text-lg">
+            Опишите формат, дату и&nbsp;ориентировочный масштаб — пришлём
+            предварительную смету и&nbsp;концепцию в&nbsp;течение 3–5&nbsp;рабочих дней.
+          </p>
+          <p class="mt-4 max-w-md text-sm text-white/55 leading-relaxed">
+            Заявка приходит напрямую Марии в&nbsp;Telegram — без посредников
+            и&nbsp;CRM-роботов.
+          </p>
+        </div>
+
+        <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-10 lg:col-span-7">
+          <BorderBeam duration={20} colorFrom="#FFF200" colorTo="#FFD040" />
+          <ContactForm name="contact-page" />
+        </div>
+      </div>
     </div>
   </section>
 

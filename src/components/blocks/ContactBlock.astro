@@ -1,14 +1,19 @@
 ---
 /*
- * ContactBlock — финальная секция «Свяжитесь с нами».
- * Тёмная версия (Wave 3): две колонки. Слева — заголовок, описание, регион.
- * Справа — карточка с BorderBeam, две жёлтые CTA (тел. + Telegram), email,
- * подпись «Обычно отвечаем в течение часа» с пингующей точкой.
+ * ContactBlock — финальная секция «Расскажите о мероприятии».
+ * Тёмная версия (Phase 5.1) + восстановленная форма (Phase 7).
  *
- * По CONTEXT.md форма временно отключена (фаза переезда хостинга) → используем
- * вариант из песочницы: только прямые CTA. ContactForm.astro здесь не импортируется.
+ * Структура:
+ * - Слева: заголовок, описание, регион.
+ * - Справа: карточка с BorderBeam.
+ *   Внутри карточки:
+ *     1) Основное действие — ContactForm (отправка в Telegram через /api/contact).
+ *     2) Горизонтальный divider.
+ *     3) Secondary path: «или позвоните / напишите в Telegram» + email + подпись
+ *        «обычно отвечаем в течение часа».
  */
 import BorderBeam from "../dark/BorderBeam.astro";
+import ContactForm from "../ContactForm.astro";
 import { business } from "../../config/business.ts";
 ---
 
@@ -23,15 +28,29 @@ import { business } from "../../config/business.ts";
         <p class="mt-6 max-w-md text-white/65 md:text-lg leading-relaxed">
           От&nbsp;вас — только идея. Концепция, площадка, подрядчики и&nbsp;смета&nbsp;— на&nbsp;нашей стороне.
         </p>
+        <p class="mt-4 max-w-md text-white/55 leading-relaxed">
+          Заполните форму — обычно отвечаем в&nbsp;течение часа.
+          Или свяжитесь напрямую: телефон, Telegram, email.
+        </p>
       </div>
 
       <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-10 lg:col-span-7">
         <BorderBeam duration={20} colorFrom="#FFF200" colorTo="#FFD040" />
 
+        {/* Основное действие — форма заявок */}
+        <ContactForm name="contact-home" />
+
+        {/* Разделитель «или» */}
+        <div class="my-8 flex items-center gap-4">
+          <span class="h-px flex-1 bg-white/10"></span>
+          <span class="text-xs uppercase tracking-[0.25em] text-white/45">или напрямую</span>
+          <span class="h-px flex-1 bg-white/10"></span>
+        </div>
+
         <div class="flex flex-wrap gap-3">
           <a
             href={`tel:${business.phone}`}
-            class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+            class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-white no-underline transition-colors hover:border-[#FFF200]/40 hover:bg-white/[0.08]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             {business.phoneDisplay}
@@ -41,7 +60,7 @@ import { business } from "../../config/business.ts";
             href={`https://t.me/${business.telegramPersonal.replace("@", "")}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+            class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-white no-underline transition-colors hover:border-[#FFF200]/40 hover:bg-white/[0.08]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
             Telegram
@@ -50,13 +69,13 @@ import { business } from "../../config/business.ts";
 
         <a
           href={`mailto:${business.email}`}
-          class="mt-6 inline-flex w-fit items-center gap-2 text-sm text-white/60 underline decoration-[#FFF200]/50 underline-offset-4 transition hover:text-white"
+          class="mt-5 inline-flex w-fit items-center gap-2 text-sm text-white/60 underline decoration-[#FFF200]/50 underline-offset-4 transition hover:text-white"
         >
           или&nbsp;на&nbsp;почту: {business.email}
         </a>
 
         <p class="mt-4 flex items-center gap-2 text-sm text-white/55">
-          <!-- glow accent: пингующая точка -->
+          {/* glow accent: пингующая точка */}
           <span class="relative inline-flex h-1.5 w-1.5">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-300 opacity-70"></span>
             <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#FFF200]"></span>
