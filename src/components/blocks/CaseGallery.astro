@@ -1,32 +1,38 @@
 ---
-import Container from "../Container.astro";
-import Section from "../Section.astro";
-
+/*
+ * CaseGallery — сетка фото с площадки. 2 колонки на мобиле / 3 на десктопе.
+ * Топ-12 фото, без лайтбокса (решение из 05-CONTEXT.md). Тёмная палитра.
+ */
 interface Props {
   photos: string[];
   slug: string;
-  title: string;
+  title?: string;
 }
 
 const { photos, slug, title } = Astro.props;
-const visible = photos.slice(0, 12);
+const visible = (photos || []).slice(0, 12);
 ---
 
 {visible.length > 0 && (
-  <Section class="bg-white">
-    <Container>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-2xl font-semibold tracking-tight text-white md:text-3xl">
+        Фото с&nbsp;площадки
+      </h2>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+
+      <div class="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
         {visible.map((photo, i) => (
-          <div class="aspect-[4/3] overflow-hidden bg-gray-light/30">
+          <figure class="group relative aspect-square overflow-hidden rounded-xl bg-white/[0.03]">
             <img
               src={`/assets/cases/${slug}/${photo}`}
-              alt={`${title} — фото ${i + 1}`}
-              class="w-full h-full object-cover"
+              alt={title ? `${title} — фото ${i + 1}` : `Фото с площадки ${i + 1}`}
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
               loading={i < 3 ? "eager" : "lazy"}
             />
-          </div>
+          </figure>
         ))}
       </div>
-    </Container>
-  </Section>
+    </div>
+  </section>
 )}

@@ -1,45 +1,54 @@
 ---
-import Container from "../Container.astro";
-
+/*
+ * CaseHero — большое фото-обложка кейса с заголовком поверх затемнения,
+ * клиент-лейблом и чипами фактов. Тёмная палитра (Phase 5.1 wave 4).
+ *
+ * Аспект 16:10 на десктопе, 16:8 на широких экранах — кинематографично,
+ * не «баннер». На мобиле — портретный 4:5, чтобы все факты помещались.
+ */
 interface Props {
   title: string;
   client: string;
-  coverPath: string;
-  facts: string[];
+  slug: string;
+  cover: string;
+  chips: string[];
 }
 
-const { title, client, coverPath, facts } = Astro.props;
+const { title, client, slug, cover, chips } = Astro.props;
+const visibleChips = (chips || []).filter(Boolean);
 ---
 
-<section class="relative w-full h-[60vh] md:h-[75vh] min-h-[500px] flex items-end overflow-hidden">
-  <img
-    src={coverPath}
-    alt={`Обложка кейса: ${title}`}
-    class="absolute inset-0 w-full h-full object-cover"
-    loading="eager"
-    fetchpriority="high"
-  />
-  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
+<section class="relative w-full overflow-hidden">
+  <div class="relative aspect-[4/5] w-full sm:aspect-[16/10] lg:aspect-[16/8]">
+    <img
+      src={`/assets/cases/${slug}/${cover}`}
+      alt={`Обложка кейса: ${title}`}
+      class="absolute inset-0 h-full w-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+    {/* Затемнение снизу 60-70% высоты — чтобы текст читался */}
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent"></div>
 
-  <Container class="relative z-10 pb-12 md:pb-16">
-    <p class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-yellow">
-      <span class="inline-block h-2 w-8 bg-yellow"></span>
-      {client}
-    </p>
+    <div class="absolute inset-x-0 bottom-0 px-6 pb-10 md:px-12 md:pb-16">
+      <div class="mx-auto max-w-6xl">
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#FFF200]">
+          {client}
+        </p>
+        <h1 class="text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
+          {title}
+        </h1>
 
-    <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight max-w-4xl">
-      {title}
-    </h1>
-
-    {facts.length > 0 && (
-      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm md:text-base font-medium text-white/90">
-        {facts.map((fact) => (
-          <li class="flex items-center gap-2">
-            <span class="inline-block h-1.5 w-1.5 bg-yellow rounded-full"></span>
-            {fact}
-          </li>
-        ))}
-      </ul>
-    )}
-  </Container>
+        {visibleChips.length > 0 && (
+          <ul class="mt-6 flex flex-wrap gap-2 md:gap-3">
+            {visibleChips.map((chip) => (
+              <li class="inline-flex items-center rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5 text-xs text-white/85 backdrop-blur md:px-4 md:text-sm">
+                {chip}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </div>
 </section>
