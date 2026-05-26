@@ -1,10 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Container from "../../components/Container.astro";
-import Section from "../../components/Section.astro";
-import Heading from "../../components/Heading.astro";
-import Button from "../../components/Button.astro";
+import DarkLayout from "../../layouts/DarkLayout.astro";
 import Seo from "../../components/Seo.astro";
 import JsonLdGraph from "../../components/JsonLdGraph.astro";
 import JsonLdService from "../../components/JsonLdService.astro";
@@ -36,7 +32,7 @@ const crumbs = [
 ];
 ---
 
-<BaseLayout title={seoTitle} description={seoDescription} noindex>
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
     title={seoTitle}
@@ -52,20 +48,53 @@ const crumbs = [
     serviceType={title}
   />
 
-  <Section class="border-b border-gray-light bg-white !py-4 md:!py-6">
-    <Container>
+  <!-- Hero подстраницы -->
+  <section class="relative overflow-hidden px-6 pt-32 pb-14 md:px-12 md:pt-40 md:pb-20">
+    <div class="lab-aurora pointer-events-none"></div>
+    <div class="relative mx-auto max-w-4xl">
       <Breadcrumbs crumbs={crumbs} />
-    </Container>
-  </Section>
+      <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
+        {title}
+      </h1>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+      <p class="mt-6 text-white/70 md:text-lg leading-relaxed">
+        {description}
+      </p>
+    </div>
+  </section>
 
-  <article class="prose-content">
-    <Content />
-  </article>
+  <div class="lab-divider-glow mx-auto max-w-4xl"></div>
 
-  {slug !== "coordination" && <PricingTeaser />}
+  <!-- MDX-контент с тёмной типографикой -->
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <article
+      class="mx-auto max-w-3xl text-white/80 leading-relaxed
+        [&_h1]:hidden
+        [&_h2]:mt-12 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-white [&_h2]:tracking-tight md:[&_h2]:text-3xl
+        [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white
+        [&_p]:mt-5 [&_p]:leading-relaxed md:[&_p]:text-lg
+        [&_ul]:mt-5 [&_ul]:space-y-2
+        [&_ul>li]:relative [&_ul>li]:pl-5
+        [&_ul>li]:before:absolute [&_ul>li]:before:left-0 [&_ul>li]:before:top-3 [&_ul>li]:before:h-1.5 [&_ul>li]:before:w-1.5 [&_ul>li]:before:rounded-full [&_ul>li]:before:bg-[#FFF200]
+        [&_ol]:mt-5 [&_ol]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:marker:text-[#FFF200] [&_ol]:marker:font-semibold
+        [&_strong]:text-white
+        [&_a]:text-[#FFF200] [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-[#FFF200]/40 hover:[&_a]:decoration-[#FFF200]
+        [&_blockquote]:mt-6 [&_blockquote]:border-l-2 [&_blockquote]:border-[#FFF200] [&_blockquote]:pl-5 [&_blockquote]:italic [&_blockquote]:text-white/75"
+    >
+      <Content />
+    </article>
+  </section>
+
+  {slug !== "coordination" && (
+    <>
+      <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+      <PricingTeaser />
+    </>
+  )}
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 
   <ContactBlock />
 
   <MetrikaCounter slot="analytics" />
-</BaseLayout>
-
+</DarkLayout>
