@@ -1,15 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Container from "../../components/Container.astro";
-import Section from "../../components/Section.astro";
-import Heading from "../../components/Heading.astro";
+import DarkLayout from "../../layouts/DarkLayout.astro";
 import Seo from "../../components/Seo.astro";
 import JsonLdGraph from "../../components/JsonLdGraph.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import MetrikaCounter from "../../components/MetrikaCounter.astro";
 import PricingTeaser from "../../components/blocks/PricingTeaser.astro";
 import ContactBlock from "../../components/blocks/ContactBlock.astro";
+import MagicCard from "../../components/dark/MagicCard.astro";
 
 const all = await getCollection("services");
 const services = all.sort((a, b) => a.data.order - b.data.order);
@@ -24,7 +22,7 @@ const crumbs = [
 ];
 ---
 
-<BaseLayout title={seoTitle} description={seoDescription} noindex>
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
     title={seoTitle}
@@ -33,52 +31,65 @@ const crumbs = [
   />
   <JsonLdGraph slot="seo" />
 
-  <Section class="border-b border-gray-light bg-white !py-4 md:!py-6">
-    <Container>
+  <!-- Hero-секция страницы -->
+  <section class="relative overflow-hidden px-6 pt-32 pb-14 md:px-12 md:pt-40 md:pb-20">
+    <div class="lab-aurora pointer-events-none"></div>
+    <div class="relative mx-auto max-w-6xl">
       <Breadcrumbs crumbs={crumbs} />
-    </Container>
-  </Section>
-
-  <Section class="!pt-8 md:!pt-12">
-    <Container>
-      <Heading level={1} accent>Чем мы занимаемся</Heading>
-      <p class="mt-6 max-w-3xl text-lg text-gray-dark leading-relaxed">
+      <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
+        Чем мы&nbsp;занимаемся
+      </h1>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+      <p class="mt-6 max-w-3xl text-white/65 md:text-lg leading-relaxed">
         Организуем корпоративные и&nbsp;частные мероприятия в&nbsp;Калининграде
         и&nbsp;области — от&nbsp;первого брифа до&nbsp;отчёта после события.
         Концепция, площадка, подрядчики, программа, координация в&nbsp;день&nbsp;Х —
         единая команда вместо разрозненных контактов и&nbsp;одна точка
         ответственности.
       </p>
+    </div>
+  </section>
 
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
+  <!-- 6 услуг сеткой 2×3 -->
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <div class="mx-auto max-w-6xl">
       {services.length > 0 ? (
-        <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
-            <a
+            <MagicCard
               href={`/services/${service.data.slug}/`}
-              class="group block bg-white border border-gray-light p-8 hover:border-yellow hover:shadow-lg transition-all"
+              class="flex min-h-[220px] flex-col justify-between p-6"
             >
-              <h2 class="text-xl font-semibold text-black group-hover:text-black">
-                {service.data.title}
-              </h2>
-              <p class="mt-3 text-gray-dark leading-relaxed">
-                {service.data.description}
-              </p>
-              <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-black">
+              <div>
+                <h2 class="text-xl font-semibold text-white">
+                  {service.data.title}
+                </h2>
+                <p class="mt-3 text-sm leading-relaxed text-white/60">
+                  {service.data.description}
+                </p>
+              </div>
+              <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#FFF200]">
                 Подробнее
-                <span class="inline-block h-0.5 w-6 bg-yellow group-hover:w-10 transition-all"></span>
+                <span class="inline-block h-px w-6 bg-[#FFF200] transition-all group-hover:w-10"></span>
               </span>
-            </a>
+            </MagicCard>
           ))}
         </div>
       ) : (
-        <p class="mt-12 text-gray-dark italic">Услуги появятся в Phase 4.</p>
+        <p class="text-white/60 italic">Услуги появятся в&nbsp;Phase 4.</p>
       )}
-    </Container>
-  </Section>
+    </div>
+  </section>
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 
   <PricingTeaser />
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 
   <ContactBlock />
 
   <MetrikaCounter slot="analytics" />
-</BaseLayout>
+</DarkLayout>

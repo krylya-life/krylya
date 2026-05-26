@@ -1,8 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Container from "../components/Container.astro";
-import Section from "../components/Section.astro";
-import Heading from "../components/Heading.astro";
+import DarkLayout from "../layouts/DarkLayout.astro";
 import Seo from "../components/Seo.astro";
 import JsonLdGraph from "../components/JsonLdGraph.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
@@ -19,7 +16,7 @@ const crumbs = [
 ];
 ---
 
-<BaseLayout title={seoTitle} description={seoDescription} noindex>
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
     title={seoTitle}
@@ -28,109 +25,218 @@ const crumbs = [
   />
   <JsonLdGraph slot="seo" />
 
-  <Section class="border-b border-gray-light bg-white !py-4 md:!py-6">
-    <Container>
+  <!-- Hero-секция -->
+  <section class="relative overflow-hidden px-6 pt-32 pb-14 md:px-12 md:pt-40 md:pb-20">
+    <div class="lab-aurora pointer-events-none"></div>
+    <div class="relative mx-auto max-w-4xl">
       <Breadcrumbs crumbs={crumbs} />
-    </Container>
-  </Section>
-
-  <Section class="!pt-8 md:!pt-12">
-    <Container class="max-w-3xl">
-      <Heading level={1} accent>Сколько стоит организовать мероприятие в&nbsp;Калининграде</Heading>
-
-      <p class="mt-6 text-lg text-gray-dark leading-relaxed">
-        Подрядчики идут в&nbsp;смете отдельной строкой по&nbsp;их&nbsp;реальной стоимости. Наши&nbsp;10% — плата за&nbsp;организационные услуги: концепцию, поиск площадки и&nbsp;подрядчиков, бюджет. Ниже — из&nbsp;чего складывается смета и&nbsp;какие бывают типичные диапазоны бюджетов.
+      <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
+        Сколько стоит организовать мероприятие в&nbsp;Калининграде
+      </h1>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+      <p class="mt-6 text-white/70 md:text-lg leading-relaxed">
+        Подрядчики идут в&nbsp;смете отдельной строкой по&nbsp;их&nbsp;реальной стоимости.
+        Наши&nbsp;10%&nbsp;— плата за&nbsp;организационные услуги: концепцию, поиск площадки
+        и&nbsp;подрядчиков, бюджет. Ниже&nbsp;— из&nbsp;чего складывается смета и&nbsp;какие
+        бывают типичные диапазоны бюджетов.
       </p>
+    </div>
+  </section>
 
-      <article class="prose-content mt-12 space-y-12">
+  <div class="lab-divider-glow mx-auto max-w-4xl"></div>
 
-        <div>
-          <h2 class="text-2xl font-semibold text-black">Из&nbsp;чего складывается смета мероприятия</h2>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Сметы мероприятий складываются из&nbsp;нескольких типовых статей расходов. У&nbsp;разных событий пропорции отличаются, но&nbsp;состав в&nbsp;большинстве случаев один и&nbsp;тот&nbsp;же:
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
-            <li><strong>Площадка</strong> — аренда зала, площадки, исторического объекта, ресторана, выездной локации. Часто включает в&nbsp;себя базовый кейтеринг или&nbsp;ограничение по&nbsp;поставщику</li>
-            <li><strong>Кейтеринг</strong> — еда и&nbsp;напитки. Может быть от&nbsp;площадки или&nbsp;от&nbsp;отдельного подрядчика</li>
-            <li><strong>Декор и&nbsp;флористика</strong> — оформление пространства, навигация, подарочные элементы</li>
-            <li><strong>Техника</strong> — звук, свет, экраны, проекция, стрим, перевод</li>
-            <li><strong>Ведущий, артисты, программа</strong> — зависит от&nbsp;формата события</li>
-            <li><strong>Фото и&nbsp;видео</strong> — съёмка, монтаж итогового материала</li>
-            <li><strong>Логистика</strong> — трансферы, доставки, монтаж и&nbsp;демонтаж, проживание (для&nbsp;выездных форматов)</li>
-            <li><strong>Координация в&nbsp;день</strong> — наша команда на&nbsp;площадке: контроль программы, подрядчиков, нештатных ситуаций</li>
-          </ul>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Все эти строки видны вам в&nbsp;смете до&nbsp;старта работы.
-          </p>
-        </div>
+  <!-- Контент про смету и 10%-модель -->
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <div class="mx-auto max-w-4xl space-y-10">
 
-        <div>
-          <h2 class="text-2xl font-semibold text-black">Что входит в&nbsp;наши 10% за&nbsp;организационные услуги</h2>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            10% от&nbsp;общей сметы — плата за&nbsp;организационную работу. Что в&nbsp;это входит:
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
-            <li>концепция и&nbsp;стилистика мероприятия, визуальный язык и&nbsp;полиграфия (пригласительные, меню, навигация);</li>
-            <li>проработка меню и&nbsp;алкогольной карты;</li>
-            <li>подбор площадки и&nbsp;всех подрядчиков — ведущий, фото и&nbsp;видео, декор и&nbsp;флористика, техника, шоу-программа, фейерверк;</li>
-            <li>бюджетирование и&nbsp;переговоры с&nbsp;подрядчиками от&nbsp;первого брифа до&nbsp;закрывающих документов;</li>
-            <li>сценарный тайминг мероприятия и&nbsp;технический тайминг для&nbsp;подрядчиков (монтаж, демонтаж, прибытие артистов, гримёрки, бытовые райдеры);</li>
-            <li>трансфер и&nbsp;размещение гостей и&nbsp;артистов;</li>
-            <li>координация подготовки и&nbsp;команда на&nbsp;площадке в&nbsp;день мероприятия — единая точка контакта на&nbsp;протяжении всего проекта.</li>
-          </ul>
-        </div>
+      <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">
+          Из&nbsp;чего складывается смета мероприятия
+        </h2>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          Сметы мероприятий складываются из&nbsp;нескольких типовых статей расходов.
+          У&nbsp;разных событий пропорции отличаются, но&nbsp;состав в&nbsp;большинстве случаев
+          один и&nbsp;тот&nbsp;же:
+        </p>
+        <ul class="mt-5 space-y-3 text-white/70 leading-relaxed">
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Площадка</strong>&nbsp;— аренда зала, площадки,
+            исторического объекта, ресторана, выездной локации. Часто включает в&nbsp;себя
+            базовый кейтеринг или&nbsp;ограничение по&nbsp;поставщику
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Кейтеринг</strong>&nbsp;— еда и&nbsp;напитки.
+            Может быть от&nbsp;площадки или&nbsp;от&nbsp;отдельного подрядчика
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Декор и&nbsp;флористика</strong>&nbsp;— оформление
+            пространства, навигация, подарочные элементы
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Техника</strong>&nbsp;— звук, свет, экраны,
+            проекция, стрим, перевод
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Ведущий, артисты, программа</strong>&nbsp;— зависит
+            от&nbsp;формата события
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Фото и&nbsp;видео</strong>&nbsp;— съёмка, монтаж
+            итогового материала
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Логистика</strong>&nbsp;— трансферы, доставки,
+            монтаж и&nbsp;демонтаж, проживание (для&nbsp;выездных форматов)
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Координация в&nbsp;день</strong>&nbsp;— наша команда
+            на&nbsp;площадке: контроль программы, подрядчиков, нештатных ситуаций
+          </li>
+        </ul>
+        <p class="mt-5 text-white/70 leading-relaxed md:text-lg">
+          Все эти строки видны вам в&nbsp;смете до&nbsp;старта работы.
+        </p>
+      </div>
 
-        <div>
-          <h2 class="text-2xl font-semibold text-black">Типичные диапазоны бюджетов</h2>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Бюджеты наших клиентов сильно различаются от&nbsp;формата к&nbsp;формату. Чтобы дать ориентир — несколько типичных диапазонов:
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
-            <li><strong>Камерное событие на&nbsp;15–40 человек</strong> (партнёрский ужин, частный юбилей, презентация в&nbsp;узком кругу) — 200–500 тыс рублей</li>
-            <li><strong>Корпоратив или&nbsp;деловое событие на&nbsp;60–150 человек</strong> — 500 тыс – 1.5 млн рублей. Это самый частый диапазон</li>
-            <li><strong>Крупное мероприятие на&nbsp;200–300+ человек</strong> (юбилей компании, отраслевой форум, большой партнёрский вечер) — от&nbsp;1.5 до&nbsp;4 млн рублей</li>
-            <li><strong>Сложные комплексные проекты</strong> (многодневные форматы, открытия объектов с&nbsp;PR-составляющей, большие отраслевые форумы) — от&nbsp;5 миллионов и&nbsp;выше</li>
-          </ul>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Эти цифры — общая статистика наших проектов, а&nbsp;не&nbsp;«пакетные предложения». Конкретная смета вашего мероприятия зависит от&nbsp;площадки, программы, состава подрядчиков и&nbsp;уровня технического оснащения.
-          </p>
-        </div>
+      <div class="rounded-2xl border border-[#FFF200]/30 bg-[#FFF200]/[0.04] p-6 md:p-8">
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">
+          Что входит в&nbsp;наши 10% за&nbsp;организационные услуги
+        </h2>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          10% от&nbsp;общей сметы&nbsp;— плата за&nbsp;организационную работу.
+          Что в&nbsp;это входит:
+        </p>
+        <ul class="mt-5 space-y-3 text-white/75 leading-relaxed">
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            концепция и&nbsp;стилистика мероприятия, визуальный язык и&nbsp;полиграфия
+            (пригласительные, меню, навигация);
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            проработка меню и&nbsp;алкогольной карты;
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            подбор площадки и&nbsp;всех подрядчиков&nbsp;— ведущий, фото и&nbsp;видео,
+            декор и&nbsp;флористика, техника, шоу-программа, фейерверк;
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            бюджетирование и&nbsp;переговоры с&nbsp;подрядчиками от&nbsp;первого брифа
+            до&nbsp;закрывающих документов;
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            сценарный тайминг мероприятия и&nbsp;технический тайминг для&nbsp;подрядчиков
+            (монтаж, демонтаж, прибытие артистов, гримёрки, бытовые райдеры);
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            трансфер и&nbsp;размещение гостей и&nbsp;артистов;
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            координация подготовки и&nbsp;команда на&nbsp;площадке в&nbsp;день
+            мероприятия&nbsp;— единая точка контакта на&nbsp;протяжении всего проекта.
+          </li>
+        </ul>
+      </div>
 
-        <div>
-          <h2 class="text-2xl font-semibold text-black">Почему у&nbsp;нас нет пакетов «базовый/стандарт/премиум»</h2>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Готовые пакеты удобно продавать, но&nbsp;неудобно с&nbsp;ними жить. Реальные мероприятия редко укладываются в&nbsp;шаблон: бюджет может быть «средним», а&nbsp;требования — «премиум»; формат может быть камерным, а&nbsp;аудитория — статусной; событие может быть «бюджетным», но&nbsp;при&nbsp;этом критичным для&nbsp;имиджа компании.
-          </p>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Поэтому каждое мероприятие мы&nbsp;собираем индивидуально под&nbsp;цели, аудиторию и&nbsp;бюджет. Это занимает чуть больше времени на&nbsp;этапе обсуждения, но&nbsp;даёт результат, в&nbsp;котором ничего лишнего и&nbsp;ничего не&nbsp;упущено.
-          </p>
-        </div>
+      <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">
+          Типичные диапазоны бюджетов
+        </h2>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          Бюджеты наших клиентов сильно различаются от&nbsp;формата к&nbsp;формату.
+          Чтобы дать ориентир&nbsp;— несколько типичных диапазонов:
+        </p>
+        <ul class="mt-5 space-y-3 text-white/70 leading-relaxed">
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Камерное событие на&nbsp;15–40 человек</strong>
+            (партнёрский ужин, частный юбилей, презентация в&nbsp;узком кругу)&nbsp;—
+            200–500 тыс рублей
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Корпоратив или&nbsp;деловое событие на&nbsp;60–150 человек</strong>&nbsp;— 500 тыс – 1.5 млн рублей. Это самый частый диапазон
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Крупное мероприятие на&nbsp;200–300+ человек</strong>
+            (юбилей компании, отраслевой форум, большой партнёрский вечер)&nbsp;—
+            от&nbsp;1.5 до&nbsp;4 млн рублей
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            <strong class="text-white">Сложные комплексные проекты</strong>
+            (многодневные форматы, открытия объектов с&nbsp;PR-составляющей, большие
+            отраслевые форумы)&nbsp;— от&nbsp;5 миллионов и&nbsp;выше
+          </li>
+        </ul>
+        <p class="mt-5 text-white/70 leading-relaxed md:text-lg">
+          Эти цифры&nbsp;— общая статистика наших проектов, а&nbsp;не&nbsp;«пакетные
+          предложения». Конкретная смета вашего мероприятия зависит от&nbsp;площадки,
+          программы, состава подрядчиков и&nbsp;уровня технического оснащения.
+        </p>
+      </div>
 
-        <div>
-          <h2 class="text-2xl font-semibold text-black">Какие случаи нам подходят</h2>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Чтобы вам было проще понять, ваша&nbsp;ли это история:
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-dark leading-relaxed list-disc pl-5">
-            <li>Мероприятие проходит в&nbsp;Калининграде или&nbsp;Калининградской области</li>
-            <li>Бюджет от&nbsp;200 тысяч рублей или&nbsp;вы&nbsp;готовы обсуждать формат под&nbsp;имеющийся бюджет</li>
-            <li>Вам нужен полный цикл организации (концепция, площадка, подрядчики, координация) или&nbsp;координация в&nbsp;день при&nbsp;уже готовом сценарии</li>
-            <li>Событие имеет смысл и&nbsp;аудиторию: корпоративное, деловое, клиентское, частное торжество</li>
-          </ul>
-        </div>
+      <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">
+          Почему у&nbsp;нас нет пакетов «базовый/стандарт/премиум»
+        </h2>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          Готовые пакеты удобно продавать, но&nbsp;неудобно с&nbsp;ними жить.
+          Реальные мероприятия редко укладываются в&nbsp;шаблон: бюджет может быть
+          «средним», а&nbsp;требования&nbsp;— «премиум»; формат может быть камерным,
+          а&nbsp;аудитория&nbsp;— статусной; событие может быть «бюджетным», но&nbsp;при&nbsp;этом
+          критичным для&nbsp;имиджа компании.
+        </p>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          Поэтому каждое мероприятие мы&nbsp;собираем индивидуально под&nbsp;цели,
+          аудиторию и&nbsp;бюджет. Это занимает чуть больше времени на&nbsp;этапе
+          обсуждения, но&nbsp;даёт результат, в&nbsp;котором ничего лишнего и&nbsp;ничего
+          не&nbsp;упущено.
+        </p>
+      </div>
 
-        <div>
-          <h2 class="text-2xl font-semibold text-black">Чего на&nbsp;этой странице нет (намеренно)</h2>
-          <p class="mt-4 text-gray-dark leading-relaxed">
-            Мы&nbsp;не&nbsp;ставим на&nbsp;сайте онлайн-калькулятор стоимости мероприятия. Любая смета зависит от&nbsp;десятков параметров — площадка, технический райдер, состав программы, сезон, количество гостей, диетические особенности, требования к&nbsp;размещению. Калькулятор, который выдаёт «итоговую цифру за&nbsp;30 секунд», в&nbsp;этой работе не&nbsp;помогает. Поэтому формат прежний: получасовой бриф — и&nbsp;через 3–5 рабочих дней у&nbsp;вас на&nbsp;руках конкретная смета по&nbsp;вашему мероприятию.
-          </p>
-        </div>
+      <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">
+          Какие случаи нам подходят
+        </h2>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          Чтобы вам было проще понять, ваша&nbsp;ли это история:
+        </p>
+        <ul class="mt-5 space-y-3 text-white/70 leading-relaxed">
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            Мероприятие проходит в&nbsp;Калининграде или&nbsp;Калининградской области
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            Бюджет от&nbsp;200 тысяч рублей или&nbsp;вы&nbsp;готовы обсуждать формат
+            под&nbsp;имеющийся бюджет
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            Вам нужен полный цикл организации (концепция, площадка, подрядчики,
+            координация) или&nbsp;координация в&nbsp;день при&nbsp;уже готовом сценарии
+          </li>
+          <li class="relative pl-5 before:absolute before:left-0 before:top-3 before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#FFF200]">
+            Событие имеет смысл и&nbsp;аудиторию: корпоративное, деловое, клиентское,
+            частное торжество
+          </li>
+        </ul>
+      </div>
 
-      </article>
-    </Container>
-  </Section>
+      <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+        <h2 class="text-2xl font-semibold text-white md:text-3xl">
+          Чего на&nbsp;этой странице нет (намеренно)
+        </h2>
+        <p class="mt-4 text-white/70 leading-relaxed md:text-lg">
+          Мы&nbsp;не&nbsp;ставим на&nbsp;сайте онлайн-калькулятор стоимости мероприятия.
+          Любая смета зависит от&nbsp;десятков параметров&nbsp;— площадка, технический
+          райдер, состав программы, сезон, количество гостей, диетические особенности,
+          требования к&nbsp;размещению. Калькулятор, который выдаёт «итоговую цифру
+          за&nbsp;30 секунд», в&nbsp;этой работе не&nbsp;помогает. Поэтому формат
+          прежний: получасовой бриф&nbsp;— и&nbsp;через 3–5 рабочих дней у&nbsp;вас
+          на&nbsp;руках конкретная смета по&nbsp;вашему мероприятию.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 
   <ContactBlock />
 
   <MetrikaCounter slot="analytics" />
-</BaseLayout>
+</DarkLayout>
