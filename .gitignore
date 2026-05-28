@@ -32,15 +32,20 @@ yarn-debug.log*
 yarn-error.log*
 *.log
 
-# фотоархив (3+ ГБ оригиналов с мероприятий) — слишком много для git
-# фото подключаются в build через симлинк public/assets/cases → ../../assets/cases
-assets/cases/
+# фотоархив оригиналов (3+ ГБ) — только в локальной папке assets/cases/, не в git.
+# В public/assets/cases/ лежат только обложки (по 1 фото на кейс) — они в git
+# и попадают в production-сборку Cloudflare Pages.
+/assets/cases/
+!public/assets/cases/
 
 # временный скриншот главной (для контекста)
 krylya-home-2026-05-01.png
 
 # скриншоты итераций дизайн-песочницы — рабочий материал, не в git
 design-lab-*.png
+
+# скриншоты автоматизации браузера (Playwright MCP) — рабочий материал, не в git
+cf-*.png
 
 # playwright-mcp служебные файлы
 .playwright-mcp/
