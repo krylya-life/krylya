@@ -61,7 +61,7 @@ const seoDescription =
   d.challenge.length > 160 ? d.challenge.slice(0, 157) + "..." : d.challenge;
 ---
 
-<DarkLayout title={seoTitle} description={seoDescription}>
+<DarkLayout title={seoTitle} description={seoDescription} noindex>
   <Seo
     slot="seo"
     title={seoTitle}
