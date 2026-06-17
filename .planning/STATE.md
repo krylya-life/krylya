@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-05-16T17:49:58.398Z"
+last_updated: "2026-06-17T19:00:00.000Z"
 progress:
   total_phases: 10
   completed_phases: 0
@@ -18,29 +18,29 @@ progress:
 
 **Core Value:** Один реальный контракт, пришедший через органический поиск на сайт к 30 июня 2026.
 
-**Current Focus:** Phase 5.1 (Dark Redesign) **завершена 2026-05-16** — все 9 страниц основного сайта переведены в тёмную палитру из песочницы, песочница удалена. Phase 5 (Кейсы) и Phase 6 (О нас/Контакты/Политика) впитаны в 5.1. Следующий шаг — Phase 7 (релиз: DNS-переезд с Tilda на крылья.life + SSL + sitemap + Метрика). Followup от Маши: контент страницы /about/ нужно переписать по её правкам (придёт текст).
+**Current Focus:** Phase 7 (Релиз и SEO-запуск) **завершена 2026-06-17** — крылья.life живёт на Cloudflare Pages, Я.Вебмастер и Google Search Console подключены, sitemap сабмичен, регион Калининград подан, цели Метрики настроены, noindex снят. Сайт открыт для индексации. Следующий шаг — Phase 8 (мониторинг + B-план по росту трафика).
 
-**Хостинг (2026-05-01):** Netlify приостановил сайт за превышение бесплатного лимита кредитов (биллинговый цикл сбрасывается ~23 мая, что не подходит при дедлайне релиза 15 мая). Сайт переехал на Cloudflare Workers (Static Assets) через Direct Upload. Текущий URL preview: `https://kryliya.kupasyatinka.workers.dev`. Форма заявок временно отключена — показывает контактные кнопки (телефон + Telegram). Автодеплой через Git временно не настроен — деплой через ручной upload ZIP в Cloudflare Workers UI. Возврат формы и автодеплой — следующая итерация (после Phase 4 ревью).
+**Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
 **Timeline:**
 
 - Старт: 2026-04-23
-- Релиз сайта: ≤ 2026-05-15
+- Релиз сайта: ≤ 2026-05-15 (де-факто 2026-05-29 после переезда DNS)
 - Дедлайн Core Value: 2026-06-30
 
 ## Current Position
 
 - **Milestone:** Initial release (v1)
-- **Phase:** 5.1 — Dark Redesign **✓ COMPLETE** (2026-05-16). Все 9 страниц переведены в тёмную палитру. Phase 5 (Кейсы) и Phase 6 (О нас) впитаны.
-- **Next Phase:** Phase 7 — Релиз и SEO-запуск (DNS-переезд + SSL + sitemap + Я.Вебмастер)
-- **Status:** Готов к Phase 7. Followup: /about/ контент перепишется по правкам Маши.
-- **Progress:** 7/9 фаз выполнено (Phase 0, 1, 2, 3, 4, 5 partial, 5.1) + Phase 6 впитана
+- **Phase:** 7 — Релиз и SEO-запуск **✓ COMPLETE** (2026-06-17). DNS-переезд + SSL + sitemap + Я.Вебмастер + GSC + Метрика-цель.
+- **Next Phase:** Phase 8 — Мониторинг + PLANB (если индексация <30% за 30 дней → гостевые упоминания)
+- **Status:** Готов к Phase 8. Сайт открыт для индексации в Я.Вебмастере и GSC.
+- **Progress:** 8/9 фаз выполнено (Phase 0, 1, 2, 3, 4, 5 partial, 5.1, 7) + Phase 6 впитана
 
 ```
-[███████░░] 7/9 фаз выполнено
+[████████░] 8/9 фаз выполнено
 ```
 
-**Live preview:** https://kryliya.kupasyatinka.workers.dev (Cloudflare Workers Static Assets; форма временно показывает контакты вместо отправки)
+**Live:** https://xn--j1aco8bgs.life (Cloudflare Pages, кириллица: https://крылья.life)
 **Repo:** https://github.com/krylya-life/krylya
 **Telegram bot:** @krylya_zayavki_bot (заявки приходят Марии в личку)
 

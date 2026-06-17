@@ -1,24 +1,37 @@
 ---
 phase: 07
 plan: 05
-status: partial
+status: complete
 date: 2026-06-17
-account: wings.agency@yandex.ru
+accounts:
+  yandex: wings.agency@yandex.ru
+  google: kupasyatinka@gmail.com
 ---
 
 # Phase 7 — Google Search Console + Я.Метрика Notes
 
 **Дата:** 2026-06-17
 
-## Google Search Console — ОТЛОЖЕНО (followup)
+## Google Search Console
 
-При попытке открыть `https://search.google.com/search-console` через Playwright страница `accounts.google.ru` ответила `ERR_TIMED_OUT` — провайдер РФ блокирует доступ к Google-логину без VPN. Сам сервис в РФ работает, но залогиниться без VPN не удаётся.
+- **Property:** `https://xn--j1aco8bgs.life/` (URL-prefix)
+- **Аккаунт:** kupasyatinka@gmail.com (личный Google Маши, не корпоративный)
+- **Способ верификации:** HTML-файл `public/google0793dafce34f21f1.html` (закоммичен в репо, не удалять)
+- **Статус:** **Право собственности подтверждено** (2026-06-17)
+- **Sitemap:** `sitemap-index.xml` отправлен (на момент сабмита статус «Не получено» → перейдёт в «Успешно» через несколько часов)
+- **URL Inspection:** в приоритетную очередь сканирования поданы 3 URL:
+  - `https://xn--j1aco8bgs.life/`
+  - `https://xn--j1aco8bgs.life/services/`
+  - `https://xn--j1aco8bgs.life/cases/`
+  - (лимит 10/день, использовано 3)
 
-**Followup:** включить любой VPN, повторить Task 1-2 из плана Wave 5:
-1. Добавить два property — `https://крылья.life/` и `https://xn--j1aco8bgs.life/`
-2. Подтвердить через DNS TXT (по аналогии с Я.Вебмастером) или HTML-tag в DarkLayout.astro
-3. Сабмитить sitemap `https://крылья.life/sitemap-index.xml`
-4. URL Inspection → запросить индексирование для топ-3 (`/`, `/services/`, `/cases/`)
+### Почему URL-prefix, а не Domain
+
+План Wave 5 рекомендовал два URL-prefix (кириллица + Punycode), но мы пытались сначала **Domain-property** (одна DNS-запись покрывает обе формы). Domain-property требует OAuth с Cloudflare через `dash.cloudflare.com/domainconnect/...` — через VPN-IP Cloudflare-страница не загрузилась (белый лист). Поэтому переключились на **URL-prefix + HTML-файл**.
+
+### Почему один property, а не два
+
+Я.Вебмастер на этапе Wave 4 сам распознал, что `xn--j1aco8bgs.life` и `крылья.life` — одна зона, и не разрешил добавить вторую форму. По аналогии для GSC одного property с Punycode-формой достаточно — Google показывает домен в результатах поиска в кириллице автоматически (как было видно на странице верификации, где Google написал «крылья.life» вместо введённого Punycode).
 
 ## Я.Метрика 99532899
 
@@ -56,28 +69,59 @@ account: wings.agency@yandex.ru
 - **Telegram-бот @krylya_zayavki_bot:** заявка отправлена (Маше можно проигнорировать)
 - **Ожидание в Метрике:** конверсия по цели `form_submitted` должна появиться в отчёте «Конверсии» в течение 5-30 минут
 
-### Привязка счётчика к Я.Вебмастеру (followup из Wave 4)
+### Я.Вебмастер: «Обход по счётчикам» — ВКЛЮЧЁН (followup Wave 4 закрыт)
 
-В Wave 4 не удалось включить «Обход по счётчикам» в Я.Вебмастере. Теперь известно: счётчик 99532899 и Я.Вебмастер `https://крылья.life` под одним аккаунтом `wings.agency@yandex.ru`. Привязка должна сработать со второй попытки — это followup на отдельный заход.
+При повторной попытке `/indexing/crawl-metrika/` показал:
+- **«Крылья • 99532899 — Связан с Метрикой — Обход: Выключен»**
 
-## Что дальше
+Включил тумблер → статус **«Включён»**. Робот Яндекса теперь идёт по страницам со счётчиком и быстрее узнаёт о новых.
 
-- **GSC followup:** включить VPN, повторить Task 1-2 (Property + Sitemap + URL Inspection)
-- **Я.Вебмастер followup:** повторить «Обход по счётчикам» в `/indexing/crawl-metrika/`
-- **После Wave 5 close:** снять временный `noindex` с 9 публичных страниц (см. [07-03-SUMMARY.md](07-03-SUMMARY.md))
-- **Phase 8 (PLANB-04):** мониторить «Страницы в поиске» в Я.Вебмастере и Coverage в GSC
+Вчерашняя проблема в Wave 4: попытка «Привязать счётчик» с вводом 99532899 не дала feedback в UI, и я решил, что она не сработала. На самом деле привязка прошла, просто Вебмастер сохранил счётчик и закрыл диалог.
+
+### noindex снят с 9 публичных страниц
+
+В коммите `ce0f33b` (`feat(07-05): снять noindex с 9 публичных страниц`) удалили атрибут `noindex` с `<DarkLayout ...>` в:
+
+- `src/pages/index.astro`
+- `src/pages/about.astro`
+- `src/pages/contacts.astro`
+- `src/pages/privacy.astro`
+- `src/pages/pricing.astro`
+- `src/pages/services/index.astro`
+- `src/pages/services/[slug].astro`
+- `src/pages/cases/index.astro`
+- `src/pages/cases/[slug].astro`
+
+`src/pages/thanks.astro` сохранил `noindex` — плановое поведение.
+
+Деплой Cloudflare Pages прошёл за ~1 минуту, верификация через `curl`:
+- `curl /` → `noindex` отсутствует
+- `curl /thanks/` → `noindex` присутствует
+- остальные 8 — `noindex` отсутствует
 
 ## Verification (на момент 2026-06-17)
 
 | Шаг | Подтверждение |
 |---|---|
-| Счётчик найден | UI Метрики: «Крылья / крылья.life / 99532899 / Владелец: wings.agency» |
-| Сайт виден Метрикой | За неделю отображается 1 визит и 1 достижение «Автоцель: отправка формы» |
-| Цель form_submitted | В списке Конверсий счётчика появилась наряду с Автоцелями |
-| Тест-отправка | После submit формы URL стал `/thanks/` (status 200) |
+| Метрика — счётчик | UI: «Крылья / крылья.life / 99532899 / Владелец: wings.agency» |
+| Метрика — трафик | За неделю 1 визит и 1 достижение «Автоцель: отправка формы» |
+| Метрика — цель `form_submitted` | В списке Конверсий счётчика |
+| Метрика — тест-сабмит | Форма → 200 → `/thanks/` |
+| Я.Вебмастер — обход по счётчикам | UI: «Связан с Метрикой», «Включён» |
+| GSC — property | UI: «Право собственности подтверждено» |
+| GSC — sitemap | UI: «Файл Sitemap отправлен» |
+| GSC — URL Inspection | 3 URL «добавлен в приоритетную очередь сканирования» |
+| noindex | `curl`: 9 страниц без noindex, `/thanks/` с noindex |
 
 ## Закрытие требований
 
 - **ANL-02** (отложен с Phase 3): ✓ Цель отправки формы в Метрике настроена (Автоцель + явный `form_submitted`)
-- **LAUNCH-03** (sitemap в GSC): ⚠ ОТЛОЖЕНО — требует VPN
+- **LAUNCH-03**: ✓ Sitemap сабмичен в GSC и Я.Вебмастер
 
+## Что мониторим (Phase 8)
+
+- **GSC Coverage**: рост проиндексированных страниц (1-7 дней)
+- **GSC Sitemap status**: «Не получено» → «Успешно»
+- **Я.Вебмастер «Страницы в поиске»**: рост счётчика
+- **Я.Метрика «Конверсии»**: достижения `form_submitted` от реальных заявок
+- **Лимит URL Inspection GSC**: 10/день, использовано 3 — остальные 6 URL подавать по 1-3 в день в Phase 8
