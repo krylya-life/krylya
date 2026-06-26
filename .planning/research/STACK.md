@@ -1,398 +1,276 @@
-# Stack Research — крылья.life
+# Stack Research — Инструменты v2.0 «Рост»
 
-**Domain:** Content-heavy SEO marketing site (ивент-агентство, Калининград, РФ)
-**Researched:** 2026-04-22
-**Overall confidence:** HIGH
-**Target:** 20+ SEO-страниц на кириллическом домене, Git-управление, Claude-автоматизация, минимальный бюджет.
-
----
-
-## TL;DR (прескриптивные решения)
-
-1. **Фреймворк:** Astro **6.x** (не 5.x — Astro 6 уже стабильный с февраля-марта 2026). Node 22+.
-2. **Стили:** Tailwind CSS **v4** через `@tailwindcss/vite` (НЕ через `@astrojs/tailwind` — он deprecated для v4).
-3. **Контент:** Content Layer API + `glob()` loader + Zod-схемы + MDX для кейсов/услуг.
-4. **Картинки:** встроенный `astro:assets` + `sharp` (дефолт). Никаких сторонних image-интеграций.
-5. **SEO-инфра:** `@astrojs/sitemap` + `astro-robots-txt` + `astro-seo-schema`.
-6. **Формы:** Web3Forms (основной канал на email) + Telegram Bot API через serverless-функцию хостинга (дублирование). Compare-таблица ниже.
-7. **Аналитика:** Яндекс.Метрика (обязательна для РФ-сегмента и Яндекс.Вебмастера); Google Analytics не нужен в v1.
-8. **Хостинг:** **Netlify Free** или **Cloudflare Workers Free** — НЕ Vercel Hobby. **Vercel Hobby запрещает коммерческое использование и advertising the sale of a product or service** — это напрямую дисквалифицирует сайт ивент-агентства. См. раздел «Критическое уточнение по Vercel».
+**Domain:** SEO-рост, контент-хаб и партнёрский аутрич для ивент-агентства
+**Researched:** 2026-06-26
+**Confidence:** HIGH (большинство данных верифицировано через официальные сайты и 2026-статьи; где только один источник — отмечено)
 
 ---
 
-## Критическое уточнение по Vercel (READ FIRST)
+## Контекст
 
-В Key Decisions проекта стоит «Astro + Vercel». Это надо пересмотреть.
+Сайт крылья.life уже работает: Astro 6 + Tailwind v4 + Content Collections, хостинг Cloudflare Pages, автодеплой из GitHub. Яндекс.Метрика + GSC + Я.Вебмастер подключены. Форма → Telegram-бот. Сайт проиндексирован.
 
-**Факт (HIGH confidence, источник — официальная страница Vercel Fair Use):**
+Этот документ — только про **новые инструменты** для этапа v2.0. Существующий стек не переисследуется.
 
-> **Hobby teams are restricted to non-commercial personal use only.** All commercial usage of the platform requires either a Pro or Enterprise plan.
->
-> Commercial usage is defined as any Deployment that is used for the purpose of financial gain of anyone involved in any part of the production of the project. Examples:
-> - Any method of requesting or processing payment from visitors of the site
-> - **Advertising the sale of a product or service**
-> - Receiving payment to create, update, or host the site
-> - Affiliate linking is the primary purpose of the site
-> - The inclusion of advertisements
-
-Сайт крылья.life — это реклама услуг ивент-агентства с формой заявки. Это прямо попадает в **«Advertising the sale of a product or service»**. Vercel имеет право приостановить проект. Для постоянной работы в коммерческом режиме на Vercel нужен Pro ($20/user/month = ~1 800 ₽/мес × 12 = ~22 000 ₽/год).
-
-**Рекомендация:** заменить Vercel на один из двух бесплатных хостов, которые явно разрешают коммерческое использование:
-
-| Хост | Commercial на Free | Лимиты (2026) | Для нашего кейса |
-|------|--------------------|---------------|--------------------|
-| **Netlify Free** ⭐ | Да (явно разрешено) | 300 кредитов/мес (~30 GB bandwidth + ~20 сборок), формы бесплатно и без лимитов, serverless functions до 125K invocations | **Оптимально.** Native Astro adapter, Netlify Forms закрывают половину нашей задачи с формой из коробки, есть встроенные redirects (нужны для 301 со старых Tilda-URL) |
-| **Cloudflare Workers Free** | Да (явно разрешено) | Unlimited bandwidth, 100K requests/день, 500 сборок/мес | Хорошо, но Cloudflare Pages в 2026 уже considered legacy: Astro adapter перешёл на Workers-only режим. Больше сложности в конфиге. |
-
-**Решение:** первая рекомендация — **Netlify Free**. Если упираемся в лимиты (маловероятно для SEO-сайта без SPA и тяжёлого трафика) — переезжаем на Cloudflare Workers. Vercel Hobby — НЕ использовать; Vercel Pro — только если будет бюджет и сильная причина.
-
-Это меняет несколько инженерных деталей (adapter, форма, redirects), но не меняет Astro + Tailwind + MDX.
+Принцип отбора: бесплатное/дешёвое, работает из РФ без VPN, не требует программирования от Марии.
 
 ---
 
-## Recommended Stack
+## Блок 1. SEO-аудит сайта
 
-### Core Technologies
+### Основной бесплатный набор (HIGH confidence)
 
-| Technology | Version | Purpose | Why Recommended |
-|------------|---------|---------|-----------------|
-| **Node.js** | **22 LTS** | Runtime для сборки | Astro 6 **требует** Node 22+ (18 и 20 сняты с поддержки). macOS Марии: ставить через `nvm` или `fnm`, не системно. |
-| **Astro** | **6.x** (current stable) | Статический SSG-фреймворк | Content Layer API (5x быстрее Markdown, 2x MDX), Zod-валидация фронтматтера, File-based routing, Island architecture — ровно под 20+ SEO-страниц + кейсы/услуги в MDX. В 2026 Astro — де-факто стандарт для content-сайтов. |
-| **Tailwind CSS** | **v4.x** | Utility-CSS | v4 — это «CSS-first»: конфиг пишется в `@theme`-блоке прямо в CSS, PostCSS не нужен, старт 5x, rebuild 100x быстрее v3. Идеально под брендбук «монохром + `#FFF200`». |
-| **@tailwindcss/vite** | 4.x (peer с Tailwind) | Интеграция Tailwind в сборку Astro | Официально рекомендуемый способ с Astro 5.2+. Ставится через `npx astro add tailwind`. **НЕ путать с `@astrojs/tailwind` — он deprecated для v4.** |
-| **MDX** (`@astrojs/mdx`) | latest | Контент кейсов + блога | MDX в Content Collections даёт возможность встраивать Astro-компоненты (галерея, цитата, таблица фактов кейса) прямо в markdown-текст. Для шаблона кейса — идеально. |
-| **TypeScript** | 5.x | Типизация Zod-схем коллекций | Astro подхватывает автоматически. Минимальная польза: типы контент-коллекций, автокомплит `Astro.glob`, защита от опечаток в frontmatter. |
+| Инструмент | Цена | Что даёт | Доступность в РФ |
+|-----------|------|----------|------------------|
+| **Яндекс.Вебмастер** (webmaster.yandex.ru) | Бесплатно | Индексация, ошибки, скорость сайта, микроразметка, запросы, переобход страниц. Это главный инструмент под Яндекс — показывает именно те метрики, которые Яндекс использует для ранжирования | Полностью, без VPN |
+| **Google Search Console** (search.google.com/search-console) | Бесплатно | Показы/клики в Google, индексация, Core Web Vitals, ошибки разметки, sitemap | Полностью, без VPN |
+| **PageSpeed Insights** (pagespeed.web.dev) | Бесплатно | LCP, FID, CLS, TTI — реальные данные CrUX за 28 дней + лабораторные метрики. Именно эти данные Google использует для ранжирования | Полностью, без VPN |
+| **Screaming Frog SEO Spider** (Free tier) | Бесплатно до 500 URL | Технический краулер: битые ссылки, дубли title/description, отсутствующие alt, canonical, redirect-цепочки, robots.txt. Для сайта в ~20–30 страниц лимит 500 URL закрывает весь аудит | Windows/Mac/Linux, без VPN |
 
-### Supporting Libraries (SEO-инфра)
+**Вывод по блоку 1:** Бесплатный набор из четырёх инструментов выше закрывает 80–90% задач технического аудита крылья.life. Платных инструментов не нужно на этом этапе.
 
-| Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| **@astrojs/sitemap** | 3.x | Генерация `sitemap-index.xml` + `sitemap-0.xml` на сборке | Ставим с первого дня. Используем `filter`, чтобы выкинуть служебные страницы (404, черновики). |
-| **astro-robots-txt** | latest | Генерация `robots.txt` с директивой `Sitemap:` и `Host:` (для Яндекса) | Ставим с первого дня. Host-директива помогает Яндексу правильно определить главное зеркало. |
-| **astro-seo-schema** | latest | Type-safe JSON-LD в `<head>` через `<Schema>` компонент | Для `LocalBusiness` / `Organization` на главной и `Event` на кейсах. Powered by `schema-dts` — полная типизация. |
-| **@astrojs/sitemap** c `serialize` | — | Кастомизация записей sitemap (lastmod, priority) | Через `serialize` можно выставить приоритеты: главная + услуги = 1.0, кейсы = 0.8, блог = 0.6. |
-| **sharp** | 0.33+ | Image optimization (авто через `astro:assets`) | Ставится один раз как dep, дальше Astro сам использует для Image/Picture компонентов. |
+### Дополнительно (если нужна глубина)
 
-### Форма заявки (НЕТ бэкенда — сравнение вариантов)
-
-Требование: заявка приходит на wings.agency@yandex.ru **и** в Telegram (см. PROJECT.md). Сравнение сервисов для статического сайта на Netlify:
-
-| Решение | Плюсы | Минусы | Стоимость | Рекомендация |
-|---------|-------|--------|-----------|--------------|
-| **Netlify Forms** | Встроено в хост; zero-config (`netlify` атрибут на `<form>`); спам-фильтр; дашборд с заявками; уведомления на email. | Только email из коробки. В Telegram — через webhook на serverless-функцию. Бесплатный тариф — без лимита submissions в 2026. | Free | **Основной канал** (email). Работает без JS, без внешних зависимостей, без CORS. |
-| **Web3Forms** | Zero-config, бесплатный, отправляет на email без backend; хорошая интеграция с Astro (есть официальный гайд). | Зависимость от внешнего сервиса РФ-нейтрального; no-JS-fallback нужен руками. Отсутствует прямой Telegram-канал — те же webhook’и. | Free до 250 заявок/мес | Альтернатива, если сайт не на Netlify. |
-| **Formspree** | Зрелый сервис, AJAX и no-JS варианты, Zapier/Slack. | Free tier — 50 заявок/мес, это мало при росте трафика. | Free 50/мес; $10/мес за 1000 | Не рекомендуется в v1 (маленький лимит). |
-| **Telegram Bot API напрямую** | Заявка в Telegram-чат Марии мгновенно. Бесплатно. API стабильный. | Нужен endpoint: из клиента `fetch` на api.telegram.org светит токен бота в исходниках (крайне плохо). Требуется serverless-функция хоста (Netlify Functions), которая принимает POST от формы и зовёт `sendMessage`. | Free | **Дублирующий канал**: serverless-функция на Netlify принимает данные → шлёт и в Telegram, и (резерв) на email. |
-
-**Финальная архитектура формы (HIGH confidence):**
-
-- Вариант **A (проще, рекомендуется для v1)**: Netlify Forms для email + Netlify-триггер (notification webhook) на собственную serverless-функцию `notify-telegram.ts`, которая после успешной отправки формы зовёт `sendMessage` в Telegram-бот Марии. Токен бота — в env переменных Netlify, не в репо.
-- Вариант **B (если позже мигрируем с Netlify)**: Astro SSR-endpoint (`src/pages/api/submit.ts`) в режиме `output: 'server'` + Cloudflare Workers adapter, который параллельно шлёт в SMTP (через Resend/Yandex SMTP) и в Telegram.
-
-**В v1 — Вариант A.** Меньше кода, меньше точек отказа.
-
-### Аналитика
-
-| Tool | Purpose | Notes |
-|------|---------|-------|
-| **Яндекс.Метрика** | Статистика + Webvisor + цели на отправку формы | Обязательна: (1) Яндекс.Вебмастер любит сайты с Метрикой, (2) это бесплатный session-replay, (3) PROJECT.md прямо требует. Установка — скрипт в `<BaseHead>`. Для GDPR/152-ФЗ добавить cookie-консент. |
-| Google Analytics 4 | — | **Не ставить в v1.** Сегмент C ищет в Яндексе > Google в РФ (особенно B2B-корпоративный). GA4 = лишний скрипт, лишний cookie-консент, лишний риск. Если в v2 пойдёт Google-трафик — тогда. |
-| **Cookie-консент** (`jop-software/astro-cookieconsent` или собственный) | Баннер согласия на cookie | Для Метрики Яндекс даёт готовый правовой шаблон уведомления. Реализуем свой компактный баннер (проще, без зависимостей) — 30 строк кода. |
-
-### Development Tools
-
-| Tool | Purpose | Notes |
-|------|---------|-------|
-| **pnpm** | Пакетный менеджер | Быстрее npm, строже с peer-deps. Но npm/yarn тоже ок. Если Мария впервые ставит — npm проще (встроен в Node). |
-| **prettier** + `prettier-plugin-astro` | Форматирование | `.prettierrc` с `plugins: ["prettier-plugin-astro"]`. Для consistent-оформления MDX-кейсов. |
-| **astro check** | Встроенный type-checker | Запускать в CI перед деплоем: `astro check && astro build`. |
-| **@iconify/astro** или иконки из Lucide | Иконки | Не качать целые шрифт-файлы FontAwesome. Iconify = on-demand SVG для любых наборов. |
+| Инструмент | Цена | Когда нужен |
+|-----------|------|-------------|
+| **GTmetrix** (gtmetrix.com) | Бесплатно (базово) | Альтернатива PageSpeed Insights, показывает водопад загрузки — удобно для поиска медленных ресурсов |
+| **loading.express** | Бесплатно | Тест скорости с точек в российских городах — актуально для аудитории, которая сидит в РФ |
 
 ---
 
-## Installation
+## Блок 2. Семантическое ядро под Яндекс
 
-```bash
-# 1. Scaffold (интерактивно, но параметры ниже)
-npm create astro@latest krylya -- --template minimal --typescript strict --no-install --no-git
+### Рекомендуемый стек (HIGH confidence, все инструменты работают из РФ без VPN)
 
-cd krylya
-nvm use 22          # или fnm use 22
-npm install
+| Инструмент | Цена | Роль в сборе семантики |
+|-----------|------|----------------------|
+| **Яндекс.Wordstat** (wordstat.yandex.ru) | Бесплатно | Первичный сбор ключей: ввести базовый запрос («организация корпоратива Калининград»), получить список похожих. Полностью бесплатно. Ручная работа |
+| **Wordstat Assistant** (расширение Chrome/Firefox) | Бесплатно | Ускоряет ручной сбор из Wordstat: добавляет кнопку «+» к каждой фразе, копирует список в Excel. Без расширения — мучение |
+| **Букварикс** (bukvarix.com) | Бесплатно до 3 000 строк / выгрузка; платно от 695 ₽/мес | База 2,1+ млрд фраз: находит запросы, которые Wordstat не покажет при ручном обходе. Бесплатного лимита хватает для первичного сбора под нишевый сайт |
+| **Mutagen.ru** | Оплата по запросу: 10 проверок/день бесплатно после пополнения счёта на любую сумму; 30 ₽ за 100 проверок | Проверка конкурентности и частотности ключей. Нужен на этапе фильтрации ядра: убирает ключи с нулевой частотой или слишком высокой конкуренцией |
+| **Keys.so** (keys.so/ru) | Промо-сутки 990 ₽; от 1 500 ₽/мес (тарифы уточнять на keys.so/ru/tarif) | Анализ семантики конкурентов + расширение ядра: показывает, по каким запросам ранжируются другие ивент-агентства. Для регионального B2B достаточно разового доступа (сутки за 990 ₽) |
 
-# 2. Core integrations через official CLI (прописывает всё сам)
-npx astro add tailwind     # ставит tailwindcss@4 + @tailwindcss/vite, прописывает в astro.config
-npx astro add mdx
-npx astro add sitemap
-npx astro add netlify      # adapter — когда решим по хостингу
+**Процесс для Марии (без программирования):**
+1. Wordstat + расширение → первичный список (1–2 часа)
+2. Букварикс → расширение через базу (20 мин)
+3. Mutagen → фильтр по конкурентности (платёж от 30 ₽)
+4. Keys.so → разовый доступ на сутки для анализа конкурентов (990 ₽)
 
-# 3. SEO/контент-пакеты
-npm install astro-robots-txt astro-seo-schema
-npm install -D schema-dts  # типы для JSON-LD
+**Инструменты, которые НЕ нужны для этой задачи:**
 
-# 4. Sharp (если не поставится автоматически)
-npm install sharp
-
-# 5. Если будет форма через Telegram напрямую (dev-deps не нужны — fetch встроен)
-# серверная функция в netlify/functions/notify-telegram.ts
-```
-
-### Минимальный `astro.config.mjs`
-
-```javascript
-// astro.config.mjs
-import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
-import robotsTxt from 'astro-robots-txt';
-import netlify from '@astrojs/netlify';
-
-export default defineConfig({
-  // КРИТИЧНО для кириллического домена: site = Punycode URL.
-  // Все canonical / sitemap-ссылки будут построены от него.
-  site: 'https://xn--j1aco8bgs.life',
-
-  // Astro 6 default — 'static'. Переключаем на 'server' только если
-  // понадобится API route для формы (Вариант B выше).
-  output: 'static',
-  adapter: netlify(),
-
-  integrations: [
-    mdx(),
-    sitemap({
-      // Отфильтровать служебные страницы
-      filter: (page) => !page.includes('/404') && !page.includes('/drafts'),
-      serialize(item) {
-        // Кастомные приоритеты для главной/услуг
-        if (item.url === 'https://xn--j1aco8bgs.life/') {
-          item.priority = 1.0;
-          item.changefreq = 'weekly';
-        } else if (item.url.includes('/services/')) {
-          item.priority = 0.9;
-        } else if (item.url.includes('/cases/')) {
-          item.priority = 0.8;
-        }
-        return item;
-      },
-    }),
-    robotsTxt({
-      // Host-директива — критично для Яндекса на IDN-домене
-      host: 'xn--j1aco8bgs.life',
-      sitemap: true,
-    }),
-  ],
-
-  vite: {
-    plugins: [tailwindcss()],
-  },
-
-  // build.format: 'directory' — даёт URL вида /services/corporate-parties/
-  // вместо /services/corporate-parties.html. Лучше для SEO и совпадает с sitemap.md.
-  build: {
-    format: 'directory',
-  },
-});
-```
-
-### Минимальный `src/styles/global.css` (Tailwind v4)
-
-```css
-@import "tailwindcss";
-
-/* Брендбук: монохром + жёлтый акцент */
-@theme {
-  --color-brand-yellow: #FFF200;
-  --color-brand-black: #0A0A0A;
-  --color-brand-white: #FFFFFF;
-  --color-brand-gray-50: #F7F7F7;
-  --color-brand-gray-900: #171717;
-
-  --font-display: 'FuturaPT', system-ui, sans-serif;
-  --font-accent: 'Demetriss', Georgia, serif;
-  --font-body: 'FuturaPT', system-ui, sans-serif;
-
-  /* Типографика для SEO-читаемости */
-  --text-hero: 3.5rem;
-  --text-h1: 2.5rem;
-  --text-h2: 2rem;
-}
-```
-
-Затем в главном layout: `import '../styles/global.css';` — один раз.
+| Инструмент | Почему не нужен |
+|-----------|-----------------|
+| Ahrefs, SEMrush | Заблокированы/недоступны из РФ без иностранной карты. Дорого ($99+/мес) |
+| Serpstat | Формально есть, но от $69/мес, оплата — иностранной картой |
 
 ---
 
-## Кириллический домен крылья.life — что ломается и как чинить (HIGH confidence)
+## Блок 3. Технология контент-хаба/блога
 
-Это самая специфичная для проекта часть. Собрано по документации Vercel/Cloudflare/Yandex.
-
-### 1. Домен хранится в Punycode — везде, где железо
-
-- Регистратор nic.ru: домен зарегистрирован как `крылья.life`, но DNS и SSL-сертификаты оперируют ТОЛЬКО Punycode-формой `xn--j1aco8bgs.life`.
-- **В Netlify/Cloudflare при добавлении custom domain** нужно вводить `xn--j1aco8bgs.life` — кириллица будет отклонена формой. Это подтверждённое поведение.
-- **SSL через Let's Encrypt** работает на Punycode. Если в CAA-записях домена уже стоят другие сертификат-провайдеры, добавить `0 issue "letsencrypt.org"`.
-
-### 2. `site` в `astro.config` — ВАЖНО: Punycode
-
-- Ставим `site: 'https://xn--j1aco8bgs.life'`.
-- Из этого Astro строит canonical URL и все ссылки в `sitemap-0.xml`.
-- **Почему Punycode, а не кириллица:** `robots.txt` и HTTP-заголовки по спецификации (и по требованию Яндекс.Вебмастера) **не допускают кириллицу**. Всё что попадает в машину — только Punycode.
-- В `robots.txt` директива `Host:` должна быть `Host: xn--j1aco8bgs.life` (явное требование Яндекса).
-
-### 3. В `sitemap.xml` — Punycode URL
-
-- Яндекс и Google нормально понимают оба варианта, но **стандарт sitemap 0.9 требует URL-encoded форму**. Punycode + URL-encoded путь = 100% совместимость.
-- `@astrojs/sitemap` сгенерирует Punycode автоматически, если `site` задан в Punycode. Проверять в `/dist/sitemap-0.xml` после первого билда.
-
-### 4. В контенте сайта — кириллица
-
-- В `<title>`, `<meta description>`, в body, в письмах, на визитках — пишем и показываем **«крылья.life»**. Это часть бренда, так решила Мария.
-- В hreflang, в og:url, в canonical `<link>` — **Punycode** (машинное чтение).
-- Браузеры сами покажут кириллицу в адресной строке, если IDN-домен — «безопасный» (кириллица — безопасна для `.life`).
-
-### 5. Редиректы со старого Tilda
-
-- Tilda-домен — тот же `крылья.life`. Значит редиректы нужны со старых Tilda-URL на новые.
-- На Netlify: `_redirects` файл в `public/` или `netlify.toml`. 301-редиректы с сохранением query.
-- Важно: проверить через Яндекс.Вебмастер, какие URL Tilda вообще проиндексированы (проект PROJECT.md пишет, что не проиндексирован ни в одном поисковике — значит ущерб от редиректов минимальный).
-
-### 6. Яндекс.Вебмастер + Google Search Console
-
-- Верификацию делаем через **meta-тег в `<head>`** (самый простой способ для статического Astro).
-- В Вебмастере регистрируем именно `xn--j1aco8bgs.life` (Яндекс сам покажет кириллическое имя в интерфейсе).
-- Sitemap сабмитим как `https://xn--j1aco8bgs.life/sitemap-index.xml`.
-
-### 7. Потенциальные гетчи
-
-- **Open Graph og:image** — путь к картинке должен быть абсолютный и на Punycode-домене, иначе некоторые парсеры (особенно Telegram и ВК) не подтянут превью.
-- **Почта (wings.agency@yandex.ru)** — не связана с доменом, это отдельный почтовый сервис. Нет риска.
-- **Email-алиасы на домене** (@крылья.life) — не планируются, и хорошо: IDN-email работает криво в половине почтовиков. Если когда-то понадобится — делать алиас на xn--j1aco8bgs.life.
+Это ключевое решение этапа v2.0. Разбор трёх вариантов.
 
 ---
 
-## Alternatives Considered
+### Вариант А: Нативный блог на Astro Content Collections (текущий стек)
 
-| Recommended | Alternative | When to Use Alternative |
-|-------------|-------------|-------------------------|
-| **Astro 6** | Next.js 15 (App Router) | Если бы сайт был SPA или требовал тяжёлого клиентского интерактива. Для 20 SEO-страниц + форма — overkill, и Vercel-bound по экосистеме. |
-| **Astro 6** | WordPress (managed host) | Если заказчик сам хочет править тексты в админке. Мария явно отказалась — нужна автоматизация через Claude. |
-| **Astro 6** | SvelteKit | Отличная альтернатива, но экосистема content-коллекций и MDX у Astro сильнее и документация богаче. |
-| **Tailwind v4** | Vanilla CSS + CSS Modules | Для маленького однотонного сайта ок, но при 20+ страницах и необходимости быстрой итерации дизайна Tailwind кратно экономит время. |
-| **Netlify Free** | Vercel Pro ($20/мес) | Если бюджет появляется. DX Vercel на уровне; но для marketing-сайта бенефит не окупает ~22 тыс ₽/год. |
-| **Netlify Free** | Cloudflare Workers Free | Если упрёмся в лимиты Netlify или понадобится edge-runtime. Сложнее конфиг, но unlimited bandwidth. |
-| **Netlify Forms** | Собственная serverless-функция с SMTP | Больше контроля, можно хранить заявки в БД. Но сложнее, и БД — ещё одна подписка. |
-| **Web3Forms/Formspree** | Google Forms | Google Forms не даёт кастомную вёрстку и форму нельзя красиво встроить — отказывается. |
-| **Яндекс.Метрика** | Plausible, Simple Analytics | Cookie-less, красивые дашборды, GDPR из коробки. Но Яндекс.Вебмастер приоритизирует сайты с Метрикой; для РФ-SEO это почти must-have. |
-| **build.format: 'directory'** | `'file'` | 'file' даёт `/services/corporate-parties.html`, менее чисто для SEO. 'directory' — стандарт. |
+**Что это такое:** Статьи/материалы пишутся в `.md` или `.mdx` файлах прямо в репозитории GitHub, в папке `src/content/blog/`. Astro генерирует страницы автоматически при деплое. Уже работает для кейсов и страниц услуг.
 
----
+**Как это выглядит для Марии:** Открыть файл в GitHub → написать текст → сохранить → через 1–2 минуты статья на сайте. Или через Claude, который пишет и пушит файл.
 
-## What NOT to Use
+| Критерий | Оценка |
+|---------|--------|
+| SEO-индексация | Отлично: контент на основном домене крылья.life/блог/, статичный HTML, мгновенная индексация |
+| Canonical | Полный контроль: canonical в кириллице, как у основного сайта — нет конфликтов |
+| Поддомен vs подпапка | Подпапка (/блог/) — это стандарт. Контент наследует весь ссылочный вес домена. Субдомен (blog.крылья.life) хуже для SEO: по данным 2026 кейсов Salesforce/Yelp, переезд с субдомена на подпапку удвоил органический трафик |
+| Для не-программиста | Возможно при поддержке Claude: Маша описывает задачу, Claude пишет MDX и пушит |
+| Интеграция с Astro | Нативная, нулевая сложность |
+| Цена | 0 ₽ |
+| Риск vendor lock-in | Нет: файлы в Git, данные у вас, не у чужого сервиса |
+| Скорость сайта | Отлично: Astro строит статичный HTML, нет JS-рантайма CMS |
 
-| Avoid | Why | Use Instead |
-|-------|-----|-------------|
-| **`@astrojs/tailwind`** | Deprecated для Tailwind v4. Многие туториалы 2024-начала-2025 года до сих пор его показывают — игнорировать. | `@tailwindcss/vite` через `npx astro add tailwind` |
-| **Vercel Hobby Plan** | Terms of Service запрещают «Advertising the sale of a product or service» — это ровно кейс коммерческого marketing-сайта. Vercel может заблокировать проект. | Netlify Free или Cloudflare Workers Free (оба явно разрешают коммерческое использование). |
-| **`@astrojs/image` (старый)** | Интегрирован в core как `astro:assets` ещё в Astro 3. Отдельная интеграция больше не нужна. | Встроенные `<Image />` и `<Picture />` из `astro:assets` + `sharp`. |
-| **Кириллица в `site`, `robots.txt`, sitemap** | Яндекс явно запрещает кириллицу в robots.txt и HTTP headers. Sitemap-стандарт требует encoded URL. | Punycode (`xn--j1aco8bgs.life`) везде, где машина. Кириллица — только в UI-тексте. |
-| **Google Analytics 4 в v1** | В РФ-аудитории для B2B событий 70%+ трафика будет из Яндекса. GA4 = лишний cookie-баннер, лишний JS, никакой пользы. | Только Яндекс.Метрика. GA4 подключим в v2, если появится Google-трафик. |
-| **Netlify Identity / Vercel Auth / любой SSR-auth** | В проекте нет логина, нет личного кабинета (OOS в PROJECT.md). Лишний рантайм. | Чистый static + сабмит формы через serverless-функцию. |
-| **jQuery / any legacy JS** | Astro + Tailwind + минимальный vanilla JS решают всё. | Vanilla JS в `<script>` блоках Astro, или Astro Islands с мини-React/Vue только где критично. |
-| **CMS в v1 (Sanity/Contentful/Strapi)** | Добавляет внешнюю зависимость, сложность, стоимость. Claude пишет MDX напрямую в репо — этого достаточно для 20 страниц. | Content Collections + MDX + git. |
-| **i18n-интеграции** | Английская версия — OOS. Astro i18n усложняет sitemap и роутинг. | Чистый одноязычный сайт. |
-| **Astro 5.x на старте нового проекта в 2026** | Astro 6 уже стабилен (стабильный релиз — февраль 2026). На старте брать 5.x = иметь миграцию через год. | Astro 6.x с Node 22. |
-| **Node 18 / Node 20** | Astro 6 требует Node 22+. | Node 22 LTS. |
+**Недостаток:** Маша не может редактировать статьи «без компьютера» через красивый интерфейс CMS. Но это компенсируется автоматизацией через Claude.
 
 ---
 
-## Stack Patterns by Variant
+### Вариант Б: case.so
 
-**Если упрёмся в лимиты Netlify Free:**
-- Мигрировать на Cloudflare Workers (`@astrojs/cloudflare` adapter).
-- Форма и Telegram-интеграция переезжают в Cloudflare Workers function.
-- Причина: Cloudflare даёт unlimited bandwidth бесплатно и разрешает коммерческое использование.
+**Что это такое:** Поиск не дал результатов — ни официального сайта (SSL-ошибка при прямом доступе), ни упоминаний в русскоязычных и англоязычных SEO-изданиях за 2025–2026 год. Возможно, это очень нишевый или устаревший продукт, или нейминг совпал с другим сервисом.
 
-**Если появится бюджет на Vercel Pro ($20/мес):**
-- Остаёмся на Astro, меняем adapter на `@astrojs/vercel`. Всё остальное — без изменений.
-- Бенефит: чуть быстрее edge, лучше DX, Vercel Analytics.
-- Целесообразно только если найдём конкретные проблемы с Netlify/Cloudflare — по умолчанию не берём.
-
-**Если в v2 появится блог с > 50 постами:**
-- Добавить search (Pagefind — бесплатный статический поиск, интегрируется в Astro через билд-хук).
-- Для RSS: `@astrojs/rss`.
-- Для блога остаёмся на MDX + Content Collections — не нужен CMS.
-
-**Если в v2 появится английская версия:**
-- Astro native i18n (config `i18n: { locales: ['ru', 'en'], defaultLocale: 'ru' }`).
-- `@astrojs/sitemap` умеет i18n через `serialize` и `i18n` опцию.
-- hreflang в `<head>`.
+**Вывод по case.so:** Нет данных для оценки. Не рекомендуется до появления верифицированной информации. Использовать незнакомую платформу без данных о поддержке, ценах и надёжности = vendor lock-in в неизвестном (LOW confidence).
 
 ---
 
-## Version Compatibility
+### Вариант В: WIZR
 
-| Package A | Compatible With | Notes |
-|-----------|-----------------|-------|
-| `astro@^6.0` | `node@>=22` | Astro 6 **не работает** на Node 18/20. |
-| `astro@^6.0` | `vite@^7.0` | Vite 7 идёт в комплекте, руками не ставить. |
-| `@tailwindcss/vite@^4.0` | `tailwindcss@^4.0` | Обе должны быть v4. Смесь v3 и v4 — ломается. |
-| `@astrojs/mdx@latest` | `astro@^6.0` | `astro add mdx` поставит совместимую. |
-| `@astrojs/sitemap@^3.7+` | `astro@^6.0` | `serialize` hook появился в 3.7. |
-| `@astrojs/netlify@latest` | `astro@^6.0` | Работает и для static, и для server output. |
-| `sharp@^0.33` | `node@>=18` | Нужен для `astro:assets`. На macOS ставится без проблем; на Windows — иногда требует prebuilt binaries. |
-| `schema-dts@latest` | `typescript@^5` | Типы JSON-LD. |
+**Что это такое:** Поиск по «WIZR.so platform blog SEO 2026» не вернул ни одного результата с описанием продукта. Платформа не индексируется в основных SEO-изданиях.
+
+**Вывод по WIZR:** Аналогично case.so — нет данных (LOW confidence). Не рекомендуется.
 
 ---
 
-## Confidence Levels по каждому ключевому решению
+### Вариант Г: Внешние SaaS-конструкторы блогов (Ghost, Webflow, Notion-as-CMS)
 
-| Решение | Confidence | Обоснование |
-|---------|------------|-------------|
-| Astro 6 (не 5) | **HIGH** | Официальный блог Astro, InfoQ-анонс, Netlify changelog — подтверждают стабильный релиз Astro 6 в феврале-марте 2026. |
-| Tailwind v4 через `@tailwindcss/vite` | **HIGH** | Официальная документация Tailwind + Astro 5.2+ release notes. `@astrojs/tailwind` явно deprecated для v4. |
-| Content Layer + MDX | **HIGH** | Astro 5+ core feature, документация ясная. |
-| **НЕ Vercel Hobby** | **HIGH** | Прямая цитата из Vercel Fair Use Guidelines: «Advertising the sale of a product or service» = коммерческое использование. |
-| Netlify Free как основной хост | **HIGH** | Netlify Free явно разрешает commercial use; формы в 2026 free & unlimited. |
-| Яндекс.Метрика обязательна, GA4 — нет | **HIGH** | Аудитория B2B-корпоратив РФ, Яндекс.Вебмастер — обязательный инструмент SEO. |
-| Punycode в `site`, robots.txt, sitemap | **HIGH** | Официальная документация Яндекс.Вебмастер: «The use of the Cyrillic alphabet is not allowed in the robots.txt file and server HTTP headers. For domain names, use Punycode.» |
-| Netlify Forms + Telegram через Netlify Function | **MEDIUM** | Архитектурно логично и есть гайды; но конкретная интеграция «notification webhook → Telegram sendMessage» собирается из двух источников. Требует подтверждения на этапе плана. |
-| Отказ от CMS в v1 | **HIGH** | 20 страниц + Claude-автоматизация → CMS избыточен. |
-| `build.format: 'directory'` | **MEDIUM** | Стандартный выбор для SEO-сайтов; sitemap.md проекта использует URL с trailing slash, что совпадает. |
+| SaaS | SEO | Цена | Проблема для крылья.life |
+|-----|-----|------|--------------------------|
+| **Ghost** | Хороший (подпапка через прокси возможна, но сложно) | $9/мес | Требует настройки прокси-сервера для /блог/ на основном домене; без этого — отдельный домен = потеря ссылочного веса |
+| **Webflow CMS** | Хороший | $14+/мес | Отдельная платформа, разрыв с Astro-сайтом по стилю и скорости |
+| **Notion as blog** | Плохой | Бесплатно | Медленный, канонические URL не контролируются |
+
+**Общая проблема внешних SaaS:** Либо контент оказывается на субдомене/внешнем домене (теряет ссылочный вес крылья.life), либо требует сложной настройки реверс-прокси. Добавляет платёж. Создаёт зависимость от чужого сервиса.
 
 ---
 
-## Sources
+### Явная рекомендация по контент-хабу
 
-### Official documentation (HIGH-trust)
-- [Astro 6.0 release blog](https://astro.build/blog/astro-6/) — Astro 6 features, Vite 7, Cloudflare-first
-- [Astro Upgrade to v6 guide](https://docs.astro.build/en/guides/upgrade-to/v6/) — breaking changes, Node 22 requirement
-- [Astro Content Collections docs](https://docs.astro.build/en/guides/content-collections/) — Content Layer API, Zod schemas
-- [Astro Images docs](https://docs.astro.build/en/guides/images/) — `astro:assets`, sharp
-- [Astro Cloudflare adapter docs](https://docs.astro.build/en/guides/integrations-guide/cloudflare/) — Workers-only starting Astro 6
-- [Astro Netlify adapter docs](https://docs.astro.build/en/guides/integrations-guide/netlify/) — forms, functions
-- [@astrojs/sitemap docs](https://docs.astro.build/en/guides/integrations-guide/sitemap/) — filter, serialize, i18n
-- [Tailwind v4 Astro install guide](https://tailwindcss.com/docs/installation/framework-guides/astro) — `@tailwindcss/vite` plugin
-- [Vercel Fair Use Guidelines](https://vercel.com/docs/limits/fair-use-guidelines) — commercial use prohibition (quoted above)
-- [Vercel special characters in domain](https://vercel.com/guides/how-can-i-use-special-characters-in-my-custom-domain) — Punycode required
-- [Yandex Webmaster — robots.txt rules](https://yandex.com/support/webmaster/en/controlling-robot/robots-txt.html) — Punycode required
-- [Yandex Metrika GDPR compliance](https://yandex.com/support/metrica/en/general/gdpr.html) — cookie consent patterns
-- [Telegram Bot API](https://core.telegram.org/bots/api) — sendMessage, webhooks
+**Рекомендация: Вариант А — нативный блог на Astro Content Collections.**
 
-### Trusted guides (MEDIUM-trust, verified against official)
-- [Astro 6 Beta announcement — InfoQ](https://www.infoq.com/news/2026/02/astro-v6-beta-cloudflare/)
-- [Astro 6 just works on Netlify](https://www.netlify.com/changelog/2026-03-10-astro-6/) — confirms Netlify adapter readiness
-- [Hosting Free Tier Comparison 2026 — agentdeals.dev](https://agentdeals.dev/hosting-free-tier-comparison-2026) — Vercel vs Netlify vs Cloudflare commercial-use analysis
-- [Vercel Alternatives for Astro 2026 — ExpressTech](https://expresstech.io/5-vercel-alternatives-for-astro-sites-in-2026/)
-- [Web3Forms Astro integration docs](https://docs.web3forms.com/how-to-guides/static-site-generators/astro)
-- [Formspree Astro guide](https://formspree.io/guides/astro/)
-- [astro-seo-schema on npm](https://www.npmjs.com/package/astro-seo-schema) — LocalBusiness JSON-LD
-- [astro-robots-txt on npm](https://www.npmjs.com/package/astro-robots-txt) — Host directive support
-- [Astro SEO complete guide — Joost.blog](https://joost.blog/astro-seo-complete-guide/) — robots.txt, canonical patterns
-- [GTM + Cookie Consent Astro 2026](https://rafalszymanski.pl/en/blog/cookie-gtm-astro-guide/) — cookie consent patterns applicable to Yandex.Metrika
+Причины:
+1. **SEO-выигрыш:** Контент на `/блог/` (подпапка) наследует весь ссылочный вес домена крылья.life. Это единственный подход, при котором органический трафик блога усиливает, а не разбавляет основной домен. Данные 2026: подпапка получает в 2–5 раз больше AI-цитирований, чем субдомен.
+2. **Стек уже готов:** Content Collections работает для кейсов и страниц услуг. Добавить коллекцию `blog` — это 30 минут технической работы, не новая платформа.
+3. **Цена 0 ₽** против минимум $9/мес за любой SaaS.
+4. **Никакого vendor lock-in:** файлы в Git, можно переехать на любую платформу в любой момент.
+5. **case.so и WIZR не верифицированы** — нет данных об индексации, ценах, поддержке, работе из РФ. Использовать в продакшне неизвестный инструмент = неприемлемый риск для SEO сайта.
+
+Единственное, что нужно сделать — добавить папку `src/content/blog/` с Zod-схемой (frontmatter: title, date, description, tags, canonical) и шаблон страницы `/блог/[slug].astro`. Это задача для Claude, не для Марии.
 
 ---
 
-*Stack research for: SEO-оптимизированный маркетинговый сайт ивент-агентства на кириллическом домене*
-*Researched: 2026-04-22*
-*Next: этот файл читает роудмап при составлении фаз. Критическое решение — заменить Vercel на Netlify в Key Decisions проекта.*
+## Блок 4. Конкурентный анализ
+
+### Инструменты (работают из РФ без VPN — HIGH confidence)
+
+| Инструмент | Цена | Что даёт | Для чего использовать |
+|-----------|------|----------|----------------------|
+| **SpyWords** (spywords.ru) | От 1 200–2 500 ₽/мес или разово за неделю | Семантика конкурентов в Яндексе и Директе, позиции по запросам, сравнение доменов | Выяснить, по каким ключам ранжируются конкуренты («Фабрика», «Апполонов» и др.), какие запросы у них работают |
+| **Keys.so** (keys.so/ru) | 990 ₽/сутки (промо-доступ) | Семантика и видимость конкурентов в Яндексе, анализ по доменам | Разовый анализ: выгрузить все ключи топ-5 конкурентов за одни сутки |
+| **Яндекс.Вебмастер → «Запросы»** | Бесплатно | Позиции крылья.life по конкретным запросам, CTR | Базлайн: зафиксировать текущие позиции до старта работ |
+| **Google Search Console → «Эффективность»** | Бесплатно | Позиции в Google, клики, показы | Базлайн по Google |
+
+### Инструменты, недоступные из РФ (не рекомендуются)
+
+| Инструмент | Статус | Альтернатива |
+|-----------|--------|-------------|
+| **SimilarWeb** | Работает для просмотра данных, но оплата — иностранной картой. Бесплатный лимит крайне ограничен | SpyWords + Keys.so |
+| **Serpstat** | От $69/мес, оплата иностранной картой | SpyWords |
+| **Ahrefs, SEMrush** | Заблокированы/недоступны для оплаты из РФ | Keys.so + SpyWords |
+
+### Бесплатный конкурентный анализ (без инструментов)
+
+Для регионального B2B достаточно:
+1. Поиск в Яндексе по целевым запросам («организация корпоратива Калининград», «ивент-агентство Калининград», «тимбилдинг Калининград») → посмотреть, кто в топ-10
+2. Ручной разбор сайтов конкурентов: структура, тексты, кейсы, контакты
+3. Keys.so/SpyWords разово — на один день для выгрузки семантики конкурентов
+
+---
+
+## Блок 5. SMM
+
+### Планирование и постинг (HIGH confidence, все работают из РФ без VPN)
+
+| Инструмент | Цена | Платформы | Что умеет |
+|-----------|------|----------|-----------|
+| **SMMplanner** (smmplanner.com) | Бесплатно 3 аккаунта; от 660 ₽/мес (Стартовый, оплата за год) | Telegram, Instagram, ВКонтакте, ОК, TenChat и др. | Отложенный постинг, Stories и Reels в Instagram, Telegram-посты с форматированием и кнопками, визуальный редактор постов |
+| **Встроенная аналитика Telegram** | Бесплатно (при 50+ подписчиков) | Telegram | Базовые метрики канала: охваты, подписчики, источники. Достаточно для старта |
+| **TGStat** (tgstat.ru) | Бесплатно (базовые данные канала, поиск); платно от 2 940 ₽/мес (расширенная аналитика) | Telegram | Детальная аналитика канала, сравнение с конкурентами, индекс цитирования. На старте достаточно бесплатного базового просмотра |
+
+**Рекомендация по SMM:** SMMplanner бесплатный тариф (3 аккаунта = Telegram-канал + Instagram + запас) достаточен для начала. Платить 660 ₽/мес стоит только когда Маша начнёт публиковать регулярно (3+ поста в неделю). TGStat — бесплатно, для мониторинга своего канала.
+
+### Аналитика Instagram
+
+Нативная аналитика Instagram (Instagram Insights) — бесплатно в самом приложении при бизнес-аккаунте. Показывает охваты, реакции, переходы по ссылке в bio. Для старта достаточно.
+
+---
+
+## Блок 6. Партнёрский аутрич
+
+### Поиск компаний и ЛПР (HIGH confidence, все работают из РФ)
+
+| Инструмент | Цена | Что даёт | Как использовать |
+|-----------|------|----------|-----------------|
+| **Rusprofile** (rusprofile.ru) | Бесплатно (базово) | ФНС/ЕГРЮЛ данные: название, ИНН, ОГРН, адрес, имя директора, связанные компании | Найти компанию → узнать имя директора → нагуглить контакт. Это легальная открытая база |
+| **Контур.Компас / Контур.Поиск клиентов** (kontur.ru/compass) | Бесплатно: 50 компаний/мес на выгрузку; платно: от ~5 000 ₽/мес | Поиск по 70+ параметрам: регион, ОКВЭД, выручка, участие в закупках. Найти список застройщиков или крупных компаний по критериям | Собрать список целевых застройщиков и федеральных агентств Калининграда и Москвы. 50 компаний/мес бесплатно — хватит для старта |
+| **Яндекс / Google поиск** | Бесплатно | Поиск сайтов компаний → страница «Контакты» или «О нас» → имена, email | Для небольшого пула (50–100 компаний) достаточно ручного поиска |
+
+### CRM-замена (ведение базы контактов)
+
+| Инструмент | Цена | Почему подходит |
+|-----------|------|----------------|
+| **Google Sheets / Яндекс Таблицы** | Бесплатно | Простая таблица: компания, ЛПР, контакт, статус, дата последнего касания. Для 50–200 контактов — идеальный вариант. Маша умеет работать с таблицами. Никакого онбординга |
+| **Notion (бесплатный план)** | Бесплатно | База данных с карточками контактов + канбан по статусам (Не начато / Отправлено / Ответ / Сделка). Более наглядно, чем таблица | 
+
+**Рекомендация:** Начать с Google Sheets / Яндекс Таблицами — без порога входа. Перейти на Notion если таблица перестаёт работать (>100 активных контактов).
+
+### Что НЕ нужно для аутрича
+
+| Инструмент | Почему не нужен |
+|-----------|----------------|
+| **Контур.Фокус** | Дорого: от 29 760 ₽/год. Нужен для комплаенса (проверка контрагентов), не для аутрича. Rusprofile даёт те же базовые данные бесплатно |
+| **LinkedIn** | Официально заблокирован в РФ с 2016 года. Использование через VPN — риск аккаунта. Для B2B в российских регионах не нужен: ЛПР там нет |
+| **Платные CRM** (amoCRM, Bitrix24) | Избыточно. Для аутрича к 50–200 компаниям таблица эффективнее и без риска потерять данные при отмене подписки |
+
+---
+
+## Сводная таблица: инструменты по блокам
+
+| Блок | Инструмент | Цена | Доступность РФ | Приоритет |
+|-----|-----------|------|---------------|-----------|
+| SEO-аудит | Яндекс.Вебмастер | 0 ₽ | Да | Обязательно |
+| SEO-аудит | Google Search Console | 0 ₽ | Да | Обязательно |
+| SEO-аудит | PageSpeed Insights | 0 ₽ | Да | Обязательно |
+| SEO-аудит | Screaming Frog (free) | 0 ₽ | Да | Обязательно |
+| Семантика | Яндекс.Wordstat + расширение | 0 ₽ | Да | Обязательно |
+| Семантика | Букварикс | 0 ₽ / 695 ₽/мес | Да | Обязательно |
+| Семантика | Mutagen.ru | от 30 ₽/100 запросов | Да | Обязательно |
+| Семантика | Keys.so | 990 ₽/сутки | Да | Разово |
+| Контент-хаб | Astro Content Collections (уже есть) | 0 ₽ | — | Обязательно |
+| Конкуренты | SpyWords | от 1 200 ₽/мес | Да | Разово |
+| Конкуренты | Keys.so | 990 ₽/сутки | Да | Разово (совместить с семантикой) |
+| SMM | SMMplanner | 0 ₽ (бесплатный тариф) | Да | Обязательно |
+| SMM | TGStat | 0 ₽ (базово) | Да | Обязательно |
+| SMM | Instagram Insights | 0 ₽ | Да | Обязательно |
+| Аутрич | Rusprofile | 0 ₽ | Да | Обязательно |
+| Аутрич | Контур.Компас | 0 ₽ (50 компаний/мес) | Да | Обязательно |
+| Аутрич | Google Sheets / Яндекс.Таблицы | 0 ₽ | Да | Обязательно |
+
+**Разовый бюджет на весь этап:** 990 ₽ (Keys.so на сутки, совместить сбор семантики + анализ конкурентов) + ~30–100 ₽ (Mutagen, по запросу). Итого: около 1 100–1 200 ₽ разово.
+
+---
+
+## Что НЕ добавлять
+
+| Инструмент/платформа | Причина |
+|---------------------|---------|
+| case.so, WIZR | Нет публичной информации, цен, отзывов в 2025–2026. Риск vendor lock-in в мёртвый продукт |
+| Внешний SaaS-блог на субдомене | Контент не наследует вес домена крылья.life — SEO-потери |
+| Ahrefs, SEMrush | Недоступны из РФ без иностранной карты |
+| Serpstat | Оплата только иностранной картой, от $69/мес |
+| SimilarWeb (платно) | Оплата иностранной картой; бесплатный лимит бесполезен |
+| LinkedIn | Заблокирован в РФ с 2016 |
+| Контур.Фокус | От 29 760 ₽/год — избыточно для аутрича, когда Rusprofile бесплатный |
+| Платные CRM (amoCRM, Bitrix) | Избыточно для пула в 50–200 контактов |
+| GA4 | Уже в Out of Scope (PROJECT.md): аудитория в Яндексе, GA4 не даёт ценности |
+
+---
+
+## Источники
+
+- [SpyWords — тарифы 2025](https://blog.spywords.ru/spywords_new_pricing_2025) — HIGH confidence
+- [SpyWords — обзор 2026](https://picktech.ru/product/spywords/) — HIGH confidence
+- [Keys.so — тарифы](https://www.keys.so/ru/tarif) — HIGH confidence (структура подтверждена, точные цены уточнять на сайте)
+- [SMMplanner — официальный сайт](https://smmplanner.com/) — HIGH confidence (цены с сайта: от 660 ₽/мес, бесплатно 3 аккаунта)
+- [TGStat — аналитика Telegram](https://tgstat.ru/en/analytics) — HIGH confidence
+- [Контур.Компас — бесплатный тариф](https://kontur.ru/compass) — HIGH confidence (50 компаний/мес бесплатно)
+- [Rusprofile](https://www.rusprofile.ru/) — HIGH confidence (бесплатный открытый сервис)
+- [Screaming Frog pricing 2026](https://www.screamingfrog.co.uk/seo-spider/pricing/) — HIGH confidence (бесплатно до 500 URL, лицензия £199/год)
+- [Screaming Frog v24.2 (июнь 2026)](https://www.screamingfrog.co.uk/blog/seo-spider-24/) — HIGH confidence
+- [Букварикс — обзор](https://toolfox.ru/services/s/bukvarix) — MEDIUM confidence (бесплатно до 3000 строк, 695 ₽/мес)
+- [Mutagen.ru](https://mutagen.ru/) — MEDIUM confidence (10 проверок/день бесплатно, 30 ₽/100 запросов)
+- [Subdomain vs subdirectory 2026](https://zetamatic.com/blog/2026/02/subdomain-vs-subdirectory-which-is-better-for-seo-2026/) — MEDIUM confidence
+- [Serpstat недоступен в РФ](https://seo.ru/blog/analogi-seo-instrumentov-nedostupnyh-v-rossii/) — HIGH confidence
+- [Астро Content Collections docs](https://docs.astro.build/en/guides/content-collections/) — HIGH confidence (официальная документация)
+- [Аналитика Telegram 2026](https://elama.ru/blog/servisy-analitiki-telegram/) — MEDIUM confidence
+
+---
+
+*Stack research for: крылья.life v2.0 «Рост — рынок, контент и партнёрства»*
+*Researched: 2026-06-26*
