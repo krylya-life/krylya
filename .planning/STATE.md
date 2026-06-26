@@ -1,24 +1,33 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: completed
-last_updated: "2026-06-17T19:00:00.000Z"
+milestone: v2.0
+milestone_name: rost-rynok-kontent-partnerstva
+status: defining_requirements
+last_updated: "2026-06-26T00:00:00.000Z"
 progress:
-  total_phases: 10
+  total_phases: 0
   completed_phases: 0
-  total_plans: 14
+  total_plans: 0
   completed_plans: 0
   percent: 0
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
+## Current Position
+
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-26 — Milestone v2.0 «Рост — рынок, контент и партнёрства» started
+
 ## Project Reference
 
-**Core Value:** Один реальный контракт, пришедший через органический поиск на сайт к 30 июня 2026.
+**Milestone v2.0 Core Value:** 2–3 крупных контракта/партнёрства из системной работы этапа (аутрич к федералам/застройщикам + органика), к 31 декабря 2026.
 
-**Current Focus:** Phase 7 (Релиз и SEO-запуск) **завершена 2026-06-17** — крылья.life живёт на Cloudflare Pages, Я.Вебмастер и Google Search Console подключены, sitemap сабмичен, регион Калининград подан, цели Метрики настроены, noindex снят. Сайт открыт для индексации. Следующий шаг — Phase 8 (мониторинг + B-план по росту трафика).
+**v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
+
+**Current Focus:** Старт v2.0. Определяются требования и собирается ROADMAP. Рабочие блоки: SEO-аудит + аналитика, конкуренты (мир/РФ/Калининград), тренды, форматы мероприятий, контент-хаб, SMM, партнёрский аутрич ×10.
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
