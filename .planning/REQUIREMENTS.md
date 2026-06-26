@@ -314,9 +314,59 @@
 
 ## v2.0 Traceability
 
-<!-- Заполняется роадмаппером при создании ROADMAP.md -->
+Заполнено роадмаппером 2026-06-26. Каждое v2.0-требование → ровно одна фаза. Нумерация фаз: Phase 9–16.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| AUDIT-01 | Phase 9 | Pending |
+| AUDIT-02 | Phase 9 | Pending |
+| AUDIT-03 | Phase 9 | Pending |
+| AUDIT-04 | Phase 9 | Pending |
+| AUDIT-05 | Phase 9 | Pending |
+| COMP-01 | Phase 10 | Pending |
+| COMP-02 | Phase 11 | Pending |
+| COMP-03 | Phase 11 | Pending |
+| COMP-04 | Phase 11 | Pending |
+| COMP-05 | Phase 11 | Pending |
+| TREND-01 | Phase 12 | Pending |
+| TREND-02 | Phase 12 | Pending |
+| TREND-03 | Phase 12 | Pending |
+| TREND-04 | Phase 12 | Pending |
+| FORMAT-01 | Phase 13 | Pending |
+| FORMAT-02 | Phase 13 | Pending |
+| FORMAT-03 | Phase 13 | Pending |
+| HUB-01 | Phase 14 | Pending |
+| HUB-02 | Phase 14 | Pending |
+| HUB-03 | Phase 14 | Pending |
+| HUB-04 | Phase 14 | Pending |
+| HUB-05 | Phase 14 | Pending |
+| CHAN-01 | Phase 16 | Pending |
+| CHAN-02 | Phase 16 | Pending |
+| CHAN-03 | Phase 16 | Pending |
+| CHAN-04 | Phase 16 | Pending |
+| CHAN-05 | Phase 16 | Pending |
+| PARTNER-01 | Phase 15 | Pending |
+| PARTNER-02 | Phase 15 | Pending |
+| PARTNER-03 | Phase 15 | Pending |
+| PARTNER-04 | Phase 15 | Pending |
+| PARTNER-05 | Phase 15 | Pending |
+
+**Coverage v2.0:**
+- v2.0 requirements: 32
+- Mapped to phases: 32 ✓
+- Unmapped: 0
+
+**Phase distribution v2.0:**
+- Phase 9 (SEO-аудит и базлайн): 5
+- Phase 10 (Конкуренты мира): 1
+- Phase 11 (Конкуренты РФ и Калининград): 4
+- Phase 12 (Тренды индустрии): 4
+- Phase 13 (Форматы мероприятий): 3
+- Phase 14 (Семантика 2.0 + контент-хаб): 5
+- Phase 15 (Партнёрский аутрич): 5
+- Phase 16 (SMM-стратегия и контент-система): 5
 
 ---
 
 *Requirements defined: 2026-04-23 (v1.0), 2026-06-26 (v2.0)*
-*Last updated: 2026-06-26 — добавлены требования milestone v2.0 (7 категорий, 31 требование)*
+*Last updated: 2026-06-26 — v2.0 Traceability заполнена роадмаппером (8 фаз, 32 требования)*
