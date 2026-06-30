@@ -19,6 +19,7 @@ const cases = defineCollection({
     title: z.string(),
     slug: z.string(),
     client: z.string(),
+    eyebrow: z.string().optional(),
     date: z.coerce.date(),
     service: reference("services").optional(),
     segment: z.enum(["dev", "biz", "private"]),

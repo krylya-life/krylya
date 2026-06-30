@@ -2,6 +2,7 @@
 title: Открытие ЖК АЭРО
 slug: aero-otkrytie
 client: ЖК АЭРО
+eyebrow: Опен-эйр
 date: 2025-12-13
 service: business-events
 segment: dev

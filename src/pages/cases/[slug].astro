@@ -82,7 +82,7 @@ const seoDescription =
 
   <CaseHero
     title={d.title}
-    client={d.client}
+    client={d.eyebrow || d.client}
     slug={d.slug}
     cover={d.cover}
     chips={chips}
@@ -166,7 +166,7 @@ const seoDescription =
     next={{
       title: next.data.title,
       slug: next.data.slug,
-      client: next.data.client,
+      client: next.data.eyebrow || next.data.client,
       cover: next.data.cover,
     }}
   />
