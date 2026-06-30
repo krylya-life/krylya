@@ -18,7 +18,6 @@ photos:
   - 013.jpg
   - 016.jpg
   - 028.jpg
-  - 039.jpg
   - 115.jpg
   - 280.jpg
   - 339.jpg

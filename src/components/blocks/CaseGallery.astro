@@ -1,6 +1,6 @@
 ---
 /*
- * CaseGallery — сетка фото с площадки. 2 колонки на мобиле / 3 на планшете / 4 на десктопе.
+ * CaseGallery — сетка фото с площадки. 2 колонки на мобиле / 3 на планшете и десктопе.
  * Топ-12 фото. Клик по фото открывает его во весь экран (лайтбокс с листанием). Тёмная палитра.
  */
 interface Props {
@@ -22,7 +22,7 @@ const base = `/assets/cases/${slug}`;
       </h2>
       <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
 
-      <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-4">
+      <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4">
         {visible.map((photo, i) => (
           <button
             type="button"
