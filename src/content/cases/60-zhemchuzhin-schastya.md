@@ -21,6 +21,7 @@ photos:
   - 039.jpg
   - 115.jpg
   - 280.jpg
+  - 339.jpg
   - 404.jpg
   - 496.jpg
 featured: false

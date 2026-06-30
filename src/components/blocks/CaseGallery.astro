@@ -1,7 +1,7 @@
 ---
 /*
- * CaseGallery — сетка фото с площадки. 2 колонки на мобиле / 3 на десктопе.
- * Топ-12 фото, без лайтбокса (решение из 05-CONTEXT.md). Тёмная палитра.
+ * CaseGallery — сетка фото с площадки. 2 колонки на мобиле / 3 на планшете / 4 на десктопе.
+ * Топ-12 фото. Клик по фото открывает его во весь экран (лайтбокс с листанием). Тёмная палитра.
  */
 interface Props {
   photos: string[];
@@ -11,6 +11,7 @@ interface Props {
 
 const { photos, slug, title } = Astro.props;
 const visible = (photos || []).slice(0, 12);
+const base = `/assets/cases/${slug}`;
 ---
 
 {visible.length > 0 && (
@@ -21,18 +22,96 @@ const visible = (photos || []).slice(0, 12);
       </h2>
       <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
 
-      <div class="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+      <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-4">
         {visible.map((photo, i) => (
-          <figure class="group relative aspect-square overflow-hidden rounded-xl bg-white/[0.03]">
+          <button
+            type="button"
+            class="lb-thumb group relative aspect-square cursor-zoom-in overflow-hidden rounded-xl bg-white/[0.03]"
+            data-full={`${base}/${photo}`}
+            aria-label={`Открыть фото ${i + 1}`}
+          >
             <img
-              src={`/assets/cases/${slug}/${photo}`}
+              src={`${base}/${photo}`}
               alt={title ? `${title} — фото ${i + 1}` : `Фото с площадки ${i + 1}`}
               class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-              loading={i < 3 ? "eager" : "lazy"}
+              loading={i < 4 ? "eager" : "lazy"}
             />
-          </figure>
+          </button>
         ))}
       </div>
     </div>
+
+    {/* Лайтбокс — открывается по клику на фото */}
+    <div
+      class="lb-overlay fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Просмотр фото"
+    >
+      <button
+        type="button"
+        class="lb-close absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-2xl text-white transition hover:bg-white/20"
+        aria-label="Закрыть"
+      >&times;</button>
+      <button
+        type="button"
+        class="lb-prev absolute left-3 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-3xl text-white transition hover:bg-white/20 md:left-6"
+        aria-label="Предыдущее фото"
+      >&lsaquo;</button>
+      <img class="lb-image max-h-[88vh] max-w-[92vw] rounded-lg object-contain" src="" alt="" />
+      <button
+        type="button"
+        class="lb-next absolute right-3 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-3xl text-white transition hover:bg-white/20 md:right-6"
+        aria-label="Следующее фото"
+      >&rsaquo;</button>
+    </div>
   </section>
 )}
+
+<script>
+  document.querySelectorAll(".lb-overlay").forEach((overlay) => {
+    const section = overlay.closest("section");
+    if (!section) return;
+    const thumbs = Array.from(section.querySelectorAll(".lb-thumb"));
+    const srcs = thumbs.map((t) => (t as HTMLElement).dataset.full || "");
+    const imgEl = overlay.querySelector(".lb-image") as HTMLImageElement;
+    let current = 0;
+
+    const show = (i: number) => {
+      current = (i + srcs.length) % srcs.length;
+      imgEl.src = srcs[current];
+    };
+    const open = (i: number) => {
+      show(i);
+      overlay.classList.remove("hidden");
+      overlay.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    };
+    const close = () => {
+      overlay.classList.add("hidden");
+      overlay.classList.remove("flex");
+      imgEl.src = "";
+      document.body.style.overflow = "";
+    };
+
+    thumbs.forEach((t, i) => t.addEventListener("click", () => open(i)));
+    overlay.querySelector(".lb-close")?.addEventListener("click", close);
+    overlay.querySelector(".lb-prev")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      show(current - 1);
+    });
+    overlay.querySelector(".lb-next")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      show(current + 1);
+    });
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (overlay.classList.contains("hidden")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+    });
+  });
+</script>
