@@ -1,19 +1,16 @@
 ---
 /*
- * CasesPreview — три featured-кейса на главной (АЭРО, ВКЛЮЧИ, ДОМ).
- * Тёмная версия (Wave 3): квадратные карточки 1:1 с обложкой,
- * затемнение снизу, текст поверх, lab-cursor-wings — курсор «крылья» при наведении.
- * Фон секции — lab-bg-alt.
+ * CasesPreview — карусель кейсов на главной.
+ * Плавная бесконечная прокрутка по кругу (auto-marquee) + стрелки ‹ ›.
+ * Пауза при наведении/фокусе, уважает prefers-reduced-motion. Карточки кликабельны.
+ * Тёмная палитра, lab-cursor-wings — курсор «крылья» при наведении.
  */
 import { getCollection } from "astro:content";
 
-// На главную выносим только согласованные кейсы — `.business/products/overview.md`:
-// АЭРО, ВКЛЮЧИ и фестиваль «ДОМ». Помечены featured: true.
 const all = await getCollection("cases");
-const cases = all
-  .filter((c) => c.data.featured)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const cases = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// Дублируем список — для бесшовной прокрутки по кругу.
+const loop = [...cases, ...cases];
 ---
 
 <section id="cases" class="lab-bg-alt relative px-6 py-14 md:px-12 md:py-20">
@@ -38,34 +35,119 @@ const cases = all
     </div>
 
     {cases.length > 0 ? (
-      <div class="mx-auto grid max-w-4xl gap-4 md:grid-cols-3">
-        {cases.map((c) => (
-          <a
-            href={`/cases/${c.data.slug}/`}
-            class="group lab-cursor-wings relative block aspect-square overflow-hidden rounded-2xl no-underline"
-          >
-            <img
-              src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
-              alt={c.data.title}
-              class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              loading="lazy"
-            />
-            <!-- Затемнение снизу, чтобы текст читался -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+      <div class="relative" data-carousel>
+        <div data-track class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth">
+          {loop.map((c, i) => (
+            <a
+              href={`/cases/${c.data.slug}/`}
+              aria-hidden={i >= cases.length ? "true" : undefined}
+              tabindex={i >= cases.length ? -1 : undefined}
+              class="group lab-cursor-wings relative block aspect-[4/5] w-[72%] shrink-0 overflow-hidden rounded-2xl no-underline sm:w-[300px]"
+            >
+              <img
+                src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
+                alt={c.data.title}
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 p-5">
+                <p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#FFF200]">
+                  {c.data.eyebrow || c.data.client}
+                </p>
+                <h3 class="text-base font-semibold leading-tight tracking-tight text-white md:text-lg">
+                  {c.data.title}
+                </h3>
+              </div>
+            </a>
+          ))}
+        </div>
 
-            <div class="absolute inset-x-0 bottom-0 p-5">
-              <p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#FFF200]">
-                {c.data.client}
-              </p>
-              <h3 class="text-base font-semibold leading-tight tracking-tight text-white md:text-lg">
-                {c.data.title}
-              </h3>
-            </div>
-          </a>
-        ))}
+        <button
+          type="button"
+          data-prev
+          aria-label="Предыдущий кейс"
+          class="absolute left-1 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-2xl text-white backdrop-blur transition hover:bg-black/70 sm:flex"
+        >&lsaquo;</button>
+        <button
+          type="button"
+          data-next
+          aria-label="Следующий кейс"
+          class="absolute right-1 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-2xl text-white backdrop-blur transition hover:bg-black/70 sm:flex"
+        >&rsaquo;</button>
       </div>
     ) : (
-      <p class="mt-12 text-white/60 italic">Кейсы появятся в Phase 5.</p>
+      <p class="mt-12 text-white/60 italic">Кейсы появятся скоро.</p>
     )}
   </div>
 </section>
+
+<style>
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector("[data-track]") as HTMLElement;
+    if (!track) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Ширина одного полного набора карточек (список продублирован дважды).
+    const setWidth = () => track.scrollWidth / 2;
+    const step = () => {
+      const first = track.firstElementChild as HTMLElement | null;
+      const gap = parseFloat(getComputedStyle(track).columnGap || "16") || 16;
+      return first ? first.offsetWidth + gap : 320;
+    };
+
+    // Бесшовная прокрутка по кругу: при выходе за пределы набора
+    // мгновенно сдвигаем на идентичную позицию — переход незаметен.
+    let wrapping = false;
+    track.addEventListener("scroll", () => {
+      if (wrapping) return;
+      const w = setWidth();
+      if (track.scrollLeft >= w) {
+        wrapping = true;
+        track.scrollLeft -= w;
+        wrapping = false;
+      } else if (track.scrollLeft <= 0) {
+        wrapping = true;
+        track.scrollLeft += w;
+        wrapping = false;
+      }
+    });
+
+    // Старт из середины — чтобы листать в обе стороны без рывка.
+    requestAnimationFrame(() => {
+      track.scrollLeft = setWidth() / 2;
+    });
+
+    root.querySelector("[data-next]")?.addEventListener("click", () => {
+      track.scrollBy({ left: step(), behavior: "smooth" });
+    });
+    root.querySelector("[data-prev]")?.addEventListener("click", () => {
+      track.scrollBy({ left: -step(), behavior: "smooth" });
+    });
+
+    // Плавное автодвижение по кругу.
+    let paused = false;
+    root.addEventListener("pointerenter", () => (paused = true));
+    root.addEventListener("pointerleave", () => (paused = false));
+    root.addEventListener("focusin", () => (paused = true));
+    root.addEventListener("focusout", () => (paused = false));
+
+    if (!reduce) {
+      const tick = () => {
+        if (!paused) track.scrollLeft += 0.5;
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  });
+</script>
