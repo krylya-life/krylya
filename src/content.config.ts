@@ -34,6 +34,7 @@ const cases = defineCollection({
     photos: z.array(z.string()).default([]),
     testimonial: reference("testimonials").optional(),
     featured: z.boolean().default(false),
+    wip: z.boolean().default(false),
   }),
 });
 

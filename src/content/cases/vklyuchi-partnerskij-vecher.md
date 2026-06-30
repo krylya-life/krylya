@@ -5,8 +5,8 @@ client: ГК ССК, ЖК «ВКЛЮЧИ»
 date: 2024-05-20
 service: business-events
 segment: dev
-challenge: TODO Wave 2
-solution: TODO Wave 2
+challenge: "Кейс готовится — скоро добавим фото и подробное описание."
+solution: "Кейс готовится."
 results: []
 cover: 20250314-180010.jpg
 format: TODO
@@ -15,6 +15,7 @@ venue: TODO
 heroFact: TODO
 photos: []
 featured: true
+wip: true
 ---
 
-Подробное описание кейса — наполним в Wave 2 (план 05-03).
+Кейс готовится — скоро здесь появятся фотографии и подробное описание.

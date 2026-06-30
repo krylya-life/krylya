@@ -88,37 +88,58 @@ const seoDescription =
     chips={chips}
   />
 
-  <!-- Контент: текст слева, фото справа (на десктопе); на мобиле — друг под другом -->
-  <section class="relative px-6 pt-6 pb-14 md:px-12 md:pt-10 md:pb-20">
-    <div class="mx-auto max-w-6xl">
-      <div class="grid gap-10 lg:grid-cols-2 lg:gap-14">
-        <!-- Текст -->
-        <article
-          class="text-white/80
-            [&_h2]:mt-12 [&_h2:first-child]:mt-0 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-white md:[&_h2]:text-3xl
-            [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white
-            [&_p]:mt-5 [&_p]:leading-relaxed md:[&_p]:text-lg
-            [&_strong]:text-white
-            [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2
-            [&_li]:leading-relaxed
-            [&_a]:text-[#FFF200] [&_a]:underline [&_a]:underline-offset-4"
+  {d.wip ? (
+    <!-- Заглушка: кейс в разработке -->
+    <section class="relative px-6 pt-10 pb-16 md:px-12 md:pt-14 md:pb-24">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="inline-flex items-center rounded-full border border-white/15 bg-white/[0.05] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/70">
+          В&nbsp;разработке
+        </span>
+        <h2 class="mt-6 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+          Кейс готовится
+        </h2>
+        <p class="mt-4 text-base leading-relaxed text-white/60 md:text-lg">
+          Скоро здесь появятся фотографии с&nbsp;площадки и&nbsp;подробное описание проекта. А&nbsp;пока загляните в&nbsp;другие наши кейсы.
+        </p>
+        <a
+          href="/cases/"
+          class="mt-8 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-medium text-white/85 no-underline transition hover:border-white/30 hover:text-white"
         >
-          <Content />
-        </article>
-
-        <!-- Фото -->
-        {d.photos && d.photos.length > 0 && (
-          <div>
-            <h2 class="text-2xl font-semibold tracking-tight text-white md:text-3xl">
-              Фото с&nbsp;площадки
-            </h2>
-            <span class="mb-6 mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
-            <CaseGallery photos={d.photos} slug={d.slug} title={d.title} />
-          </div>
-        )}
+          Все кейсы
+        </a>
       </div>
-    </div>
-  </section>
+    </section>
+  ) : (
+    <!-- Контент: текст слева, фото справа (на десктопе); на мобиле — друг под другом -->
+    <section class="relative px-6 pt-6 pb-14 md:px-12 md:pt-10 md:pb-20">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid gap-10 lg:grid-cols-2 lg:gap-14">
+          <article
+            class="text-white/80
+              [&_h2]:mt-12 [&_h2:first-child]:mt-0 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-white md:[&_h2]:text-3xl
+              [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white
+              [&_p]:mt-5 [&_p]:leading-relaxed md:[&_p]:text-lg
+              [&_strong]:text-white
+              [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2
+              [&_li]:leading-relaxed
+              [&_a]:text-[#FFF200] [&_a]:underline [&_a]:underline-offset-4"
+          >
+            <Content />
+          </article>
+
+          {d.photos && d.photos.length > 0 && (
+            <div>
+              <h2 class="text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                Фото с&nbsp;площадки
+              </h2>
+              <span class="mb-6 mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+              <CaseGallery photos={d.photos} slug={d.slug} title={d.title} />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
 
   <div class="lab-divider-glow mx-auto max-w-6xl"></div>
 

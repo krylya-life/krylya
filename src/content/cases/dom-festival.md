@@ -5,8 +5,8 @@ client: «ДОМ»
 date: 2024-09-15
 service: client-events
 segment: biz
-challenge: TODO Wave 2
-solution: TODO Wave 2
+challenge: "Кейс готовится — скоро добавим фото и подробное описание."
+solution: "Кейс готовится."
 results: []
 cover: IMG_1204.jpg
 format: TODO
@@ -15,6 +15,7 @@ venue: TODO
 heroFact: TODO
 photos: []
 featured: true
+wip: true
 ---
 
-Подробное описание кейса — наполним в Wave 2 (план 05-03).
+Кейс готовится — скоро здесь появятся фотографии и подробное описание.
