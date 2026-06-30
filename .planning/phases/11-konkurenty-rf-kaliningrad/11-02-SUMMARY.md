@@ -120,6 +120,14 @@ None. Файл — чистый ресёрч-артефакт; нет UI-ком�
 - **Отстройка «Крыльев»** → вход для скриптов аутрича (Фаза 15) и блока «Почему иногородним» на сайте (Фаза F)
 - **Следующий параллельный артефакт**: `competitor-kaliningrad.md` (план 11-01 — местные агентства)
 
+## Self-Check: PASSED
+
+- FOUND: `.planning/research/competitors/competitor-ru.md`
+- FOUND: `.planning/phases/11-konkurenty-rf-kaliningrad/11-02-SUMMARY.md`
+- FOUND: research commit `70fffb2`
+- FOUND: summary commit `2c298f9`
+- FOUND: phrase «потенциальный партнёр» (24 вхождения)
+
 ---
 *Phase: 11-konkurenty-rf-kaliningrad*
 *Completed: 2026-06-30*
