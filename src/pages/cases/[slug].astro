@@ -45,7 +45,6 @@ const coverPath = `/assets/cases/${d.slug}/${d.cover}`;
 const coverAbsolute = `${business.url}${coverPath}`;
 
 const dateFormatted = new Intl.DateTimeFormat("ru-RU", {
-  day: "numeric",
   month: "long",
   year: "numeric",
 }).format(d.date);
