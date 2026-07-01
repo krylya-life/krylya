@@ -12,7 +12,7 @@ cover: 011.jpg
 format: Новогодний корпоратив
 guests: 110 гостей
 venue: Ресторан Hoffmann
-heroFact: 110 гостей
+heroFact: Ироничное возвращение в детство
 photos:
   - 003.jpg
   - 004.jpg

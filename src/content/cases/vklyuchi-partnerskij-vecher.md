@@ -11,9 +11,9 @@ solution: "Оформили вечер материалом девелопера
 results: []
 cover: cover-185136.jpg
 format: Партнёрский вечер
-guests: TODO
-venue: TODO
-heroFact: Партнёрский вечер
+guests: До 60 гостей
+venue: Ресторан «Усадьба»
+heroFact: Кирпич, стекло и вечерняя элегантность
 photos:
   - 20250314-180019.jpg
   - 20250314-180059.jpg
