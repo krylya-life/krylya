@@ -36,7 +36,7 @@ const loop = [...cases, ...cases];
 
     {cases.length > 0 ? (
       <div class="relative" data-carousel>
-        <div data-track class="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth">
+        <div data-track class="no-scrollbar flex gap-4 overflow-x-auto">
           {loop.map((c, i) => (
             <a
               href={`/cases/${c.data.slug}/`}
@@ -106,26 +106,30 @@ const loop = [...cases, ...cases];
       return first ? first.offsetWidth + gap : 320;
     };
 
-    // Бесшовная прокрутка по кругу: при выходе за пределы набора
-    // мгновенно сдвигаем на идентичную позицию — переход незаметен.
+    // Бесшовная прокрутка по кругу. Держим позицию в «коридоре» вокруг
+    // второго набора карточек [0.5w … 1.5w]. Как только вышли за коридор —
+    // мгновенно перескакиваем на идентичную позицию ровно на ширину набора.
+    // Строгие неравенства + приземление в центр коридора не дают перескоку
+    // случиться на самой границе (иначе лента «пинг-понгует» туда-сюда).
     let wrapping = false;
     track.addEventListener("scroll", () => {
       if (wrapping) return;
       const w = setWidth();
-      if (track.scrollLeft >= w) {
-        wrapping = true;
-        track.scrollLeft -= w;
-        wrapping = false;
-      } else if (track.scrollLeft <= 0) {
+      if (w <= 0) return;
+      if (track.scrollLeft < w * 0.5) {
         wrapping = true;
         track.scrollLeft += w;
-        wrapping = false;
+        requestAnimationFrame(() => (wrapping = false));
+      } else if (track.scrollLeft > w * 1.5) {
+        wrapping = true;
+        track.scrollLeft -= w;
+        requestAnimationFrame(() => (wrapping = false));
       }
     });
 
-    // Старт из середины — чтобы листать в обе стороны без рывка.
+    // Старт со второго набора — чтобы листать в обе стороны без рывка.
     requestAnimationFrame(() => {
-      track.scrollLeft = setWidth() / 2;
+      track.scrollLeft = setWidth();
     });
 
     root.querySelector("[data-next]")?.addEventListener("click", () => {
