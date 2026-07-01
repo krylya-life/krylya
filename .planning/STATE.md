@@ -2,26 +2,29 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: Phase 11 завершена; конкурентный ресёрч готов как вход в Фазы 13/14/15
-last_updated: "2026-07-01T18:40:26.786Z"
-last_activity: 2026-07-01 — Phase 11 выполнена (досье + отстройка + цели аутрича)
+status: executing
+last_updated: "2026-07-01T18:52:54.313Z"
+last_activity: 2026-07-01
 progress:
   total_phases: 18
   completed_phases: 3
   total_plans: 24
-  completed_plans: 15
-  percent: 63
+  completed_plans: 16
+  percent: 67
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
+Phase: --phase (10) — EXECUTING
+Plan: 1 of --name
+
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
 - **Phase:** 11 — Конкуренты РФ и Калининград (✓ Complete, 2026-07-01)
 - **Plan:** 11-01, 11-02, 11-03 — все выполнены
-- **Status:** Phase 11 завершена; конкурентный ресёрч готов как вход в Фазы 13/14/15
-- **Last activity:** 2026-07-01 — Phase 11 выполнена (досье + отстройка + цели аутрича)
+- **Status:** Executing Phase --phase
+- **Last activity:** 2026-07-01
 
 ```
 [█░░░░░░░] 1/8 фаз v2.0 выполнено
@@ -33,7 +36,7 @@ progress:
 
 **v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
 
-**Current Focus:** Phase 9 — технический SEO-аудит крылья.life + исправление ошибок Метрики/GSC + фиксация базлайна. Параллельно можно запустить Phase 10, 11, 12 (все три — исследовательские, независимые).
+**Current Focus:** Phase --phase — 10
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
