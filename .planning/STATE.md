@@ -2,32 +2,29 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: executing
-last_updated: "2026-07-01T18:52:54.313Z"
-last_activity: 2026-07-01
+status: Phase 10 завершена; конкурентный ресёрч мира готов как вход в Фазы 13/14/16
+last_updated: "2026-07-01T19:03:03.986Z"
+last_activity: 2026-07-01 — Phase 10 выполнена (досье мировых агентств + матрица + SEO-практики)
 progress:
   total_phases: 18
-  completed_phases: 3
-  total_plans: 24
-  completed_plans: 16
-  percent: 67
+  completed_phases: 4
+  total_plans: 26
+  completed_plans: 17
+  percent: 65
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
-Phase: --phase (10) — EXECUTING
-Plan: 1 of --name
-
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 11 — Конкуренты РФ и Калининград (✓ Complete, 2026-07-01)
-- **Plan:** 11-01, 11-02, 11-03 — все выполнены
-- **Status:** Executing Phase --phase
-- **Last activity:** 2026-07-01
+- **Phase:** 10 — Конкуренты мира (✓ Complete, 2026-07-01)
+- **Plan:** 10-01, 10-02 — оба выполнены; Мария утвердила артефакт
+- **Status:** Phase 10 завершена; конкурентный ресёрч мира готов как вход в Фазы 13/14/16
+- **Last activity:** 2026-07-01 — Phase 10 выполнена (досье мировых агентств + матрица + SEO-практики)
 
 ```
-[█░░░░░░░] 1/8 фаз v2.0 выполнено
+[██░░░░░░] 2/8 фаз v2.0 выполнено
 ```
 
 ## Project Reference
@@ -126,4 +123,4 @@ Phase 11 закрыта. Осталось три параллельных исс
 *Updated: 2026-06-26 — v2.0 roadmap ready (Phase 9–16, 32 requirements mapped)*
 *Update cadence: после каждого `/gsd-transition` и `/gsd-complete-milestone`*
 
-**Planned Phase:** 11 (Конкуренты РФ и Калининград) — 3 plans — 2026-06-30T08:22:04.675Z
+**Planned Phase:** 12 (Тренды индустрии и соцсетей) — 2 plans — 2026-07-01T19:03:03.972Z
