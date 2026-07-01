@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: Roadmap v2.0 создан, готов к планированию первых фаз
-last_updated: "2026-06-30T08:22:04.696Z"
-last_activity: "2026-06-26 — Роадмап v2.0 создан (8 фаз: Phase 9–16)"
+status: Phase 11 завершена (конкурентный ресёрч готов); дальше — Phase 9, 10 или 12
+last_updated: "2026-07-01T00:00:00.000Z"
+last_activity: "2026-07-01 — Phase 11 выполнена: досье конкурентов + отстройка + цели аутрича"
 progress:
   total_phases: 18
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 22
-  completed_plans: 12
-  percent: 55
+  completed_plans: 15
+  percent: 62
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
@@ -18,13 +18,13 @@ progress:
 ## Current Position
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 9 — SEO-аудит и базлайн (Not started)
-- **Plan:** —
-- **Status:** Roadmap v2.0 создан, готов к планированию первых фаз
-- **Last activity:** 2026-06-26 — Роадмап v2.0 создан (8 фаз: Phase 9–16)
+- **Phase:** 11 — Конкуренты РФ и Калининград (✓ Complete, 2026-07-01)
+- **Plan:** 11-01, 11-02, 11-03 — все выполнены
+- **Status:** Phase 11 завершена; конкурентный ресёрч готов как вход в Фазы 13/14/15
+- **Last activity:** 2026-07-01 — Phase 11 выполнена (досье + отстройка + цели аутрича)
 
 ```
-[░░░░░░░░] 0/8 фаз v2.0 выполнено
+[█░░░░░░░] 1/8 фаз v2.0 выполнено
 ```
 
 ## Project Reference
