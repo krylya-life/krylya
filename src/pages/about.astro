@@ -139,20 +139,22 @@ const teamHighlights = [
                 <img
                   src={m.photo}
                   alt={m.name}
-                  width="96"
-                  height="96"
+                  width="128"
+                  height="128"
                   loading="lazy"
-                  class="h-24 w-24 shrink-0 rounded-xl object-cover object-[center_20%]"
+                  class="h-32 w-32 shrink-0 rounded-xl object-cover object-[center_18%]"
                   itemprop="image"
                 />
               ) : (
-                <div class="flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-[#FFF200]">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
+                <div class="flex h-32 w-32 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                  <img
+                    src="/brand/wings-sign-white.png"
+                    alt="Крылья"
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                    class="h-16 w-16 object-contain opacity-85"
+                  />
                 </div>
               )}
               <div>
