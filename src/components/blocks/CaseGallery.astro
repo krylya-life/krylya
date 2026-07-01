@@ -1,6 +1,6 @@
 ---
 /*
- * CaseGallery — встраиваемая сетка фото 3×3 (топ-12). Клик по фото открывает
+ * CaseGallery — встраиваемая сетка фото по 3 в ряд (до 15). Клик по фото открывает
  * его во весь экран (лайтбокс с листанием). Без собственной «шапки» и отступов —
  * заголовок и расположение задаёт родитель (см. cases/[slug].astro, правая колонка).
  */
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { photos, slug, title } = Astro.props;
-const visible = (photos || []).slice(0, 12);
+const visible = (photos || []).slice(0, 15);
 const base = `/assets/cases/${slug}`;
 ---
 

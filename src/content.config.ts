@@ -28,7 +28,7 @@ const cases = defineCollection({
     results: z.array(z.string()).default([]),
     cover: z.string(),
     format: z.string(),
-    guests: z.string(),
+    guests: z.string().optional(),
     duration: z.string().optional(),
     venue: z.string(),
     heroFact: z.string(),
