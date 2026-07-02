@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
 status: executing
-last_updated: "2026-07-02T09:56:25.149Z"
+last_updated: "2026-07-02T10:03:46.418Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
   completed_phases: 5
   total_plans: 31
-  completed_plans: 20
-  percent: 65
+  completed_plans: 21
+  percent: 68
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
@@ -18,11 +18,11 @@ progress:
 ## Current Position
 
 Phase: 09 (seo) — EXECUTING
-Plan: 2 of 5 (план 09-01 выполнен 2026-07-02)
+Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
 - **Phase:** 09
-- **Plan:** 09-01 Complete → следующий: 09-02
+- **Plan:** 09-02 Complete → следующий: 09-03
 - **Status:** Executing Phase 09
 - **Last activity:** 2026-07-02
 
@@ -74,6 +74,7 @@ Plan: 2 of 5 (план 09-01 выполнен 2026-07-02)
 | SMM-постов (после Phase 16) | 4 TG + 4 IG в месяц | 0 |
 | Phase 12 P02 | 25min | 2 tasks | 1 files |
 | Phase 09-seo P09-01 | 10min | 3 tasks | 6 files |
+| Phase 09-seo P09-02 | 12min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -109,11 +110,11 @@ Plan: 2 of 5 (план 09-01 выполнен 2026-07-02)
 
 ### Last Action
 
-2026-07-02: Phase 09 план 01 выполнен. SEO-фикс: canonical/og:url/BreadcrumbList переведены в кириллицу через строковую конкатенацию urlCyrillic (была ошибка new URL() → Punycode). Кастомный sitemap.xml endpoint — 20 маршрутов в кириллице, /thanks/ исключён, @astrojs/sitemap удалён. reachGoal form_submitted добавлен в ContactForm перед редиректом. K-1–K-5 закрыты. 3 коммита: 1dc1c7e, 3616959, 2e3273a.
+2026-07-02: Phase 09 план 02 выполнен. Создан чек-лист аудита .planning/audit/CHECKLIST.md: 5 критичных (K-1..K-5, все закрыты в 09-01), 2 важных (V-1 двойной h1 на /services/*/, V-2 logo Punycode в JsonLdGraph — идут в 09-03), 5 желательных (G-1 CWV ручная проверка, G-2 Rich Results, G-3 Screaming Frog). Создан скелет базлайна .planning/audit/BASELINE.md — 16 запросов групп 1–3, заморожен. 2 коммита: a59118e, 52d6346.
 
 ### Next Action
 
-Phase 09 план 02 — следующий шаг SEO-фазы.
+Phase 09 план 03 — деплой фиксов и исправление V-1/V-2.
 
 ### Files Touched This Session (2026-06-26)
 
