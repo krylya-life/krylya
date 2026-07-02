@@ -3,27 +3,27 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
 status: executing
-last_updated: "2026-07-02T11:35:20.749Z"
+last_updated: "2026-07-02T14:58:14.021Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
   completed_phases: 5
   total_plans: 33
-  completed_plans: 22
-  percent: 67
+  completed_plans: 23
+  percent: 70
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
-Phase: 09 (seo) — EXECUTING
-Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
+Phase: 13 (formaty-meropriyatij) — EXECUTING
+Plan: 1 of 2
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
 - **Phase:** 09
 - **Plan:** 09-02 Complete → следующий: 09-03
-- **Status:** Executing Phase 09
+- **Status:** Executing Phase 13
 - **Last activity:** 2026-07-02
 
 ```
@@ -36,7 +36,7 @@ Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
 
 **v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
 
-**Current Focus:** Phase 09 — seo
+**Current Focus:** Phase 13 — formaty-meropriyatij
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
@@ -57,7 +57,7 @@ Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
 | 10 | Конкуренты мира | — | Phase 9, 11, 12 | Not started |
 | 11 | Конкуренты РФ и Калининград | — | Phase 9, 10, 12 | ✓ Complete (2026-07-01) |
 | 12 | Тренды индустрии | — | Phase 9, 10, 11 | ✓ Complete (2026-07-02) |
-| 13 | Форматы мероприятий | Phase 10, 11, 12 | — | Not started |
+| 13 | Форматы мероприятий | Phase 10, 11, 12 | — | Executing (13-01 done) |
 | 14 | Семантика 2.0 + контент-хаб | Phase 9, 10, 11, 13 | Phase 15 | Not started |
 | 15 | Партнёрский аутрич | Phase 11, 13 | Phase 14 | Not started |
 | 16 | SMM-стратегия | Phase 12, 13, 14 | Phase 15 | Not started |
@@ -75,6 +75,7 @@ Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
 | Phase 12 P02 | 25min | 2 tasks | 1 files |
 | Phase 09-seo P09-01 | 10min | 3 tasks | 6 files |
 | Phase 09-seo P09-02 | 12min | 2 tasks | 2 files |
+| Phase 13-formaty-meropriyatij P13-01 | 4min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,7 @@ Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
 - **Canonical IDN (Phase 09-01):** кириллический canonical через строковую конкатенацию `urlCyrillic + pathname` — `new URL()` нормализует IDN в Punycode, непригоден для IDN-доменов
 - **Sitemap IDN (Phase 09-01):** кастомный `src/pages/sitemap.xml.ts` endpoint вместо `@astrojs/sitemap` — плагин не поддерживает кириллические `<loc>` для IDN-доменов
 - **Метрика цель form_submitted (Phase 09-01):** `if (window.ym)` guard обязателен — скрипт Метрики грузится отложенно, вызов без guard может упасть в ошибку
+- **Форматы Phase 13-01:** шаблон блока формата (имя+подзаголовок+сегмент+аутентика+4 подраздела) зафиксирован как контракт структуры; 6 ядровых форматов из реального опыта, анонимно, без калининградской аутентики — аутентика идёт в 13-02; «Почему Крылья» строится из differentiation.md без сравнений и не через цену
 
 ### Blockers and Warnings
 
@@ -110,17 +112,17 @@ Plan: 3 of 5 (план 09-02 выполнен 2026-07-02)
 
 ### Last Action
 
-2026-07-02: Phase 09 план 02 выполнен. Создан чек-лист аудита .planning/audit/CHECKLIST.md: 5 критичных (K-1..K-5, все закрыты в 09-01), 2 важных (V-1 двойной h1 на /services/*/, V-2 logo Punycode в JsonLdGraph — идут в 09-03), 5 желательных (G-1 CWV ручная проверка, G-2 Rich Results, G-3 Screaming Frog). Создан скелет базлайна .planning/audit/BASELINE.md — 16 запросов групп 1–3, заморожен. 2 коммита: a59118e, 52d6346.
+2026-07-02: Phase 13 план 01 выполнен. Создан .planning/outreach/formats.md: вводная рамка + легенда сегментов A/B/C + шаблон блока формата + 6 ядровых форматов (открытие объекта девелопера, корпоратив, деловое событие, отраслевой праздник, координация дня, камерный юбилей) + сводная таблица. FORMAT-02 выполнен. 2 коммита: 95820e1, 2f378df.
 
 ### Next Action
 
-Phase 09 план 03 — деплой фиксов и исправление V-1/V-2.
+Phase 13 план 02 — форматы «умеем и готовы» из 5 трендов + 3–5 форматов с калининградской аутентикой для C + сводный аудит на 10+ форматов.
 
-### Files Touched This Session (2026-06-26)
+### Files Touched This Session (2026-07-02)
 
-- `.planning/ROADMAP.md` — добавлен раздел «## Milestone v2.0» (фазы 9–16)
-- `.planning/STATE.md` — обновлён (переход на v2.0, текущая позиция Phase 9)
-- `.planning/REQUIREMENTS.md` — добавлена v2.0 Traceability (32 требования)
+- `.planning/outreach/formats.md` — создан (каркас + 6 ядровых форматов, FORMAT-02)
+- `.planning/phases/13-formaty-meropriyatij/13-01-SUMMARY.md` — создан
+- `.planning/STATE.md` — обновлён (Phase 13, план 01 выполнен)
 
 ---
 
