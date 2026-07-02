@@ -221,6 +221,7 @@ const { name = "contact" } = Astro.props;
         });
 
         if (res.ok) {
+          if (window.ym) { window.ym(99532899, "reachGoal", "form_submitted"); }
           window.location.href = "/thanks/";
           return;
         }
