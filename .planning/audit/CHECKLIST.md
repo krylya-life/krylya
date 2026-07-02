@@ -30,8 +30,8 @@
 
 | # | Ошибка | Где | Как проверить | Статус |
 |---|--------|-----|---------------|--------|
-| V-1 | Дублирующий `<h1>` на страницах услуг | src/pages/services/[slug].astro + src/content/services/*.md | `grep -c '<h1' dist/services/*/index.html` — все 6 страниц показывают 2 | [ ] чинить в 09-03 |
-| V-2 | Logo URL в JSON-LD Organization — Punycode | src/components/JsonLdGraph.astro (строка 16: `new URL(...)`) | `grep '"logo"' dist/index.html` → `xn--j1aco8bgs.life` | [ ] чинить в 09-03 |
+| V-1 | Дублирующий `<h1>` на страницах услуг | src/pages/services/[slug].astro + src/content/services/*.md | `grep -c '<h1' dist/services/*/index.html` — все 6 страниц теперь 1 | [x] исправлено — убран `# Заголовок` из 6 md-файлов услуг; деплой в 09-03 |
+| V-2 | Logo URL в JSON-LD Organization — Punycode | src/components/JsonLdGraph.astro (строка 16: `new URL(...)`) | `grep '"logo"' dist/index.html` → `крылья.life` | [x] исправлено — конкатенация вместо `new URL()`; деплой в 09-03 |
 
 **Детали V-1:** В `[slug].astro` страница услуги рендерит `<h1>` с заголовком из frontmatter (строка 56), и одновременно `<Content />` рендерит markdown-тело файла, начинающегося с `# Заголовок` → второй `<h1>`. Пример: `/services/corporate-parties/` содержит `<h1>Корпоративные праздники</h1>` (из шаблона) и `<h1>Корпоративные мероприятия</h1>` (из markdown). Затронуто: все 6 страниц услуг.
 
@@ -70,5 +70,5 @@ PageSpeed Insights (pagespeed.web.dev) требует живого публич�
 | Раздел | Кол-во | Примечание |
 |--------|--------|-----------|
 | КРИТИЧНО | 5 | K-1..K-5 — все исправлены в коде (09-01), деплой → 09-03 |
-| ВАЖНО | 2 | V-1 (двойной H1 на /services/*/), V-2 (logo Punycode в JSON-LD) → 09-03 |
+| ВАЖНО | 2 | V-1 (двойной H1 на /services/*/), V-2 (logo Punycode в JSON-LD) — оба исправлены в коде, деплой → 09-03 |
 | ЖЕЛАТЕЛЬНО | 5 | G-1..G-5 — бэклог; G-1..G-3 требуют ручной проверки внешними инструментами |
