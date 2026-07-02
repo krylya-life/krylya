@@ -13,7 +13,8 @@ const graph = {
       name: business.name,
       legalName: business.legalName,
       url: business.url,
-      logo: new URL("/brand/wings-logo-horizontal.png", business.url).toString(),
+      // Кириллица через конкатенацию: new URL() нормализует IDN в Punycode (WHATWG URL API)
+      logo: business.url + "/brand/wings-logo-horizontal.png",
       taxID: business.taxId,
       vatID: business.ogrnip,
       foundingDate: business.foundingDate,
