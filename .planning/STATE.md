@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: executing
+status: ready_to_plan
 last_updated: "2026-07-02T08:10:00Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 31
   completed_plans: 21
-  percent: 68
+  percent: 33
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
@@ -21,9 +21,9 @@ Phase: 12 (trendy-i-socseti) — COMPLETE
 Plan: 2 of 2 (обе выполнены)
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 12 — Тренды индустрии и соцсетей ✓ Выполнена (2026-07-02)
-- **Plan:** 12-02 выполнен: trends.md полностью готов (Ось 1 + Ось 2 + Ось 3 + мониторинг)
-- **Status:** Phase 12 завершена; следующая — Phase 13 (форматы)
+- **Phase:** 13
+- **Plan:** Not started
+- **Status:** Ready to plan
 - **Last activity:** 2026-07-02
 
 ```

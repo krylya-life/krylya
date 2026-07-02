@@ -332,8 +332,8 @@
 | COMP-05 | Phase 11 | Pending |
 | TREND-01 | Phase 12 | ✓ Complete (12-01) |
 | TREND-02 | Phase 12 | ✓ Complete (12-01) |
-| TREND-03 | Phase 12 | Pending |
-| TREND-04 | Phase 12 | Pending |
+| TREND-03 | Phase 12 | Complete |
+| TREND-04 | Phase 12 | Complete |
 | FORMAT-01 | Phase 13 | Pending |
 | FORMAT-02 | Phase 13 | Pending |
 | FORMAT-03 | Phase 13 | Pending |
