@@ -2,28 +2,28 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: ready_to_plan
-last_updated: "2026-07-02T08:10:00Z"
+status: executing
+last_updated: "2026-07-02T09:56:25.149Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
-  completed_phases: 6
+  completed_phases: 5
   total_plans: 31
-  completed_plans: 21
-  percent: 33
+  completed_plans: 20
+  percent: 65
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
-Phase: 12 (trendy-i-socseti) — COMPLETE
-Plan: 2 of 2 (обе выполнены)
+Phase: 09 (seo) — EXECUTING
+Plan: 2 of 5 (план 09-01 выполнен 2026-07-02)
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 13
-- **Plan:** Not started
-- **Status:** Ready to plan
+- **Phase:** 09
+- **Plan:** 09-01 Complete → следующий: 09-02
+- **Status:** Executing Phase 09
 - **Last activity:** 2026-07-02
 
 ```
@@ -36,7 +36,7 @@ Plan: 2 of 2 (обе выполнены)
 
 **v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
 
-**Current Focus:** Phase 12 — trendy-i-socseti
+**Current Focus:** Phase 09 — seo
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
@@ -73,6 +73,7 @@ Plan: 2 of 2 (обе выполнены)
 | Статей в /идеи/ | ≥ 5 к концу Phase 14 | 0 |
 | SMM-постов (после Phase 16) | 4 TG + 4 IG в месяц | 0 |
 | Phase 12 P02 | 25min | 2 tasks | 1 files |
+| Phase 09-seo P09-01 | 10min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -86,10 +87,13 @@ Plan: 2 of 2 (обе выполнены)
 - **Ритм контента:** реалистичный минимум — 1 статья + 4 TG-поста + 4 IG-поста в месяц; принцип «один контент-стрим» (блог → тезис в TG → visual в IG)
 - **KPI органики из блога:** не ставить раньше Q1 2027 (блог требует 3–6 мес прогрева)
 - **Инструменты:** бесплатные или разово (<1 200 ₽); Wordstat + Screaming Frog ≤500 URL + SMMplanner + Контур.Компас + Rusprofile
+- **Canonical IDN (Phase 09-01):** кириллический canonical через строковую конкатенацию `urlCyrillic + pathname` — `new URL()` нормализует IDN в Punycode, непригоден для IDN-доменов
+- **Sitemap IDN (Phase 09-01):** кастомный `src/pages/sitemap.xml.ts` endpoint вместо `@astrojs/sitemap` — плагин не поддерживает кириллические `<loc>` для IDN-доменов
+- **Метрика цель form_submitted (Phase 09-01):** `if (window.ym)` guard обязателен — скрипт Метрики грузится отложенно, вызов без guard может упасть в ошибку
 
 ### Blockers and Warnings
 
-- **Phase 14 (контент-хаб):** перед запуском обязателен CI-grep на `xn--` в `dist/` — должно быть 0 совпадений в `<link rel="canonical">` и `<loc>` тегах sitemap. Иначе — дубли canonical на IDN-домене
+- **Phase 14 (контент-хаб):** перед запуском обязателен CI-grep на `xn--` в `<link rel="canonical">` и `<loc>` тегах sitemap — 0 совпадений. **Canonical и sitemap исправлены в Phase 09-01.** Остаток: logo URL в JsonLdGraph.astro (не критично для индексации).
 - **Phase 15 (аутрич):** отдельный email для рассылки, не личный @yandex.ru Марии — риск блокировки домена
 - **Phase 16 (Instagram):** контент-фильтр из 5 вопросов обязателен перед каждым постом; смайлики-призывы и мягкий CTA тоже попадают под 38-ФЗ
 - **Конец 2026:** провести аудит архива Telegram-постов до 31.12.2026 — мораторий ФАС заканчивается, посты с CTA без erid станут основанием для претензий
@@ -105,11 +109,11 @@ Plan: 2 of 2 (обе выполнены)
 
 ### Last Action
 
-2026-07-02: Phase 12 план 02 выполнен. `trends.md` полностью готов: все 4 оси на месте. Ось 3 — 5 применимых трендов (локальная аутентика 4/4, нестандартные пространства 4/4, комьюнити-формат 3/4, персонализация без технологий 4/4, wellness/загородные 4/4) с привязкой к A/C, калининградским углом и конкретным действием в месяце. Ось 4 — ежемесячный чек-лист 4 шага (12 чекбоксов), шаблон Obsidian-карточки, антипаттерны, правило обновления файла. Phase 12 завершена целиком.
+2026-07-02: Phase 09 план 01 выполнен. SEO-фикс: canonical/og:url/BreadcrumbList переведены в кириллицу через строковую конкатенацию urlCyrillic (была ошибка new URL() → Punycode). Кастомный sitemap.xml endpoint — 20 маршрутов в кириллице, /thanks/ исключён, @astrojs/sitemap удалён. reachGoal form_submitted добавлен в ContactForm перед редиректом. K-1–K-5 закрыты. 3 коммита: 1dc1c7e, 3616959, 2e3273a.
 
 ### Next Action
 
-Phase 13 (форматы мероприятий) — trends.md готов как входящий артефакт.
+Phase 09 план 02 — следующий шаг SEO-фазы.
 
 ### Files Touched This Session (2026-06-26)
 
