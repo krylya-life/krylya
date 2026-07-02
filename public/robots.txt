@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /thanks/
 
 Host: xn--j1aco8bgs.life
-Sitemap: https://xn--j1aco8bgs.life/sitemap-index.xml
+Sitemap: https://xn--j1aco8bgs.life/sitemap.xml
