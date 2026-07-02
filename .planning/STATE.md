@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
 status: executing
-last_updated: "2026-07-02T11:09:08.361Z"
+last_updated: "2026-07-02T11:35:20.749Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
   completed_phases: 5
-  total_plans: 31
+  total_plans: 33
   completed_plans: 22
-  percent: 71
+  percent: 67
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
@@ -128,4 +128,4 @@ Phase 09 план 03 — деплой фиксов и исправление V-1
 *Updated: 2026-06-26 — v2.0 roadmap ready (Phase 9–16, 32 requirements mapped)*
 *Update cadence: после каждого `/gsd-transition` и `/gsd-complete-milestone`*
 
-**Planned Phase:** 9 (SEO-аудит и базлайн) — 5 plans — 2026-07-01T19:22:34.136Z
+**Planned Phase:** 13 (formaty-meropriyatij) — 2 plans — 2026-07-02T11:35:20.736Z
