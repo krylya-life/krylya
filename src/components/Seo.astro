@@ -20,10 +20,11 @@ const {
   ogType = "website",
 } = Astro.props;
 
-// Canonical в кириллической форме (даже когда сайт ещё на Netlify preview-URL —
-// в Phase 7 переключим business.url на https://крылья.life).
-const canonical = new URL(pathname, business.url).toString();
-const imageUrl = new URL(image, business.url).toString();
+// canonical в кириллице через конкатенацию — `new URL()` нормализует IDN в Punycode
+// (WHATWG URL API), поэтому не используем его (см. RESEARCH.md КРИТИЧНО-1).
+const base = business.urlCyrillic.replace(/\/$/, "");
+const canonical = base + pathname;
+const imageUrl = base + image;
 ---
 
 <link rel="canonical" href={canonical} />

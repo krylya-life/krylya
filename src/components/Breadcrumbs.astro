@@ -18,7 +18,7 @@ const itemListElement = crumbs.map((c, i) => ({
   "@type": "ListItem",
   position: i + 1,
   name: c.label,
-  item: new URL(c.href, business.url).toString(),
+  item: business.urlCyrillic.replace(/\/$/, "") + c.href,
 }));
 
 const json = {
