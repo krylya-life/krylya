@@ -11,18 +11,19 @@
 
 | # | Ошибка | Где | Как проверить | Статус |
 |---|--------|-----|---------------|--------|
-| K-1 | Canonical в Punycode вместо кириллицы | src/components/Seo.astro | view-source любой страницы: `<link rel="canonical">` | → 09-01, исправлено в коде, деплой в 09-03 |
-| K-2 | og:url в Punycode | src/components/Seo.astro | view-source: `<meta property="og:url">` | → 09-01, исправлено в коде, деплой в 09-03 |
-| K-3 | BreadcrumbList @id в Punycode | src/components/Breadcrumbs.astro | Rich Results Test → элемент BreadcrumbList | → 09-01, исправлено в коде, деплой в 09-03 |
-| K-4 | /thanks/ в sitemap | astro.config.mjs / src/pages/sitemap.xml.ts | `grep thanks dist/sitemap.xml` | → 09-01, исправлено: кастомный endpoint исключает /thanks/, деплой в 09-03 |
-| K-5 | Нет JS-события form_submitted | src/components/ContactForm.astro | Метрика → Цели → «JavaScript-событие» `form_submitted` | → 09-01 (код), → 09-04 (кабинет Метрики) |
+| K-1 | Canonical в Punycode вместо кириллицы | src/components/Seo.astro | view-source любой страницы: `<link rel="canonical">` | ✅ исправлено (09-01), проверено на живом сайте 09-03 |
+| K-2 | og:url в Punycode | src/components/Seo.astro | view-source: `<meta property="og:url">` | ✅ исправлено (09-01), проверено на живом сайте 09-03 |
+| K-3 | BreadcrumbList @id в Punycode | src/components/Breadcrumbs.astro | Rich Results Test → элемент BreadcrumbList | ✅ исправлено (09-01), проверено на живом сайте 09-03 |
+| K-4 | /thanks/ в sitemap | astro.config.mjs / src/pages/sitemap.xml.ts | `grep thanks dist/sitemap.xml` | ✅ исправлено: кастомный endpoint исключает /thanks/, проверено на живом сайте 09-03 |
+| K-5 | Нет JS-события form_submitted | src/components/ContactForm.astro | Метрика → Цели → «JavaScript-событие» `form_submitted` | ✅ код исправлено (09-01), проверено `reachGoal` на живом сайте 09-03; настройка цели в кабинете — 09-04 |
 
-**Состояние K-1..K-5 в dist/ на 2026-07-02 (после 09-01):**
-- `grep -oP 'rel="canonical" href="\K[^"]+'` → `https://крылья.life/` — кириллица ✓
-- `grep "xn--" dist/sitemap.xml` → 0 совпадений ✓
-- `grep "thanks" dist/sitemap.xml` → 0 совпадений ✓
-- `grep "reachGoal" src/components/ContactForm.astro` → 1 совпадение ✓
-- Все K-1..K-5 закрыты в коде; после деплоя (09-03) — закрыты на продакшн.
+**Состояние K-1..K-5 на ЖИВОМ сайте на 2026-07-02 (после деплоя 09-03):**
+- `curl https://xn--j1aco8bgs.life/` → canonical `href="https://крылья.life/"` — кириллица ✓
+- `curl .../sitemap.xml` → 20 URL в кириллице, 0 `xn--`, 0 `thanks` ✓
+- `curl https://xn--j1aco8bgs.life/` → `reachGoal` присутствует (1) ✓
+- Деплой Cloudflare применился ~40 сек после push. Все K-1..K-5 закрыты на продакшн (K-5 — код-часть; цель в кабинете Метрики настраивается в 09-04).
+
+**Core Web Vitals после деплоя:** PageSpeed Insights недоступен в headless-окружении — реальные значения LCP/CLS/INP НЕ сняты автоматически и не сфабрикованы. Остаётся ручная проверка (G-1): открыть pagespeed.web.dev → `https://крылья.life` → Mobile. Ожидание из RESEARCH.md — хорошие показатели по умолчанию (Astro + Cloudflare + preload-шрифты); главный риск LCP — обложки кейсов.
 
 ---
 
