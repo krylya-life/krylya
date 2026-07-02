@@ -3,22 +3,22 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
 status: executing
-last_updated: "2026-07-02T14:58:14.021Z"
+last_updated: "2026-07-02T15:07:00.798Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 33
-  completed_plans: 23
-  percent: 70
+  completed_plans: 24
+  percent: 73
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
-Phase: 13 (formaty-meropriyatij) — EXECUTING
-Plan: 1 of 2
+Phase: 13 (formaty-meropriyatij) — COMPLETE
+Plan: 2 of 2 — DONE
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
 - **Phase:** 09
@@ -57,7 +57,7 @@ Plan: 1 of 2
 | 10 | Конкуренты мира | — | Phase 9, 11, 12 | Not started |
 | 11 | Конкуренты РФ и Калининград | — | Phase 9, 10, 12 | ✓ Complete (2026-07-01) |
 | 12 | Тренды индустрии | — | Phase 9, 10, 11 | ✓ Complete (2026-07-02) |
-| 13 | Форматы мероприятий | Phase 10, 11, 12 | — | Executing (13-01 done) |
+| 13 | Форматы мероприятий | Phase 10, 11, 12 | — | ✓ Complete (2026-07-02) |
 | 14 | Семантика 2.0 + контент-хаб | Phase 9, 10, 11, 13 | Phase 15 | Not started |
 | 15 | Партнёрский аутрич | Phase 11, 13 | Phase 14 | Not started |
 | 16 | SMM-стратегия | Phase 12, 13, 14 | Phase 15 | Not started |
@@ -76,6 +76,8 @@ Plan: 1 of 2
 | Phase 09-seo P09-01 | 10min | 3 tasks | 6 files |
 | Phase 09-seo P09-02 | 12min | 2 tasks | 2 files |
 | Phase 13-formaty-meropriyatij P13-01 | 4min | 2 tasks | 1 files |
+| Phase 13-formaty-meropriyatij P13-02 | 12min | 2 tasks | 1 files |
+| Phase 13-formaty-meropriyatij P13-02 | 12min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -93,6 +95,7 @@ Plan: 1 of 2
 - **Sitemap IDN (Phase 09-01):** кастомный `src/pages/sitemap.xml.ts` endpoint вместо `@astrojs/sitemap` — плагин не поддерживает кириллические `<loc>` для IDN-доменов
 - **Метрика цель form_submitted (Phase 09-01):** `if (window.ym)` guard обязателен — скрипт Метрики грузится отложенно, вызов без guard может упасть в ошибку
 - **Форматы Phase 13-01:** шаблон блока формата (имя+подзаголовок+сегмент+аутентика+4 подраздела) зафиксирован как контракт структуры; 6 ядровых форматов из реального опыта, анонимно, без калининградской аутентики — аутентика идёт в 13-02; «Почему Крылья» строится из differentiation.md без сравнений и не через цену
+- **Форматы Phase 13-02:** 13 форматов в полной линейке: 6 ядровых + 3 «умеем и готовы» из трендов 2–4 + 4 с калининградской аутентикой для C (Балтийский берег, Форт, Янтарный вечер, Балтийский стол); FORMAT-01, FORMAT-02, FORMAT-03 выполнены; formats.md готов для Phase 14 (темы статей) и Phase 15 (офферы под C)
 
 ### Blockers and Warnings
 
@@ -112,17 +115,18 @@ Plan: 1 of 2
 
 ### Last Action
 
-2026-07-02: Phase 13 план 01 выполнен. Создан .planning/outreach/formats.md: вводная рамка + легенда сегментов A/B/C + шаблон блока формата + 6 ядровых форматов (открытие объекта девелопера, корпоратив, деловое событие, отраслевой праздник, координация дня, камерный юбилей) + сводная таблица. FORMAT-02 выполнен. 2 коммита: 95820e1, 2f378df.
+2026-07-02: Phase 13 план 02 выполнен. formats.md дополнен: 7 новых форматов (3 «умеем и готовы» из трендов + 4 с калининградской аутентикой для C) + сводная аудит-таблица на 13 форматов + блок проверки полноты. FORMAT-01, FORMAT-03 выполнены. Phase 13 завершена полностью. 2 коммита: 8b1af74, 94d6ca6.
 
 ### Next Action
 
-Phase 13 план 02 — форматы «умеем и готовы» из 5 трендов + 3–5 форматов с калининградской аутентикой для C + сводный аудит на 10+ форматов.
+Phase 14 — Семантика 2.0 + контент-хаб (зависит от Phase 9, 10, 11, 13 — все готовы).
 
 ### Files Touched This Session (2026-07-02)
 
-- `.planning/outreach/formats.md` — создан (каркас + 6 ядровых форматов, FORMAT-02)
-- `.planning/phases/13-formaty-meropriyatij/13-01-SUMMARY.md` — создан
-- `.planning/STATE.md` — обновлён (Phase 13, план 01 выполнен)
+- `.planning/outreach/formats.md` — дополнен (+7 форматов +аудит-таблица; итого 13 форматов)
+- `.planning/phases/13-formaty-meropriyatij/13-02-SUMMARY.md` — создан
+- `.planning/STATE.md` — обновлён (Phase 13 завершена, план 02 выполнен)
+- `.planning/REQUIREMENTS.md` — FORMAT-01, FORMAT-02, FORMAT-03 отмечены как выполненные
 
 ---
 
