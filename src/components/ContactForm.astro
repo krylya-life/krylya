@@ -221,8 +221,18 @@ const { name = "contact" } = Astro.props;
         });
 
         if (res.ok) {
-          if (window.ym) { window.ym(99532899, "reachGoal", "form_submitted"); }
-          window.location.href = "/thanks/";
+          const goThanks = () => { window.location.href = "/thanks/"; };
+          if (window.ym) {
+            let navigated = false;
+            const go = () => { if (!navigated) { navigated = true; goThanks(); } };
+            // Переходим на /thanks/ ПОСЛЕ отправки цели: мгновенный редирект
+            // обрывает запрос reachGoal, и достижение цели не засчитывается.
+            window.ym(99532899, "reachGoal", "form_submitted", { callback: go });
+            // Страховка: если Метрика заблокирована/медленная — уходим через 800 мс.
+            setTimeout(go, 800);
+          } else {
+            goThanks();
+          }
           return;
         }
 
