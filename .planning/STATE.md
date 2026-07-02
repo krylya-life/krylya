@@ -21,9 +21,9 @@ Phase: 13 (formaty-meropriyatij) — COMPLETE
 Plan: 2 of 2 — DONE
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 09
+- **Phase:** 09 (незакрыта — прервана ради Phase 13)
 - **Plan:** 09-02 Complete → следующий: 09-03
-- **Status:** Executing Phase 13
+- **Status:** Phase 13 завершена и верифицирована (PASS 4/4). Phase 09 остаётся в работе.
 - **Last activity:** 2026-07-02
 
 ```
@@ -36,7 +36,7 @@ Plan: 2 of 2 — DONE
 
 **v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
 
-**Current Focus:** Phase 13 — formaty-meropriyatij
+**Current Focus:** Phase 09 — seo (следующий план 09-03; Phase 13 «Форматы мероприятий» завершена)
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
