@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
 status: executing
-last_updated: "2026-07-02T10:03:46.418Z"
+last_updated: "2026-07-02T11:09:08.361Z"
 last_activity: 2026-07-02
 progress:
   total_phases: 18
   completed_phases: 5
   total_plans: 31
-  completed_plans: 21
-  percent: 68
+  completed_plans: 22
+  percent: 71
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
