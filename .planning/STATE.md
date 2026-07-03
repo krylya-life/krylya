@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: "Phase 09 закрыта. Все 5 планов выполнены: код-фиксы задеплоены и проверены на живом сайте, кабинеты настроены, базлайн снят и заморожен (03.07.2026). Мелкие хвосты вне блокеров: Google index count (данные обрабатываются, снять ~4 июля), CWV ручная проверка (G-1), метка «не учитывать мои визиты» на телефоне (C-2)."
+status: executing
 last_updated: "2026-07-03T14:12:07.202Z"
 last_activity: 2026-07-03
 progress:
   total_phases: 18
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 33
-  completed_plans: 25
-  percent: 76
+  completed_plans: 27
+  percent: 82
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
@@ -27,7 +27,7 @@ Plan: 5 of 5 — DONE
 - **Last activity:** 2026-07-03
 
 ```
-[████░░░░] 4/8 фаз v2.0 выполнено
+[█████░░░] 5/8 фаз v2.0 выполнено
 ```
 
 ## Project Reference
@@ -36,7 +36,7 @@ Plan: 5 of 5 — DONE
 
 **v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
 
-**Current Focus:** Phase 09 закрыта (базлайн заморожен 03.07). Следующая — Phase 14 (контент-хаб) или Phase 15 (аутрич) — обе разблокированы.
+**Current Focus:** Phase 14 (Семантика 2.0 + контент-хаб) — контекст собран 03.07 (14-CONTEXT.md), следующий шаг: `/gsd-plan-phase 14`. Phase 09 закрыта.
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
