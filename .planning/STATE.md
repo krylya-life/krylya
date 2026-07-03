@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: executing
-last_updated: "2026-07-03T11:05:00.000Z"
+status: "Phase 09 закрыта. Все 5 планов выполнены: код-фиксы задеплоены и проверены на живом сайте, кабинеты настроены, базлайн снят и заморожен (03.07.2026). Мелкие хвосты вне блокеров: Google index count (данные обрабатываются, снять ~4 июля), CWV ручная проверка (G-1), метка «не учитывать мои визиты» на телефоне (C-2)."
+last_updated: "2026-07-03T14:12:07.202Z"
 last_activity: 2026-07-03
 progress:
   total_phases: 18
-  completed_phases: 7
+  completed_phases: 6
   total_plans: 33
-  completed_plans: 27
-  percent: 82
+  completed_plans: 25
+  percent: 76
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
