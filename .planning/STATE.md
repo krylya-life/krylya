@@ -3,31 +3,31 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
 status: executing
-last_updated: "2026-07-02T15:07:00.798Z"
-last_activity: 2026-07-02
+last_updated: "2026-07-03T11:05:00.000Z"
+last_activity: 2026-07-03
 progress:
   total_phases: 18
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 33
-  completed_plans: 24
-  percent: 73
+  completed_plans: 27
+  percent: 82
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
-Phase: 13 (formaty-meropriyatij) — COMPLETE
-Plan: 2 of 2 — DONE
+Phase: 09 (seo) — COMPLETE
+Plan: 5 of 5 — DONE
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 09 (незакрыта — прервана ради Phase 13)
-- **Plan:** 09-02 Complete → следующий: 09-03
-- **Status:** Phase 13 завершена и верифицирована (PASS 4/4). Phase 09 остаётся в работе.
-- **Last activity:** 2026-07-02
+- **Phase:** 09 (SEO-аудит и базлайн) — завершена 03.07.2026
+- **Plan:** 09-05 Complete (базлайн заморожен)
+- **Status:** Phase 09 закрыта. Все 5 планов выполнены: код-фиксы задеплоены и проверены на живом сайте, кабинеты настроены, базлайн снят и заморожен (03.07.2026). Мелкие хвосты вне блокеров: Google index count (данные обрабатываются, снять ~4 июля), CWV ручная проверка (G-1), метка «не учитывать мои визиты» на телефоне (C-2).
+- **Last activity:** 2026-07-03
 
 ```
-[███░░░░░] 3/8 фаз v2.0 выполнено
+[████░░░░] 4/8 фаз v2.0 выполнено
 ```
 
 ## Project Reference
@@ -36,7 +36,7 @@ Plan: 2 of 2 — DONE
 
 **v1.0 (завершён):** крылья.life построен на Astro + Cloudflare Pages, проиндексирован, Я.Вебмастер + Google Search Console + Метрика подключены, форма заявок работает через @krylya_zayavki_bot.
 
-**Current Focus:** Phase 09 — seo (следующий план 09-03; Phase 13 «Форматы мероприятий» завершена)
+**Current Focus:** Phase 09 закрыта (базлайн заморожен 03.07). Следующая — Phase 14 (контент-хаб) или Phase 15 (аутрич) — обе разблокированы.
 
 **Хостинг:** Cloudflare Pages (с Phase 7 Wave 2), автодеплой из GitHub в main. Форма работает через Cloudflare Pages Function `/api/contact` → Telegram-бот @krylya_zayavki_bot. Custom domain `xn--j1aco8bgs.life` (Punycode), кириллический алиас `крылья.life` через DNS-CNAME.
 
@@ -53,7 +53,7 @@ Plan: 2 of 2 — DONE
 
 | Phase | Название | Зависит от | Параллельна с | Статус |
 |-------|----------|-----------|---------------|--------|
-| 9 | SEO-аудит и базлайн | Phase 8 (v1 done) | Phase 10, 11, 12 | Not started |
+| 9 | SEO-аудит и базлайн | Phase 8 (v1 done) | Phase 10, 11, 12 | ✓ Complete (2026-07-03) |
 | 10 | Конкуренты мира | — | Phase 9, 11, 12 | Not started |
 | 11 | Конкуренты РФ и Калининград | — | Phase 9, 10, 12 | ✓ Complete (2026-07-01) |
 | 12 | Тренды индустрии | — | Phase 9, 10, 11 | ✓ Complete (2026-07-02) |
@@ -115,18 +115,18 @@ Plan: 2 of 2 — DONE
 
 ### Last Action
 
-2026-07-02: Phase 13 план 02 выполнен. formats.md дополнен: 7 новых форматов (3 «умеем и готовы» из трендов + 4 с калининградской аутентикой для C) + сводная аудит-таблица на 13 форматов + блок проверки полноты. FORMAT-01, FORMAT-03 выполнены. Phase 13 завершена полностью. 2 коммита: 8b1af74, 94d6ca6.
+2026-07-03: Phase 09 план 05 выполнен — снят и заморожен базлайн. Через управляемый браузер (Мария залогинена) сняты данные из Я.Вебмастера (4 страницы в поиске, 0 кликов, 0% видимости) и GSC (20 показов, 1 клик, средняя позиция 7,1; index count ещё обрабатывается). Позиции по 5 главным коммерческим запросам проверены вручную в Яндексе и Google — крылья.life вне топ-10 везде. BASELINE.md заполнен и заморожен датой 03.07.2026. Phase 09 закрыта (5/5 планов).
 
 ### Next Action
 
-Phase 14 — Семантика 2.0 + контент-хаб (зависит от Phase 9, 10, 11, 13 — все готовы).
+Phase 14 — Семантика 2.0 + контент-хаб (зависит от Phase 9, 10, 11, 13 — все готовы) ИЛИ Phase 15 — Партнёрский аутрич (ближе всего к контрактам). Обе разблокированы.
 
-### Files Touched This Session (2026-07-02)
+### Files Touched This Session (2026-07-03)
 
-- `.planning/outreach/formats.md` — дополнен (+7 форматов +аудит-таблица; итого 13 форматов)
-- `.planning/phases/13-formaty-meropriyatij/13-02-SUMMARY.md` — создан
-- `.planning/STATE.md` — обновлён (Phase 13 завершена, план 02 выполнен)
-- `.planning/REQUIREMENTS.md` — FORMAT-01, FORMAT-02, FORMAT-03 отмечены как выполненные
+- `.planning/audit/BASELINE.md` — заполнен и заморожен (индексация, показы/клики, позиции 16 запросов)
+- `.planning/audit/CHECKLIST.md` — C-5 обновлён (Google index count всё ещё обрабатывается на 03.07)
+- `.planning/phases/09-seo/09-05-SUMMARY.md` — создан
+- `.planning/STATE.md` — обновлён (Phase 09 закрыта, 5/5 планов)
 
 ---
 
