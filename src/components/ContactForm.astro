@@ -19,7 +19,17 @@ interface Props {
   name?: string;
 }
 const { name = "contact" } = Astro.props;
+
+// Cloudflare Turnstile — «умная капча». Публичный site key берём из build-переменной
+// PUBLIC_TURNSTILE_SITE_KEY (Cloudflare Pages → Settings → Environment variables).
+// Если ключ не задан — виджет не рендерится, форма работает как раньше (fail-open,
+// чтобы заявки не терялись до настройки ключей). Проверка на сервере в functions/api/contact.ts.
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
+
+{turnstileSiteKey && (
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+)}
 
 <form name={name} method="POST" action="/api/contact" class="space-y-5" data-contact-form>
   <input type="hidden" name="form-name" value={name} />
@@ -121,6 +131,15 @@ const { name = "contact" } = Astro.props;
     </span>
   </label>
 
+  {turnstileSiteKey && (
+    <div
+      class="cf-turnstile"
+      data-sitekey={turnstileSiteKey}
+      data-theme="dark"
+      data-language="ru"
+    ></div>
+  )}
+
   <div class="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center">
     <button
       type="submit"
@@ -149,6 +168,7 @@ const { name = "contact" } = Astro.props;
     const hint = document.getElementById("phone-hint");
     const submitBtn = form && form.querySelector("[data-submit-btn]");
     const errorEl = form && form.querySelector("[data-form-error]");
+    const defaultErrorHTML = errorEl ? errorEl.innerHTML : "";
     if (!form || !phone || !hint) return;
 
     const ALLOWED = /[^\d+\-()\s]/g;
@@ -207,6 +227,20 @@ const { name = "contact" } = Astro.props;
         return;
       }
 
+      // Turnstile: если виджет капчи есть на странице — требуем пройденную проверку.
+      const hasTurnstile = form.querySelector(".cf-turnstile");
+      if (hasTurnstile) {
+        const token = form.querySelector('[name="cf-turnstile-response"]');
+        if (!token || !token.value) {
+          if (errorEl) {
+            errorEl.textContent = "Подтвердите, что вы не робот, и повторите отправку.";
+            errorEl.classList.remove("hidden");
+          }
+          hasTurnstile.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+      }
+
       if (errorEl) errorEl.classList.add("hidden");
       if (submitBtn) {
         submitBtn.setAttribute("disabled", "true");
@@ -236,13 +270,19 @@ const { name = "contact" } = Astro.props;
           return;
         }
 
-        if (errorEl) errorEl.classList.remove("hidden");
+        if (errorEl) {
+          errorEl.innerHTML = defaultErrorHTML;
+          errorEl.classList.remove("hidden");
+        }
         if (submitBtn) {
           submitBtn.removeAttribute("disabled");
           submitBtn.textContent = "Оставить заявку";
         }
       } catch (err) {
-        if (errorEl) errorEl.classList.remove("hidden");
+        if (errorEl) {
+          errorEl.innerHTML = defaultErrorHTML;
+          errorEl.classList.remove("hidden");
+        }
         if (submitBtn) {
           submitBtn.removeAttribute("disabled");
           submitBtn.textContent = "Оставить заявку";

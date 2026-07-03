@@ -13,6 +13,8 @@
 interface Env {
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
+  /** Секретный ключ Cloudflare Turnstile. Пока не задан — проверка капчи пропускается. */
+  TURNSTILE_SECRET_KEY?: string;
 }
 
 const MAX_FIELD_LEN = 1500;
@@ -64,6 +66,45 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
+  }
+
+  // Cloudflare Turnstile — «умная капча». Проверяем токен только если секрет задан в env
+  // (fail-open до настройки ключей, чтобы не терять заявки). Каждый токен одноразовый —
+  // Cloudflare отклоняет повторное использование, что заодно режет пачки автозаявок.
+  if (env.TURNSTILE_SECRET_KEY) {
+    const token = data["cf-turnstile-response"];
+    if (!token) {
+      return new Response(JSON.stringify({ ok: false, error: "captcha" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const verifyBody = new FormData();
+    verifyBody.append("secret", env.TURNSTILE_SECRET_KEY);
+    verifyBody.append("response", token);
+    const ip = request.headers.get("CF-Connecting-IP");
+    if (ip) verifyBody.append("remoteip", ip);
+
+    try {
+      const verifyRes = await fetch(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        { method: "POST", body: verifyBody },
+      );
+      const verify = (await verifyRes.json()) as { success: boolean };
+      if (!verify.success) {
+        return new Response(JSON.stringify({ ok: false, error: "captcha" }), {
+          status: 403,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    } catch (err) {
+      console.error("/api/contact: turnstile verify threw", err);
+      return new Response(JSON.stringify({ ok: false, error: "captcha" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
 
   const name = truncate(data.name);

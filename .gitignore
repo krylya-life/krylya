@@ -49,3 +49,6 @@ cf-*.png
 
 # playwright-mcp служебные файлы
 .playwright-mcp/
+
+# Временная папка автоматизации браузера (не для репозитория)
+.cf-automation/
