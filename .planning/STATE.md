@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: executing
-last_updated: "2026-07-03T14:12:07.202Z"
+status: "Phase 09 закрыта. Все 5 планов выполнены: код-фиксы задеплоены и проверены на живом сайте, кабинеты настроены, базлайн снят и заморожен (03.07.2026). Мелкие хвосты вне блокеров: Google index count (данные обрабатываются, снять ~4 июля), CWV ручная проверка (G-1), метка «не учитывать мои визиты» на телефоне (C-2)."
+last_updated: "2026-07-04T10:59:44.673Z"
 last_activity: 2026-07-03
 progress:
   total_phases: 18
-  completed_phases: 7
-  total_plans: 33
-  completed_plans: 27
-  percent: 82
+  completed_phases: 6
+  total_plans: 37
+  completed_plans: 25
+  percent: 68
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
@@ -134,4 +134,4 @@ Phase 14 — Семантика 2.0 + контент-хаб (зависит от
 *Updated: 2026-06-26 — v2.0 roadmap ready (Phase 9–16, 32 requirements mapped)*
 *Update cadence: после каждого `/gsd-transition` и `/gsd-complete-milestone`*
 
-**Planned Phase:** 13 (formaty-meropriyatij) — 2 plans — 2026-07-02T11:35:20.736Z
+**Planned Phase:** 14 (semantika-kontent-hab) — 4 plans — 2026-07-04T10:59:44.655Z
