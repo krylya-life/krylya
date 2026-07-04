@@ -1,8 +1,12 @@
 import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 import { business } from "../config/business.ts";
 
 // Индексируемые маршруты (без /thanks/ — она noindex).
-// Витрины услуг, кейсов и их подстраницы. Список синхронизирован с src/pages/ и dist/.
+// Гибрид: статичный список существующих страниц + витрина /идеи/;
+// сами статьи /идеи/<slug>/ добавляются ДИНАМИЧЕСКИ через getCollection
+// (см. ниже) — новые статьи попадают в sitemap автоматически, без ручной
+// правки. Если понадобится ручной маршрут — добавить строку в routes.
 const routes = [
   "/",
   "/services/",
@@ -20,15 +24,21 @@ const routes = [
   "/cases/tishina-otkrytie/",
   "/cases/vklyuchi-partnerskij-vecher/",
   "/cases/vklyuchi-vydacha-klyuchey/",
+  "/идеи/",
   "/pricing/",
   "/about/",
   "/contacts/",
   "/privacy/",
 ];
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = async () => {
   const base = business.urlCyrillic.replace(/\/$/, "");
-  const urls = routes
+
+  // Динамический блок статей раздела /идеи/ (не-draft)
+  const ideas = await getCollection("ideas", ({ data }) => !data.draft);
+  const ideaRoutes = ideas.map((entry) => `/идеи/${entry.data.slug}/`);
+
+  const urls = [...routes, ...ideaRoutes]
     .map((r) => `  <url><loc>${base}${r}</loc></url>`)
     .join("\n");
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
