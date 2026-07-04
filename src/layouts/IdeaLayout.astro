@@ -1,0 +1,127 @@
+---
+/*
+ * IdeaLayout — единый шаблон статьи раздела /идеи/ (Phase 14).
+ *
+ * В отличие от cases/services (вёрстка прямо в [slug].astro), у статей
+ * отдельный layout: D-08 требует, чтобы КАЖДАЯ статья одинаково
+ * заканчивалась мягким мостиком на релевантную услугу + формой заявки.
+ *
+ * SEO: Seo (canonical в кириллице, ogType=article) + JsonLdGraph +
+ * ArticleSchema (JSON-LD BlogPosting) + Breadcrumbs (JSON-LD BreadcrumbList
+ * + itemscope/itemprop) + микроразметка Article на <article>.
+ */
+import DarkLayout from "./DarkLayout.astro";
+import Seo from "../components/Seo.astro";
+import JsonLdGraph from "../components/JsonLdGraph.astro";
+import ArticleSchema from "../components/ArticleSchema.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactBlock from "../components/blocks/ContactBlock.astro";
+import MetrikaCounter from "../components/MetrikaCounter.astro";
+import { getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { business } from "../config/business.ts";
+
+interface Props {
+  idea: CollectionEntry<"ideas">;
+}
+
+const { idea } = Astro.props;
+const d = idea.data;
+
+const service = await getEntry(d.relatedService);
+
+const coverPath = `/assets/ideas/${d.slug}/${d.cover}`;
+const coverAbsolute = `${business.urlCyrillic.replace(/\/$/, "")}${coverPath}`;
+
+const crumbs = [
+  { label: "Главная", href: "/" },
+  { label: "Идеи", href: "/идеи/" },
+  { label: d.title, href: `/идеи/${d.slug}/` },
+];
+
+const dateFormatted = new Intl.DateTimeFormat("ru-RU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format(d.publishDate);
+---
+
+<DarkLayout title={d.title} description={d.description}>
+  <Seo
+    slot="seo"
+    title={d.title}
+    description={d.description}
+    pathname={`/идеи/${d.slug}/`}
+    image={coverAbsolute}
+    ogType="article"
+  />
+  <JsonLdGraph slot="seo" />
+  <ArticleSchema slot="seo" idea={idea} />
+
+  <!-- Hero статьи: крошки, заголовок, дата -->
+  <section class="relative px-6 pt-32 pb-8 md:px-12 md:pt-40 md:pb-10">
+    <div class="mx-auto max-w-3xl">
+      <Breadcrumbs crumbs={crumbs} />
+      <h1
+        class="mt-6 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl"
+      >
+        {d.title}
+      </h1>
+      <span class="mt-5 inline-block h-1 w-12 bg-[#FFF200]"></span>
+      <p class="mt-5 text-sm text-white/45">
+        <time datetime={d.publishDate.toISOString()}>{dateFormatted}</time>
+      </p>
+    </div>
+  </section>
+
+  <!-- Тело статьи с микроразметкой Article (для Яндекса) -->
+  <section class="relative px-6 pb-14 md:px-12 md:pb-20">
+    <article
+      itemscope
+      itemtype="https://schema.org/Article"
+      class="mx-auto max-w-3xl text-white/80
+        [&_h2]:mt-12 [&_h2:first-child]:mt-0 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-white md:[&_h2]:text-3xl
+        [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white
+        [&_p]:mt-5 [&_p]:leading-relaxed md:[&_p]:text-lg
+        [&_strong]:text-white
+        [&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2
+        [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2
+        [&_li]:leading-relaxed
+        [&_a]:text-[#FFF200] [&_a]:underline [&_a]:underline-offset-4"
+    >
+      <meta itemprop="headline" content={d.title} />
+      <meta itemprop="description" content={d.description} />
+      <meta itemprop="datePublished" content={d.publishDate.toISOString()} />
+      <meta
+        itemprop="dateModified"
+        content={(d.updatedDate ?? d.publishDate).toISOString()}
+      />
+      <span itemprop="author" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content={business.name} />
+      </span>
+      <slot />
+    </article>
+  </section>
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
+  <!-- Мостик D-08: мягкая ссылка на релевантную услугу, без «закажите/дешевле» -->
+  <section class="relative px-6 py-14 md:px-12 md:py-20">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-base leading-relaxed text-white/70 md:text-lg">
+        Такие мероприятия мы&nbsp;в&nbsp;Крыльях проводим под&nbsp;ключ&nbsp;— от&nbsp;идеи
+        и&nbsp;площадки до&nbsp;последнего кадра с&nbsp;площадки.
+      </p>
+      <a
+        href={`/services/${service.data.slug}/`}
+        class="mt-6 inline-flex items-center justify-center gap-2 text-base font-medium text-[#FFF200] underline underline-offset-4 transition-colors hover:text-[#FFF566]"
+      >
+        {service.data.title} →
+      </a>
+    </div>
+  </section>
+
+  <ContactBlock />
+
+  <MetrikaCounter slot="analytics" />
+</DarkLayout>

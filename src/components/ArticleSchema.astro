@@ -1,0 +1,51 @@
+---
+/*
+ * ArticleSchema — JSON-LD BlogPosting для страницы статьи /идеи/<slug>/.
+ *
+ * author — Organization (ссылка на #organization из JsonLdGraph), НЕ Person:
+ * голос статей — агентство «мы в Крыльях» (решение D-02), не личный голос Марии.
+ *
+ * URL статьи и обложки — в кириллице через конкатенацию (base + путь),
+ * new URL() нормализует IDN в Punycode (см. Phase 09-01, Seo.astro).
+ */
+import { business } from "../config/business.ts";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  idea: CollectionEntry<"ideas">;
+}
+
+const { idea } = Astro.props;
+const d = idea.data;
+
+const orgId = `${business.url}/#organization`;
+const base = business.urlCyrillic.replace(/\/$/, "");
+const articleUrl = `${base}/идеи/${d.slug}/`;
+const imageUrl = `${base}/assets/ideas/${d.slug}/${d.cover}`;
+
+const json = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: d.title,
+  description: d.description,
+  datePublished: d.publishDate.toISOString(),
+  dateModified: (d.updatedDate ?? d.publishDate).toISOString(),
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": articleUrl,
+  },
+  image: imageUrl,
+  author: {
+    "@type": "Organization",
+    "@id": orgId,
+    name: business.name,
+  },
+  publisher: {
+    "@type": "Organization",
+    "@id": orgId,
+    name: business.name,
+  },
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(json)} />
