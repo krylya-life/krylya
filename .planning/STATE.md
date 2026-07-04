@@ -2,27 +2,27 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "— «Рост: рынок, контент и партнёрства»"
-status: executing
-last_updated: "2026-07-04T10:59:44.673Z"
-last_activity: 2026-07-03
+status: "Phase 09 закрыта (базлайн заморожен 03.07). Phase 14 спланирована: 14-01 семантика (чекпоинт Wordstat с Марией), 14-02 раздел /идеи/ (автономно), 14-03 план тем, 14-04 первые статьи (чекпоинт приёмки Марии)."
+last_updated: "2026-07-04T11:28:35.938Z"
+last_activity: 2026-07-04
 progress:
   total_phases: 18
   completed_phases: 6
   total_plans: 37
-  completed_plans: 25
-  percent: 68
+  completed_plans: 26
+  percent: 70
 ---
 
 # Project State: Крылья — сайт и цифровое присутствие
 
 ## Current Position
 
-Phase: 14 (semantika-kontent-hab) — PLANNED, ready to execute
-Plan: 0 of 4 — планы готовы и прошли проверку
+Phase: 14 (semantika-kontent-hab) — EXECUTING
+Plan: 14-02 выполнен (раздел /идеи/ построен) — осталось 14-01, 14-03, 14-04
 
 - **Milestone:** v2.0 «Рост: рынок, контент и партнёрства»
-- **Phase:** 14 (Семантика 2.0 + контент-хаб) — спланирована 04.07.2026 (4 плана, 3 волны, VERIFICATION PASSED)
-- **Plan:** следующий шаг — `/gsd-execute-phase 14`
+- **Phase:** 14 (Семантика 2.0 + контент-хаб) — исполняется; 14-02 закрыт 04.07 (HUB-02, HUB-03)
+- **Plan:** следующий шаг — 14-01 (семантика, чекпоинт Wordstat) или 14-03 (план тем)
 - **Status:** Phase 09 закрыта (базлайн заморожен 03.07). Phase 14 спланирована: 14-01 семантика (чекпоинт Wordstat с Марией), 14-02 раздел /идеи/ (автономно), 14-03 план тем, 14-04 первые статьи (чекпоинт приёмки Марии).
 - **Last activity:** 2026-07-04
 
@@ -78,6 +78,7 @@ Plan: 0 of 4 — планы готовы и прошли проверку
 | Phase 13-formaty-meropriyatij P13-01 | 4min | 2 tasks | 1 files |
 | Phase 13-formaty-meropriyatij P13-02 | 12min | 2 tasks | 1 files |
 | Phase 13-formaty-meropriyatij P13-02 | 12min | 2 tasks | 1 files |
+| Phase 14-semantika-kontent-hab P14-02 | 6min | 3 tasks | 13 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,7 @@ Plan: 0 of 4 — планы готовы и прошли проверку
 - **Метрика цель form_submitted (Phase 09-01):** `if (window.ym)` guard обязателен — скрипт Метрики грузится отложенно, вызов без guard может упасть в ошибку
 - **Форматы Phase 13-01:** шаблон блока формата (имя+подзаголовок+сегмент+аутентика+4 подраздела) зафиксирован как контракт структуры; 6 ядровых форматов из реального опыта, анонимно, без калининградской аутентики — аутентика идёт в 13-02; «Почему Крылья» строится из differentiation.md без сравнений и не через цену
 - **Форматы Phase 13-02:** 13 форматов в полной линейке: 6 ядровых + 3 «умеем и готовы» из трендов 2–4 + 4 с калининградской аутентикой для C (Балтийский берег, Форт, Янтарный вечер, Балтийский стол); FORMAT-01, FORMAT-02, FORMAT-03 выполнены; formats.md готов для Phase 14 (темы статей) и Phase 15 (офферы под C)
+- **Контент-хаб Phase 14-02:** раздел /идеи/ построен (HUB-02, HUB-03) — коллекция `ideas` (5-я, plain Markdown, Zod), `IdeaLayout` с мостиком на услугу (D-08), витрина по 4 рубрикам, страница статьи с кириллическим canonical, JSON-LD BlogPosting (author=Organization, D-02) + BreadcrumbList + микроразметка Article. RSS `/rss.xml`: item.link в кириллице (обход Punycode-бага @astrojs/rss), канальный `<link>` остаётся Punycode — известное ограничение пакета. Sitemap переведён на гибрид — статьи /идеи/ включаются через `getCollection` автоматически. `checks.sh` — регресс-скрипт grep-проверок. Инфраструктура готова: 14-04 просто добавляет .md-файлы. Пост-деплой: curl-проверка живого /идеи/ на 404 (Unicode NFD/NFC риск)
 
 ### Blockers and Warnings
 
