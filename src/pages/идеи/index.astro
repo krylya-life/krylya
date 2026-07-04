@@ -1,0 +1,119 @@
+---
+/*
+ * /идеи/ — витрина контент-хаба (Phase 14, D-06).
+ *
+ * Карточки статей, сгруппированные по 4 рубрикам (D-07), сортировка внутри
+ * рубрики по publishDate desc. Пустые рубрики скрыты. Тёмный стиль сайта.
+ *
+ * Папка кириллическая — только она (src/content/ideas остаётся ASCII).
+ */
+import { getCollection } from "astro:content";
+import DarkLayout from "../../layouts/DarkLayout.astro";
+import Seo from "../../components/Seo.astro";
+import JsonLdGraph from "../../components/JsonLdGraph.astro";
+import MetrikaCounter from "../../components/MetrikaCounter.astro";
+import ContactBlock from "../../components/blocks/ContactBlock.astro";
+import IdeaCard from "../../components/blocks/IdeaCard.astro";
+
+const all = await getCollection("ideas", ({ data }) => !data.draft);
+const ideas = all.sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+
+// Порядок и человекочитаемые метки рубрик (D-07)
+const rubrics = [
+  { id: "kak-organizovat", label: "Как организовать" },
+  { id: "formaty", label: "Форматы" },
+  { id: "kaliningrad", label: "Калининград" },
+  { id: "trendy", label: "Тренды" },
+] as const;
+
+const rubricLabel = (id: string) =>
+  rubrics.find((r) => r.id === id)?.label ?? id;
+
+// Группы с непустыми рубриками (пустые скрываем)
+const groups = rubrics
+  .map((r) => ({
+    ...r,
+    items: ideas.filter((i) => i.data.rubric === r.id),
+  }))
+  .filter((g) => g.items.length > 0);
+
+const seoTitle = "Идеи — как организовать мероприятие в Калининграде";
+const seoDescription =
+  "Практические гайды и наблюдения агентства Крылья: как организовать корпоратив, выбрать формат и площадку в Калининграде и области.";
+---
+
+<DarkLayout title={seoTitle} description={seoDescription}>
+  <Seo
+    slot="seo"
+    title={seoTitle}
+    description={seoDescription}
+    pathname="/идеи/"
+  />
+  <JsonLdGraph slot="seo" />
+
+  <!-- Hero витрины -->
+  <section class="relative px-6 pt-32 pb-10 md:px-12 md:pt-40 md:pb-16">
+    <div class="mx-auto max-w-6xl">
+      <nav aria-label="Хлебные крошки" class="mb-8 text-sm text-white/55">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li>
+            <a
+              href="/"
+              class="text-white/55 no-underline transition-colors hover:text-white"
+              >Главная</a
+            >
+          </li>
+          <li class="text-white/30">·</li>
+          <li class="text-[#FFF200] font-medium">Идеи</li>
+        </ol>
+      </nav>
+
+      <h1
+        class="text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl"
+      >
+        Идеи
+      </h1>
+      <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+        Практические гайды и&nbsp;наблюдения об&nbsp;организации мероприятий
+        в&nbsp;Калининграде: как всё устроено у&nbsp;нас изнутри, какие форматы
+        работают и&nbsp;чем интересен наш город для событий.
+      </p>
+    </div>
+  </section>
+
+  <!-- Статьи по рубрикам -->
+  <section class="relative px-6 pb-20 md:px-12 md:pb-28">
+    <div class="mx-auto max-w-6xl">
+      {
+        groups.length > 0 ? (
+          <div class="space-y-16">
+            {groups.map((g) => (
+              <div>
+                <h2 class="text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                  {g.label}
+                </h2>
+                <span class="mb-8 mt-4 inline-block h-1 w-12 bg-[#FFF200]" />
+                <div class="grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+                  {g.items.map((idea) => (
+                    <IdeaCard idea={idea} rubricLabel={rubricLabel(idea.data.rubric)} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="text-white/60 italic">Статьи появятся скоро.</p>
+        )
+      }
+    </div>
+  </section>
+
+  <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+
+  <ContactBlock />
+
+  <MetrikaCounter slot="analytics" />
+</DarkLayout>

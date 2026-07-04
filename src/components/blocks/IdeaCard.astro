@@ -1,0 +1,41 @@
+---
+/*
+ * IdeaCard — карточка статьи для витрины /идеи/ (образец карточки cases/index).
+ * Обложка 4:3 + eyebrow (человекочитаемая рубрика) + заголовок. Тёмный стиль.
+ */
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  idea: CollectionEntry<"ideas">;
+  /** Человекочитаемая метка рубрики, например «Как организовать». */
+  rubricLabel: string;
+}
+
+const { idea, rubricLabel } = Astro.props;
+const d = idea.data;
+---
+
+<a
+  href={`/идеи/${d.slug}/`}
+  class="lab-cursor-wings group block no-underline"
+>
+  <div class="relative aspect-[4/3] overflow-hidden rounded-xl">
+    <img
+      src={`/assets/ideas/${d.slug}/${d.cover}`}
+      alt={d.coverAlt}
+      class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      loading="lazy"
+    />
+  </div>
+  <p
+    class="mt-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FFF200]"
+  >
+    {rubricLabel}
+  </p>
+  <h3
+    class="mt-1.5 text-base font-semibold leading-tight tracking-tight text-white md:text-lg"
+  >
+    {d.title}
+  </h3>
+  <p class="mt-1.5 text-sm leading-relaxed text-white/55">{d.description}</p>
+</a>

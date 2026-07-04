@@ -1,0 +1,25 @@
+---
+/*
+ * /идеи/<slug>/ — страница статьи (Phase 14).
+ *
+ * Страница только маршрутизирует: вся вёрстка и SEO живут в IdeaLayout.
+ * getStaticPaths по не-draft статьям, params.slug = frontmatter slug (латиница).
+ */
+import { getCollection, render } from "astro:content";
+import IdeaLayout from "../../layouts/IdeaLayout.astro";
+
+export async function getStaticPaths() {
+  const ideas = await getCollection("ideas", ({ data }) => !data.draft);
+  return ideas.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<IdeaLayout idea={entry}>
+  <Content />
+</IdeaLayout>
