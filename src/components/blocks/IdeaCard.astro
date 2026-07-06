@@ -13,6 +13,8 @@ interface Props {
 
 const { idea, rubricLabel } = Astro.props;
 const d = idea.data;
+// Метка над карточкой: своя у статьи (eyebrow) либо метка рубрики как fallback.
+const eyebrow = d.eyebrow ?? rubricLabel;
 ---
 
 <a
@@ -30,7 +32,7 @@ const d = idea.data;
   <p
     class="mt-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FFF200]"
   >
-    {rubricLabel}
+    {eyebrow}
   </p>
   <h3
     class="mt-1.5 text-base font-semibold leading-tight tracking-tight text-white md:text-lg"

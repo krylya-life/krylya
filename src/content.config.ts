@@ -69,6 +69,7 @@ const ideas = defineCollection({
     slug: z.string().regex(/^[a-z0-9-]+$/), // латиница — совпадает с basename файла
     description: z.string().max(160), // meta description + og:description
     rubric: z.enum(["kak-organizovat", "formaty", "kaliningrad", "trendy"]),
+    eyebrow: z.string().optional(), // короткая метка над карточкой; fallback — метка рубрики
     intentCluster: z.string(), // id кластера из семантической карты (14-RESEARCH)
     publishDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),

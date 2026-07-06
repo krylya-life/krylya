@@ -3,6 +3,7 @@ title: "Как выбрать площадку для корпоратива в 
 slug: kak-vybrat-ploshchadku
 description: "На что смотреть при выборе площадки под корпоратив: вместимость, логистика, техника, сезонность — практические критерии от агентства."
 rubric: kak-organizovat
+eyebrow: "Площадки"
 intentCluster: "как выбрать площадку"
 publishDate: 2026-07-04
 cover: cover.jpg

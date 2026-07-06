@@ -3,6 +3,7 @@ title: "Как организовать корпоратив в Калининг
 slug: korporativ-iz-drugogo-goroda
 description: "Пошагово разбираем, как провести корпоратив в Калининграде из другого города — без личного присутствия на площадке и без потери контроля."
 rubric: kak-organizovat
+eyebrow: "Удалённо"
 intentCluster: "удалённая организация / другой город"
 publishDate: 2026-07-04
 cover: cover.jpg
