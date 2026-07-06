@@ -6,7 +6,7 @@ rubric: kak-organizovat
 intentCluster: "как выбрать площадку"
 publishDate: 2026-07-04
 cover: cover.jpg
-coverAlt: "Просторный зал с накрытыми столами и сценой, подготовленный к корпоративу"
+coverAlt: "Плакат «Полёт в мир удивительных событий» с логотипом агентства «Крылья»"
 relatedService: corporate-parties
 draft: false
 ---

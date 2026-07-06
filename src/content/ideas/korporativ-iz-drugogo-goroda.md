@@ -6,7 +6,7 @@ rubric: kak-organizovat
 intentCluster: "удалённая организация / другой город"
 publishDate: 2026-07-04
 cover: cover.jpg
-coverAlt: "Вечерний корпоратив в Калининграде: гости за столами в зале с тёплым светом"
+coverAlt: "Основатель агентства «Крылья» с листами форматов мероприятий, летящими в воздухе"
 relatedService: corporate-parties
 draft: false
 ---
