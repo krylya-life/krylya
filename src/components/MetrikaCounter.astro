@@ -2,14 +2,24 @@
 import { business } from "../config/business.ts";
 
 const counterId = business.metrikaCounterId;
+
+// Счётчик рендерим только в продакшен-сборке: dev-сервер (localhost)
+// не должен засорять статистику Метрики.
+const isProd = import.meta.env.PROD;
 ---
 
-{counterId && (
+{counterId && isProd && (
   <>
     <script is:inline define:vars={{ counterId }}>
       // Отложенная загрузка Метрики через requestIdleCallback —
       // не блокирует LCP, не ухудшает Lighthouse.
       function loadMetrika() {
+        // Только боевые домены: тех-копии (pages.dev, netlify.app и т.п.)
+        // не должны отправлять визиты в Метрику.
+        var allowedHosts = ["xn--j1aco8bgs.life", "крылья.life"];
+        var host = location.hostname.replace(/^www\./, "");
+        if (allowedHosts.indexOf(host) === -1) return;
+
         (function (m, e, t, r, i, k, a) {
           m[i] =
             m[i] ||

@@ -1,0 +1,51 @@
+---
+import DarkLayout from "../layouts/DarkLayout.astro";
+import MetrikaCounter from "../components/MetrikaCounter.astro";
+---
+
+<DarkLayout
+  title="Страница не найдена — Крылья"
+  description="Такой страницы нет. Начните с главной, услуг или кейсов агентства Крылья."
+  noindex
+>
+  <section class="relative flex min-h-[70vh] items-center overflow-hidden px-6 py-14 md:px-12 md:py-20">
+    <div class="lab-aurora pointer-events-none"></div>
+    <div class="relative mx-auto max-w-2xl text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-[#FFF200]">
+        Ошибка 404
+      </p>
+
+      <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
+        Такой страницы нет
+      </h1>
+
+      <p class="mt-6 text-lg text-white/75 md:text-xl leading-relaxed">
+        Возможно, адрес набран с&nbsp;опечаткой или страница переехала.
+        Зато мероприятия у&nbsp;нас проходят строго по&nbsp;плану.
+      </p>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a
+          href="/"
+          class="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#FFF200] px-6 py-3.5 text-sm font-semibold text-black no-underline transition-colors hover:bg-[#FFF566]"
+        >
+          На главную
+        </a>
+        <a
+          href="/services/"
+          class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/20 px-6 py-3.5 text-sm font-semibold text-white no-underline transition-colors hover:border-[#FFF200]/40"
+        >
+          Услуги
+        </a>
+        <a
+          href="/cases/"
+          class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/20 px-6 py-3.5 text-sm font-semibold text-white no-underline transition-colors hover:border-[#FFF200]/40"
+        >
+          Кейсы
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <MetrikaCounter slot="analytics" />
+</DarkLayout>

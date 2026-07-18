@@ -3,10 +3,10 @@ import { getCollection } from "astro:content";
 import { business } from "../config/business.ts";
 
 // Индексируемые маршруты (без /thanks/ — она noindex).
-// Гибрид: статичный список существующих страниц + витрина /идеи/;
-// сами статьи /идеи/<slug>/ добавляются ДИНАМИЧЕСКИ через getCollection
-// (см. ниже) — новые статьи попадают в sitemap автоматически, без ручной
-// правки. Если понадобится ручной маршрут — добавить строку в routes.
+// Гибрид: статичный список страниц + ДИНАМИЧЕСКИЕ блоки кейсов и статей
+// через getCollection — новые кейсы и статьи попадают в sitemap
+// автоматически, без ручной правки. Если понадобится ручной маршрут —
+// добавить строку в routes.
 const routes = [
   "/",
   "/services/",
@@ -17,13 +17,6 @@ const routes = [
   "/services/coordination/",
   "/services/private/",
   "/cases/",
-  "/cases/60-zhemchuzhin-schastya/",
-  "/cases/aero-otkrytie/",
-  "/cases/dom-festival/",
-  "/cases/rasscvet-ng-korporativ/",
-  "/cases/tishina-otkrytie/",
-  "/cases/vklyuchi-partnerskij-vecher/",
-  "/cases/vklyuchi-vydacha-klyuchey/",
   "/идеи/",
   "/pricing/",
   "/about/",
@@ -31,15 +24,35 @@ const routes = [
   "/privacy/",
 ];
 
+const fmtDate = (d: Date) => d.toISOString().slice(0, 10);
+
 export const GET: APIRoute = async () => {
   const base = business.urlCyrillic.replace(/\/$/, "");
 
-  // Динамический блок статей раздела /идеи/ (не-draft)
-  const ideas = await getCollection("ideas", ({ data }) => !data.draft);
-  const ideaRoutes = ideas.map((entry) => `/идеи/${entry.data.slug}/`);
+  // Динамический блок кейсов
+  const cases = await getCollection("cases");
+  const caseRoutes = cases.map((entry) => ({
+    path: `/cases/${entry.data.slug}/`,
+  }));
 
-  const urls = [...routes, ...ideaRoutes]
-    .map((r) => `  <url><loc>${base}${r}</loc></url>`)
+  // Динамический блок статей раздела /идеи/ (не-draft), с lastmod
+  const ideas = await getCollection("ideas", ({ data }) => !data.draft);
+  const ideaRoutes = ideas.map((entry) => ({
+    path: `/идеи/${entry.data.slug}/`,
+    lastmod: fmtDate(entry.data.updatedDate ?? entry.data.publishDate),
+  }));
+
+  const urls = [
+    ...routes.map((path) => ({ path } as { path: string; lastmod?: string })),
+    ...caseRoutes,
+    ...ideaRoutes,
+  ]
+    .map(
+      (r) =>
+        `  <url><loc>${base}${r.path}</loc>${
+          r.lastmod ? `<lastmod>${r.lastmod}</lastmod>` : ""
+        }</url>`,
+    )
     .join("\n");
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
