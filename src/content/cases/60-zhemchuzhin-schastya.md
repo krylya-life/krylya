@@ -3,6 +3,7 @@ title: "«60 жемчужин счастья». Юбилей"
 slug: 60-zhemchuzhin-schastya
 client: Частное мероприятие
 date: 2025-03-15
+updatedDate: 2026-06-30
 service: private
 segment: private
 challenge: "Камерный юбилей «60 жемчужин счастья» в эстетике жемчуга и ар-деко — концепция, декор, шоу и координация вечера под ключ."

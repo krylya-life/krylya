@@ -56,8 +56,11 @@ const chips = rawChips
   .filter((v) => v !== "TODO" && !v.startsWith("TODO"));
 
 const seoTitle = `${d.title} — кейс агентства Крылья (${d.client}, Калининград)`;
+// Приоритет — ручное seoDescription (законченная фраза 140–155 символов).
+// Fallback для кейсов без него — challenge с обрезкой.
 const seoDescription =
-  d.challenge.length > 160 ? d.challenge.slice(0, 157) + "..." : d.challenge;
+  d.seoDescription ??
+  (d.challenge.length > 160 ? d.challenge.slice(0, 157) + "..." : d.challenge);
 ---
 
 <DarkLayout title={seoTitle} description={seoDescription}>

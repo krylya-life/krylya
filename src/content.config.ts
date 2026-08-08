@@ -21,9 +21,15 @@ const cases = defineCollection({
     client: z.string(),
     eyebrow: z.string().optional(),
     date: z.coerce.date(),
+    // Дата последней правки текста кейса — идёт в <lastmod> sitemap.
+    // Если не задана, lastmod берётся из date (дата мероприятия).
+    updatedDate: z.coerce.date().optional(),
     service: reference("services").optional(),
     segment: z.enum(["dev", "biz", "private"]),
     challenge: z.string(),
+    // Описание для поисковой выдачи: законченная фраза 140–155 символов.
+    // Если не задано — берётся challenge с обрезкой (может оборваться на полуслове).
+    seoDescription: z.string().max(155).optional(),
     solution: z.string(),
     results: z.array(z.string()).default([]),
     cover: z.string(),

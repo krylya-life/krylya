@@ -4,6 +4,7 @@ slug: vklyuchi-partnerskij-vecher
 client: ССК
 eyebrow: ССК Калининград
 date: 2025-03-14
+updatedDate: 2026-07-21
 service: business-events
 segment: dev
 challenge: "Партнёрский вечер девелопера ССК в Калининграде — брендовая концепция на языке кирпича и стекла: оформление, сервировка, программа и координация под ключ."

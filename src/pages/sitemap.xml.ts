@@ -29,10 +29,11 @@ const fmtDate = (d: Date) => d.toISOString().slice(0, 10);
 export const GET: APIRoute = async () => {
   const base = business.urlCyrillic.replace(/\/$/, "");
 
-  // Динамический блок кейсов
+  // Динамический блок кейсов, с lastmod (дата правки текста, иначе дата события)
   const cases = await getCollection("cases");
   const caseRoutes = cases.map((entry) => ({
     path: `/cases/${entry.data.slug}/`,
+    lastmod: fmtDate(entry.data.updatedDate ?? entry.data.date),
   }));
 
   // Динамический блок статей раздела /идеи/ (не-draft), с lastmod
