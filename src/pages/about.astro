@@ -5,6 +5,7 @@ import JsonLdGraph from "../components/JsonLdGraph.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import MetrikaCounter from "../components/MetrikaCounter.astro";
 import ContactBlock from "../components/blocks/ContactBlock.astro";
+import Picture from "../components/Picture.astro";
 
 const seoTitle = "О нас — ивент-агентство Крылья в Калининграде";
 const seoDescription =
@@ -142,9 +143,10 @@ const teamHighlights = [
           >
             <div class="relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
               {m.photo ? (
-                <img
+                <Picture
                   src={m.photo}
                   alt={m.name}
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 90vw"
                   loading="lazy"
                   class="absolute inset-0 h-full w-full object-cover object-[center_20%]"
                   itemprop="image"

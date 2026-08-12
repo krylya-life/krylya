@@ -6,6 +6,7 @@
  * Тёмная палитра, lab-cursor-wings — курсор «крылья» при наведении.
  */
 import { getCollection } from "astro:content";
+import Picture from "../Picture.astro";
 
 const all = await getCollection("cases");
 const cases = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -44,10 +45,11 @@ const loop = [...cases, ...cases];
               tabindex={i >= cases.length ? -1 : undefined}
               class="group lab-cursor-wings relative block aspect-[4/5] w-[72%] shrink-0 overflow-hidden rounded-2xl no-underline sm:w-[300px]"
             >
-              <img
+              <Picture
                 src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
                 alt={c.data.title}
                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(min-width: 640px) 300px, 72vw"
                 loading="lazy"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>

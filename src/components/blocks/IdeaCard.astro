@@ -4,6 +4,7 @@
  * Обложка 4:3 + eyebrow (человекочитаемая рубрика) + заголовок. Тёмный стиль.
  */
 import type { CollectionEntry } from "astro:content";
+import Picture from "../Picture.astro";
 
 interface Props {
   idea: CollectionEntry<"ideas">;
@@ -22,10 +23,11 @@ const eyebrow = d.eyebrow ?? rubricLabel;
   class="lab-cursor-wings group block no-underline"
 >
   <div class="relative aspect-[4/3] overflow-hidden rounded-xl">
-    <img
+    <Picture
       src={`/assets/ideas/${d.slug}/${d.cover}`}
       alt={d.coverAlt}
       class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 90vw"
       loading="lazy"
     />
   </div>

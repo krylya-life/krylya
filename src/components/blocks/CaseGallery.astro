@@ -4,6 +4,9 @@
  * его во весь экран (лайтбокс с листанием). Без собственной «шапки» и отступов —
  * заголовок и расположение задаёт родитель (см. cases/[slug].astro, правая колонка).
  */
+import Picture from "../Picture.astro";
+import manifest from "../../data/image-manifest.json";
+
 interface Props {
   photos: string[];
   slug: string;
@@ -13,6 +16,16 @@ interface Props {
 const { photos, slug, title } = Astro.props;
 const visible = (photos || []).slice(0, 15);
 const base = `/assets/cases/${slug}`;
+
+// Для лайтбокса (фото во весь экран) отдаём полный WebP, если он сгенерирован,
+// а оригинал оставляем запасным — на случай браузера без поддержки WebP.
+const sizesByPath = manifest as Record<string, { full: number; thumb: number }>;
+const fullSrc = (photo: string) => {
+  const original = `${base}/${photo}`;
+  return sizesByPath[original]
+    ? original.replace(/\.(jpe?g|png)$/i, ".webp")
+    : original;
+};
 ---
 
 {visible.length > 0 && (
@@ -22,13 +35,15 @@ const base = `/assets/cases/${slug}`;
         <button
           type="button"
           class="lb-thumb group relative aspect-square cursor-zoom-in overflow-hidden rounded-lg bg-white/[0.03]"
-          data-full={`${base}/${photo}`}
+          data-full={fullSrc(photo)}
+          data-fallback={`${base}/${photo}`}
           aria-label={`Открыть фото ${i + 1}`}
         >
-          <img
+          <Picture
             src={`${base}/${photo}`}
             alt={title ? `${title} — фото ${i + 1}` : `Фото с площадки ${i + 1}`}
             class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+            sizes="(min-width: 1024px) 15vw, 30vw"
             loading={i < 3 ? "eager" : "lazy"}
           />
         </button>
@@ -68,8 +83,17 @@ const base = `/assets/cases/${slug}`;
     const overlay = root.querySelector(".lb-overlay");
     if (!overlay || thumbs.length === 0) return;
     const srcs = thumbs.map((t) => (t as HTMLElement).dataset.full || "");
+    const fallbacks = thumbs.map((t) => (t as HTMLElement).dataset.fallback || "");
     const imgEl = overlay.querySelector(".lb-image") as HTMLImageElement;
     let current = 0;
+
+    // Если браузер не осилил WebP — молча подставляем исходный JPEG
+    imgEl.addEventListener("error", () => {
+      const fallback = fallbacks[current];
+      if (fallback && imgEl.src !== new URL(fallback, location.href).href) {
+        imgEl.src = fallback;
+      }
+    });
 
     const show = (i: number) => {
       current = (i + srcs.length) % srcs.length;

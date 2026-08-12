@@ -6,6 +6,8 @@
  * Аспект 16:10 на десктопе, 16:8 на широких экранах — кинематографично,
  * не «баннер». На мобиле — портретный 4:5, чтобы все факты помещались.
  */
+import Picture from "../Picture.astro";
+
 interface Props {
   title: string;
   client: string;
@@ -20,12 +22,14 @@ const visibleChips = (chips || []).filter(Boolean);
 
 <section class="relative w-full overflow-hidden">
   <div class="relative aspect-[4/5] w-full sm:aspect-[16/10] lg:aspect-[16/8]">
-    <img
+    <Picture
       src={`/assets/cases/${slug}/${cover}`}
       alt={`Обложка кейса: ${title}`}
       class="absolute inset-0 h-full w-full object-cover"
+      sizes="100vw"
       loading="eager"
       fetchpriority="high"
+      decoding="sync"
     />
     {/* Затемнение снизу 60-70% высоты — чтобы текст читался */}
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent"></div>

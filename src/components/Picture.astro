@@ -1,0 +1,89 @@
+---
+/*
+ * Picture — фотография с лёгкой WebP-версией и запасным JPEG.
+ *
+ * Зачем: фото кейсов и статей лежат в public/ и Astro их не оптимизирует.
+ * Скрипт scripts/optimize-images.mjs кладёт рядом два WebP (полный и мини-640)
+ * и пишет их реальные ширины в src/data/image-manifest.json. Этот компонент
+ * отдаёт браузеру srcset из манифеста: браузер сам берёт мини для карточки
+ * и полный для обложки. Старые браузеры без WebP получают исходный JPEG.
+ *
+ * Если файла нет в манифесте (фото добавили, скрипт ещё не гоняли) —
+ * тихо отдаёт обычный <img> с оригиналом. Сайт не ломается, просто тяжелее.
+ *
+ * sizes — ширина картинки на экране в CSS-пикселях. Задавать по месту:
+ * обложка кейса на всю ширину → "100vw", карточка в сетке → "(min-width: 768px) 33vw, 90vw".
+ */
+import manifest from "../data/image-manifest.json";
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  sizes?: string;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "low" | "auto";
+  decoding?: "async" | "sync" | "auto";
+  width?: number;
+  height?: number;
+  /** Микроразметка Schema.org, например itemprop="image" в карточке сотрудника. */
+  itemprop?: string;
+}
+
+const {
+  src,
+  alt,
+  class: className,
+  sizes = "100vw",
+  loading = "lazy",
+  fetchpriority,
+  decoding = "async",
+  width,
+  height,
+  itemprop,
+} = Astro.props;
+
+const sizesByPath = manifest as Record<string, { full: number; thumb: number }>;
+const entry = sizesByPath[src];
+
+const base = src.replace(/\.(jpe?g|png)$/i, "");
+const fullWebp = `${base}.webp`;
+const thumbWebp = `${base}-640.webp`;
+
+// Мини-версия в srcset нужна только если она реально меньше полной
+// (у маленьких исходников обе версии одного размера — тогда хватит одной).
+const srcset = entry
+  ? entry.thumb < entry.full
+    ? `${thumbWebp} ${entry.thumb}w, ${fullWebp} ${entry.full}w`
+    : `${fullWebp} ${entry.full}w`
+  : null;
+---
+
+{srcset ? (
+  <picture>
+    <source type="image/webp" srcset={srcset} sizes={sizes} />
+    <img
+      src={src}
+      alt={alt}
+      class={className}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding={decoding}
+      width={width}
+      height={height}
+      itemprop={itemprop}
+    />
+  </picture>
+) : (
+  <img
+    src={src}
+    alt={alt}
+    class={className}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding={decoding}
+    width={width}
+    height={height}
+    itemprop={itemprop}
+  />
+)}
