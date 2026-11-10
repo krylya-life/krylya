@@ -26,6 +26,13 @@ const routes = [
 
 const fmtDate = (d: Date) => d.toISOString().slice(0, 10);
 
+// Путь в <loc> кодируем по RFC 3986 (encodeURI): протокол sitemap требует
+// percent-encoding для не-ASCII. Незакодированная кириллица в /идеи/ приводила
+// к тому, что Google не связывал адреса из карты с реальными страницами —
+// три статьи раздела висели как «обнаружена, но ни разу не сканировалась»
+// (замер 10.11.2026). Домен остаётся кириллическим: Яндекс декодирует
+// %-последовательности и показывает кириллицу в сниппете как раньше.
+
 export const GET: APIRoute = async () => {
   const base = business.urlCyrillic.replace(/\/$/, "");
 
@@ -50,7 +57,7 @@ export const GET: APIRoute = async () => {
   ]
     .map(
       (r) =>
-        `  <url><loc>${base}${r.path}</loc>${
+        `  <url><loc>${base}${encodeURI(r.path)}</loc>${
           r.lastmod ? `<lastmod>${r.lastmod}</lastmod>` : ""
         }</url>`,
     )
