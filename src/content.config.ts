@@ -10,6 +10,9 @@ const services = defineCollection({
     order: z.number().default(99),
     featured: z.boolean().default(false),
     image: z.string().optional(),
+    // Необязательно: свой H1 и <title>. Если не заданы — H1 = title, а <title> собирается шаблоном.
+    h1: z.string().optional(),
+    seoTitle: z.string().max(70).optional(),
   }),
 });
 

@@ -11,6 +11,7 @@ const routes = [
   "/",
   "/services/",
   "/services/corporate-parties/",
+  "/services/new-year-parties/",
   "/services/business-events/",
   "/services/client-events/",
   "/services/teambuilding/",
