@@ -20,6 +20,8 @@ export const business = {
   urlPunycode: "https://xn--j1aco8bgs.life",
   urlCyrillic: "https://крылья.life",
 
+  /** Адрес офиса — решение 17.11.2026 (единый для сайта и карточек Яндекса, 2ГИС, Google). */
+  streetAddress: "проспект Мира, 41–43",
   region: "Калининградская область",
   locality: "Калининград",
   countryCode: "RU",

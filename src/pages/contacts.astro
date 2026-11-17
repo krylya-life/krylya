@@ -75,7 +75,7 @@ const telegramHandle = business.telegramPersonal.replace("@", "");
             itemprop="telephone"
           >{business.phoneDisplay}</span>
           <span class="text-sm text-white/55">
-            с&nbsp;10:00 до&nbsp;20:00
+            с&nbsp;10:00 до&nbsp;19:00
           </span>
         </a>
 
@@ -154,6 +154,9 @@ const telegramHandle = business.telegramPersonal.replace("@", "");
           </h2>
           <p class="mt-4 text-2xl font-semibold text-white md:text-3xl">
             <span itemprop="addressLocality">{business.locality}</span>
+          </p>
+          <p class="mt-2 text-white/85">
+            Офис: <span itemprop="streetAddress">{business.streetAddress}</span>
           </p>
           <p class="mt-2 text-white/65" itemprop="addressRegion">
             {business.region}

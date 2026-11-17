@@ -32,8 +32,8 @@ const year = new Date().getFullYear();
           height="125"
           class="h-12 w-auto opacity-85"
         />
-        <p class="mt-5 text-sm text-white/55" itemprop="addressLocality">
-          {business.locality}
+        <p class="mt-5 text-sm text-white/55">
+          <span itemprop="addressLocality">{business.locality}</span>, <span itemprop="streetAddress">{business.streetAddress}</span>
         </p>
         <p class="text-xs text-white/40" itemprop="addressRegion">
           {business.region}
