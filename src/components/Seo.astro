@@ -24,7 +24,7 @@ const {
 // (WHATWG URL API), поэтому не используем его (см. RESEARCH.md КРИТИЧНО-1).
 const base = business.urlCyrillic.replace(/\/$/, "");
 const canonical = base + pathname;
-const imageUrl = base + image;
+const imageUrl = image.startsWith("http") ? image : base + image;
 ---
 
 <link rel="canonical" href={canonical} />
