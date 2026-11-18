@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /thanks/
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&ysclid /
 
 Host: xn--j1aco8bgs.life
 Sitemap: https://xn--j1aco8bgs.life/sitemap.xml

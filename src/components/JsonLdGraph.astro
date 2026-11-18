@@ -16,7 +16,8 @@ const graph = {
       // Кириллица через конкатенацию: new URL() нормализует IDN в Punycode (WHATWG URL API)
       logo: business.url + "/brand/wings-logo-horizontal.png",
       taxID: business.taxId,
-      vatID: business.ogrnip,
+      // ОГРНИП — не vatID (это ИНН плательщика НДС), а identifier (аудит 01, №15)
+      identifier: { "@type": "PropertyValue", propertyID: "ОГРНИП", value: business.ogrnip },
       foundingDate: business.foundingDate,
       founder: { "@type": "Person", name: business.founder },
       contactPoint: [
@@ -35,12 +36,23 @@ const graph = {
       },
     },
     {
+      "@type": "WebSite",
+      "@id": `${business.url}/#website`,
+      url: business.url,
+      name: business.name,
+      alternateName: ["Крылья — ивент-агентство", "Ивент-агентство Крылья", "крылья.life"],
+      inLanguage: "ru",
+      publisher: { "@id": orgId },
+    },
+    {
       "@type": "LocalBusiness",
       "@id": localId,
       name: business.name,
       url: business.url,
       telephone: business.phone,
       email: business.email,
+      image: business.url + "/brand/og-wings-yellow.png",
+      logo: business.url + "/brand/wings-logo-horizontal.png",
       priceRange: business.priceRange,
       address: {
         "@type": "PostalAddress",

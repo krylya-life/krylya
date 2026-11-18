@@ -29,7 +29,7 @@ const json = {
   name,
   description,
   startDate: startDate.toISOString().split("T")[0],
-  eventStatus: "https://schema.org/EventScheduled",
+  // eventStatus не указываем: кейсы — прошедшие события (аудит 01, №19)
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   location: {
     "@type": "Place",
