@@ -21,6 +21,7 @@ import MetrikaCounter from "../../components/MetrikaCounter.astro";
 import CaseHero from "../../components/blocks/CaseHero.astro";
 import CaseGallery from "../../components/blocks/CaseGallery.astro";
 import NextCaseCard from "../../components/blocks/NextCaseCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import { business } from "../../config/business.ts";
 
 export async function getStaticPaths() {
@@ -90,6 +91,16 @@ const seoDescription =
     cover={d.cover}
     chips={chips}
   />
+
+  <div class="px-6 pt-8 md:px-12">
+    <div class="mx-auto max-w-6xl">
+      <Breadcrumbs crumbs={[
+        { label: "Главная", href: "/" },
+        { label: "Кейсы", href: "/cases/" },
+        { label: d.title, href: `/cases/${d.slug}/` },
+      ]} />
+    </div>
+  </div>
 
   {d.wip ? (
     <!-- Заглушка: кейс в разработке -->

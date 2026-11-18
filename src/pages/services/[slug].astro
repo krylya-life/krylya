@@ -8,6 +8,8 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import MetrikaCounter from "../../components/MetrikaCounter.astro";
 import PricingTeaser from "../../components/blocks/PricingTeaser.astro";
 import ContactBlock from "../../components/blocks/ContactBlock.astro";
+import IdeaCard from "../../components/blocks/IdeaCard.astro";
+import Picture from "../../components/Picture.astro";
 
 export async function getStaticPaths() {
   const services = await getCollection("services");
@@ -25,6 +27,18 @@ const h1 = service.data.h1 ?? title;
 // SEO title — добавляем «в Калининграде» и стоимостный/SEO якорь (или берём свой из frontmatter)
 const seoTitle = service.data.seoTitle ?? `${title} в Калининграде — под ключ от агентства Крылья`;
 const seoDescription = description;
+
+// Связанные кейсы и статьи (аудит 01, №5–6). Новогодняя услуга своих кейсов
+// пока не имеет — берём корпоративные.
+const relKey = slug === "new-year-parties" ? "corporate-parties" : slug;
+const relatedCases = (await getCollection("cases", ({ data }) => data.service?.id === relKey && !data.wip))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+const relatedIdeas = (await getCollection("ideas", ({ data }) => data.relatedService.id === relKey && !data.draft))
+  .sort((a, b) =>
+    (slug === "new-year-parties" ? Number(b.data.slug === "novogodniy-korporativ") - Number(a.data.slug === "novogodniy-korporativ") : 0) ||
+    (b.data.updatedDate ?? b.data.publishDate).getTime() - (a.data.updatedDate ?? a.data.publishDate).getTime())
+  .slice(0, 3);
 
 const crumbs = [
   { label: "Главная", href: "/" },
@@ -85,6 +99,51 @@ const crumbs = [
       <Content />
     </article>
   </section>
+
+  {relatedCases.length > 0 && (
+    <>
+      <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+      <section class="relative px-6 py-14 md:px-12 md:py-20">
+        <div class="mx-auto max-w-6xl">
+          <h2 class="text-2xl font-semibold tracking-tight text-white md:text-4xl">Как это было</h2>
+          <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+          <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedCases.map((c) => (
+              <a href={`/cases/${c.data.slug}/`} class="group lab-cursor-wings relative block aspect-[4/5] overflow-hidden rounded-2xl no-underline">
+                <Picture
+                  src={`/assets/cases/${c.data.slug}/${c.data.cover}`}
+                  alt={c.data.title}
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 90vw"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 p-5">
+                  <p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#FFF200]">{c.data.eyebrow || c.data.client}</p>
+                  <h3 class="text-base font-semibold leading-tight tracking-tight text-white md:text-lg">{c.data.title}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  )}
+
+  {relatedIdeas.length > 0 && (
+    <>
+      <div class="lab-divider-glow mx-auto max-w-6xl"></div>
+      <section class="relative px-6 py-14 md:px-12 md:py-20">
+        <div class="mx-auto max-w-6xl">
+          <h2 class="text-2xl font-semibold tracking-tight text-white md:text-4xl">Полезное по теме</h2>
+          <span class="mt-4 inline-block h-1 w-12 bg-[#FFF200]"></span>
+          <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedIdeas.map((idea) => <IdeaCard idea={idea} rubricLabel="Идеи" />)}
+          </div>
+        </div>
+      </section>
+    </>
+  )}
 
   {slug !== "coordination" && (
     <>
