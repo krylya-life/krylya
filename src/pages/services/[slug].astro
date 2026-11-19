@@ -4,6 +4,7 @@ import DarkLayout from "../../layouts/DarkLayout.astro";
 import Seo from "../../components/Seo.astro";
 import JsonLdGraph from "../../components/JsonLdGraph.astro";
 import JsonLdService from "../../components/JsonLdService.astro";
+import JsonLdFaq from "../../components/JsonLdFaq.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import MetrikaCounter from "../../components/MetrikaCounter.astro";
 import PricingTeaser from "../../components/blocks/PricingTeaser.astro";
@@ -62,6 +63,7 @@ const crumbs = [
     description={description}
     serviceType={title}
   />
+  <JsonLdFaq slot="seo" slug={slug} body={service.body ?? ""} />
 
   <!-- Hero подстраницы -->
   <section class="relative overflow-hidden px-6 pt-32 pb-14 md:px-12 md:pt-40 md:pb-20">
